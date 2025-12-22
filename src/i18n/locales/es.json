@@ -1,0 +1,54 @@
+{
+  "app": {
+    "title": "TaskMaster",
+    "welcome": "Bienvenido a TaskMaster"
+  },
+  "auth": {
+    "login": "Iniciar Sesión",
+    "logout": "Cerrar Sesión",
+    "register": "Registrarse",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "firstName": "Nombre",
+    "lastName": "Apellido"
+  },
+  "tasks": {
+    "title": "Tareas",
+    "create": "Crear Tarea",
+    "edit": "Editar Tarea",
+    "delete": "Eliminar Tarea",
+    "archive": "Archivar Tarea",
+    "taskName": "Nombre de la Tarea",
+    "description": "Descripción",
+    "dueDate": "Fecha de Vencimiento",
+    "priority": "Prioridad",
+    "status": "Estado",
+    "archived": "Archivado"
+  },
+  "lists": {
+    "title": "Listas",
+    "create": "Crear Lista",
+    "edit": "Editar Lista",
+    "delete": "Eliminar Lista",
+    "listName": "Nombre de la Lista",
+    "color": "Color"
+  },
+  "settings": {
+    "title": "Configuración",
+    "theme": "Tema",
+    "language": "Idioma",
+    "dateFormat": "Formato de Fecha",
+    "defaultPriority": "Prioridad Predeterminada",
+    "defaultStatus": "Estado Predeterminado"
+  },
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "loading": "Cargando..."
+  }
+}

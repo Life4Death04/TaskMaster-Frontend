@@ -1,0 +1,54 @@
+{
+  "app": {
+    "title": "TaskMaster",
+    "welcome": "Welcome to TaskMaster"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "firstName": "First Name",
+    "lastName": "Last Name"
+  },
+  "tasks": {
+    "title": "Tasks",
+    "create": "Create Task",
+    "edit": "Edit Task",
+    "delete": "Delete Task",
+    "archive": "Archive Task",
+    "taskName": "Task Name",
+    "description": "Description",
+    "dueDate": "Due Date",
+    "priority": "Priority",
+    "status": "Status",
+    "archived": "Archived"
+  },
+  "lists": {
+    "title": "Lists",
+    "create": "Create List",
+    "edit": "Edit List",
+    "delete": "Delete List",
+    "listName": "List Name",
+    "color": "Color"
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": "Theme",
+    "language": "Language",
+    "dateFormat": "Date Format",
+    "defaultPriority": "Default Priority",
+    "defaultStatus": "Default Status"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "filter": "Filter",
+    "loading": "Loading..."
+  }
+}

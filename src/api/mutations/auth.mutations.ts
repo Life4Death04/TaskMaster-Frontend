@@ -1,6 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 import type { User as Auth0User } from '@auth0/auth0-react';
-import { registerUserAPI, syncUserWithBackendAPI } from './auth.api';
+import {
+  registerUserAPI,
+  loginUserAPI,
+  syncUserWithBackendAPI,
+} from '../request/auth.api';
 
 /**
  * React Query mutation hook for user registration
@@ -9,8 +13,21 @@ import { registerUserAPI, syncUserWithBackendAPI } from './auth.api';
 export const useRegisterUser = () => {
   return useMutation({
     mutationFn: registerUserAPI,
-    onError: (error: any) => {
+    onError: (error: Error) => {
       console.error('Registration error:', error);
+    },
+  });
+};
+
+/**
+ * React Query mutation hook for user login
+ * Authenticates user with email and password
+ */
+export const useLoginUser = () => {
+  return useMutation({
+    mutationFn: loginUserAPI,
+    onError: (error: Error) => {
+      console.error('Login error:', error);
     },
   });
 };
@@ -28,11 +45,11 @@ export const useSyncUserWithBackend = () => {
       auth0User: Auth0User;
       token: string;
     }) => syncUserWithBackendAPI(auth0User, token),
-    onError: (error: any) => {
+    onError: (error: Error) => {
       console.error('Error checking user in backend:', error);
 
       // If user doesn't exist in backend, throw error to redirect to register
-      if (error.response?.status === 404) {
+      if (error.message === 'USER_NOT_REGISTERED') {
         throw new Error('USER_NOT_REGISTERED');
       }
     },

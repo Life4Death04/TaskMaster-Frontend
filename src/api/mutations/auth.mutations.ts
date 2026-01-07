@@ -13,8 +13,11 @@ import {
 export const useRegisterUser = () => {
   return useMutation({
     mutationFn: registerUserAPI,
+    onSuccess: (data) => {
+      console.log('✅ Registration successful:', data);
+    },
     onError: (error: Error) => {
-      console.error('Registration error:', error);
+      console.error('❌ Registration error:', error);
     },
   });
 };
@@ -26,8 +29,13 @@ export const useRegisterUser = () => {
 export const useLoginUser = () => {
   return useMutation({
     mutationFn: loginUserAPI,
+    onSuccess: (data) => {
+      console.log('✅ Login successful:', data);
+      // Store token in Redux if needed
+      // You might want to dispatch to authSlice here
+    },
     onError: (error: Error) => {
-      console.error('Login error:', error);
+      console.error('❌ Login error:', error);
     },
   });
 };

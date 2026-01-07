@@ -7,16 +7,17 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { store } from './app/store';
 import i18n from './i18n';
 import { queryClient } from './lib/react-query';
-import { LoginPage } from './pages/LoginPage';
-import { RegisterPage } from './pages/RegisterPage';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { AuthPage } from './pages/AuthPage';
 import { HomePage } from './pages/HomePage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 
 function AppContent() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/auth" element={<AuthPage />} />
+      <Route path="/login" element={<Navigate to="/auth" replace />} />
+      <Route path="/register" element={<Navigate to="/auth" replace />} />
       <Route
         path="/home"
         element={
@@ -25,8 +26,8 @@ function AppContent() {
           </ProtectedRoute>
         }
       />
-      <Route path="/" element={<Navigate to="/login" replace />} />
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      <Route path="/" element={<Navigate to="/auth" replace />} />
+      <Route path="*" element={<Navigate to="/auth" replace />} />
     </Routes>
   );
 }
@@ -48,9 +49,11 @@ function App() {
       >
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
-            <BrowserRouter>
-              <AppContent />
-            </BrowserRouter>
+            <ThemeProvider>
+              <BrowserRouter>
+                <AppContent />
+              </BrowserRouter>
+            </ThemeProvider>
           </I18nextProvider>
         </Provider>
       </Auth0Provider>

@@ -24,14 +24,20 @@ export const RegisterPage = () => {
 
     const onSubmit = async (data: RegisterFormData) => {
         try {
+            console.log('📝 Attempting registration with:', {
+                email: data.email,
+                firstName: data.firstName,
+                lastName: data.lastName,
+            });
             await registerMutation.mutateAsync(data);
+            console.log('✅ Registration successful, redirecting to login...');
             // Registration successful, redirect to login
             navigate('/login', {
                 state: { message: 'Registration successful! Please log in.' },
             });
         } catch (error) {
             // Error is handled by the mutation's onError callback
-            console.error('Registration failed:', error);
+            console.error('❌ Registration failed:', error);
         }
     };
 

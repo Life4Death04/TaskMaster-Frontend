@@ -6,6 +6,9 @@ import {
   syncUserWithBackendAPI,
 } from '../request/auth.api';
 
+import { useDispatch } from 'react-redux';
+import { setToken, setUser } from '@/features/auth/authSlice';
+
 /**
  * React Query mutation hook for user registration
  * Creates a new user account in both Auth0 and backend
@@ -27,12 +30,13 @@ export const useRegisterUser = () => {
  * Authenticates user with email and password
  */
 export const useLoginUser = () => {
+  const dispatch = useDispatch();
   return useMutation({
     mutationFn: loginUserAPI,
     onSuccess: (data) => {
       console.log('✅ Login successful:', data);
-      // Store token in Redux if needed
-      // You might want to dispatch to authSlice here
+      dispatch(setUser(data.user));
+      dispatch(setToken(data.token));
     },
     onError: (error: Error) => {
       console.error('❌ Login error:', error);

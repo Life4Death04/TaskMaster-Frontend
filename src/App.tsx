@@ -42,7 +42,7 @@ function App() {
         domain={domain}
         clientId={clientId}
         authorizationParams={{
-          redirect_uri: window.location.origin,
+          redirect_uri: "http://localhost:5173/home",
           audience: audience,
         }}
       >

@@ -11,6 +11,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthPage } from './pages/AuthPage';
 import { HomePage } from './pages/HomePage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
+import { MainLayout } from './layouts/MainLayout';
 
 function AppContent() {
   return (
@@ -22,7 +23,9 @@ function AppContent() {
         path="/home"
         element={
           <ProtectedRoute>
-            <HomePage />
+            <MainLayout>
+              <HomePage />
+            </MainLayout>
           </ProtectedRoute>
         }
       />

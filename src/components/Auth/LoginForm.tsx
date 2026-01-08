@@ -24,6 +24,10 @@ export const LoginForm = ({
 }: LoginFormProps) => {
     return (
         <form onSubmit={onSubmit} className="space-y-4">
+            <div className="text-center">
+                <h2 className="text-gray-900 dark:text-white text-2xl font-bold leading-tight">Welcome Back</h2>
+                <p className="text-gray-500 dark:text-text-secondary text-sm mt-1">Please enter your details to sign in.</p>
+            </div>
             {errorMessage && (
                 <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg">
                     {errorMessage}

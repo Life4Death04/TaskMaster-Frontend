@@ -16,7 +16,7 @@ export const LogoutButton = () => {
     // Logout from Auth0 and redirect to home
     logout({
       logoutParams: {
-        returnTo: window.location.origin,
+        returnTo: "http://localhost:5173/auth",
       },
     });
   };

@@ -5,16 +5,31 @@
   /* Custom Colors */
   --color-primary: #2b3bee;
   --color-primary-hover: #1e2ab8;
-  --color-background-light: #f6f6f8;
-  --color-background-dark: #101222;
-  --color-card-dark: #1c1c27;
-  --color-border-dark: #3b3d54;
-  --color-text-secondary: #9d9fb9;
+  --color-background-primary: #ffffff;
+  --color-background-primary-hover: #e5e7eb;
+  --color-background-input: #f9fafb;
+  --color-card-primary: #ffffff;
+  --color-border-default: #edf2f7;
+  --color-border-input: #e2e8f0;
+  --color-text-primary: #1e1e2f;
+  --color-text-secondary: #718096;
+  --color-text-secondary-hover: #4a55680;
+  --color-svg-fill-primary: #000000;
+
+  --color-error-background: #fee2e2;
+  --color-error-text: #b91c1c;
+  --color-error-border: #fecaca;
+
+  --color-success-background: #dcfce7;
+  --color-success-text: #15803d;
+  --color-success-border: #bbf7d0;
+
+  /* Background Images (Gradients) */
   --background-image-auth-page:
     radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
     radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
     radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
-  --background-image-auth-header-gradient: linear-gradient(
+  --background-image-auth-header: linear-gradient(
     135deg,
     #2b3bee 0%,
     #7e22ce 100%
@@ -28,6 +43,33 @@
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
   --radius-full: 9999px;
+}
+
+@layer theme {
+  .dark {
+    --color-background-primary: #101222;
+    --color-background-primary-hover: #101222;
+    --color-background-input: #101222;
+    --color-card-primary: #1c1c27;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #9d9fb9;
+    --color-border-default: #3b3d54;
+    --color-border-input: #4a4c6a;
+    --color-svg-fill-primary: #ffffff;
+
+    --color-error-background: rgba(127, 29, 29, 0.2);
+    --color-error-text: #f87171;
+    --color-error-border: #991b1b;
+
+    --color-success-background: rgba(20, 83, 45, 0.2);
+    --color-success-text: #4ade80;
+    --color-success-border: #166534;
+
+    --background-image-auth-page:
+      radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+      radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+      radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
+  }
 }
 
 /* Root element styling for dark mode */

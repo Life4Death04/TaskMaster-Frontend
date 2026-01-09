@@ -11,7 +11,6 @@ interface LoginFormProps {
     onSubmit: (e: React.FormEvent) => void;
     isLoading: boolean;
     errorMessage?: string;
-    successMessage?: string;
 }
 
 export const LoginForm = ({
@@ -20,7 +19,6 @@ export const LoginForm = ({
     onSubmit,
     isLoading,
     errorMessage,
-    successMessage,
 }: LoginFormProps) => {
     return (
         <form onSubmit={onSubmit} className="space-y-4">
@@ -31,12 +29,6 @@ export const LoginForm = ({
             {errorMessage && (
                 <div className="bg-error-background border border-error-border text-error-text px-4 py-3 rounded-lg">
                     {errorMessage}
-                </div>
-            )}
-
-            {successMessage && (
-                <div className="bg-success-background border border-success-border text-success-text px-4 py-3 rounded-lg">
-                    {successMessage}
                 </div>
             )}
 

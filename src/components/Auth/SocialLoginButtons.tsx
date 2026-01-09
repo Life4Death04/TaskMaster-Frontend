@@ -3,7 +3,7 @@ export const SocialLoginButtons = () => {
         <div className="grid grid-cols-2 gap-4">
             <button
                 type="button"
-                className="flex items-center justify-center gap-2 h-11 rounded-lg border border-gray-200 dark:border-border-dark bg-white dark:bg-[#252533] hover:bg-gray-50 dark:hover:bg-[#2d2d3d] text-gray-700 dark:text-white transition-colors text-sm font-medium hover:cursor-pointer"
+                className="flex items-center justify-center gap-2 h-11 rounded-lg border border-border-input bg-card-primary hover:bg-background-primary-hover text-text-primary transition-colors text-sm font-medium hover:cursor-pointer"
             >
                 <svg
                     className="w-5 h-5"
@@ -31,10 +31,10 @@ export const SocialLoginButtons = () => {
             </button>
             <button
                 type="button"
-                className="flex items-center justify-center gap-2 h-11 rounded-lg border border-gray-200 dark:border-border-dark bg-white dark:bg-[#252533] hover:bg-gray-50 dark:hover:bg-[#2d2d3d] text-gray-700 dark:text-white transition-colors text-sm font-medium hover:cursor-pointer"
+                className="flex items-center justify-center gap-2 h-11 rounded-lg border border-border-input bg-card-primary hover:bg-background-primary-hover text-text-primary transition-colors text-sm font-medium hover:cursor-pointer"
             >
                 <svg
-                    className="w-5 h-5 dark:fill-white fill-black"
+                    className="w-5 h-5 fill-svg-fill-primary"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
                 >

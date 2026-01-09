@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Sidebar, type NavigationItem } from '@/components/Sidebar/Sidebar';
+import { Sidebar, type NavigationItem, type ListItem } from '@/components/Sidebar/Sidebar';
 
 /**
  * Container component for Sidebar
@@ -13,7 +13,7 @@ export const SidebarContainer = () => {
     const navigationItems: NavigationItem[] = [
         {
             path: '/home',
-            label: 'Home',
+            label: 'Dashboard',
             icon: (
                 <svg
                     fill="none"
@@ -32,7 +32,7 @@ export const SidebarContainer = () => {
         },
         {
             path: '/tasks',
-            label: 'Tasks',
+            label: 'My Tasks',
             icon: (
                 <svg
                     fill="none"
@@ -51,7 +51,7 @@ export const SidebarContainer = () => {
         },
         {
             path: '/lists',
-            label: 'Lists',
+            label: 'My Lists',
             icon: (
                 <svg
                     fill="none"
@@ -67,32 +67,15 @@ export const SidebarContainer = () => {
                     />
                 </svg>
             ),
-        },
-        {
-            path: '/settings',
-            label: 'Settings',
-            icon: (
-                <svg
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    className="w-5 h-5"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                    />
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                </svg>
-            ),
-        },
+        }
+    ];
+
+    // Sample lists - in real app, this would come from API/Redux
+    const listItems: ListItem[] = [
+        { id: '1', name: 'Work Projects', color: '#3b82f6' },
+        { id: '2', name: 'Personal', color: '#10b981' },
+        { id: '3', name: 'Shopping', color: '#f59e0b' },
+        { id: '4', name: 'Ideas', color: '#8b5cf6' },
     ];
 
     // Detect screen size and set mobile state
@@ -136,6 +119,7 @@ export const SidebarContainer = () => {
             onToggle={handleToggle}
             onClose={handleClose}
             navigationItems={navigationItems}
+            listItems={listItems}
         />
     );
 };

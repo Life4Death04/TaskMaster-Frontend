@@ -17,13 +17,13 @@ interface AuthViewProps {
     onLoginSubmit: (e: React.FormEvent) => void;
     loginLoading: boolean;
     loginError?: string;
-    loginSuccess?: string;
     // Register props
     registerRegister: UseFormRegister<RegisterFormData>;
     registerErrors: FieldErrors<RegisterFormData>;
     onRegisterSubmit: (e: React.FormEvent) => void;
     registerLoading: boolean;
     registerError?: string;
+    registerSuccess?: string;
 }
 
 /**
@@ -38,12 +38,12 @@ export const AuthView = ({
     onLoginSubmit,
     loginLoading,
     loginError,
-    loginSuccess,
     registerRegister,
     registerErrors,
     onRegisterSubmit,
     registerLoading,
     registerError,
+    registerSuccess,
 }: AuthViewProps) => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-auth-page">
@@ -97,7 +97,6 @@ export const AuthView = ({
                                         onSubmit={onLoginSubmit}
                                         isLoading={loginLoading}
                                         errorMessage={loginError}
-                                        successMessage={loginSuccess}
                                     />
 
                                     <div className="relative flex py-1 items-center">
@@ -153,6 +152,7 @@ export const AuthView = ({
                                         onSubmit={onRegisterSubmit}
                                         isLoading={registerLoading}
                                         errorMessage={registerError}
+                                        successMessage={registerSuccess}
                                     />
 
                                     <div className="relative flex py-1 items-center">

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useRegisterUser, useLoginUser } from '@/api/mutations/auth.mutations';
 import { AuthView } from '@/components/Auth/AuthView';
@@ -15,7 +15,6 @@ type TabType = 'login' | 'register';
 export const AuthContainer = () => {
     const [activeTab, setActiveTab] = useState<TabType>('login');
     const navigate = useNavigate();
-    const location = useLocation();
 
     // Login form
     const {
@@ -48,8 +47,7 @@ export const AuthContainer = () => {
         try {
             await registerMutation.mutateAsync(data);
             resetRegisterForm();
-            setActiveTab('login');
-            // TODO: Show success toast notification
+            // Success message will be shown in RegisterForm
         } catch (error) {
             console.error('Registration failed:', error);
         }
@@ -68,12 +66,12 @@ export const AuthContainer = () => {
             onLoginSubmit={onLoginSubmit}
             loginLoading={loginMutation.isPending}
             loginError={loginMutation.error?.message}
-            loginSuccess={location.state?.message}
             registerRegister={registerRegister}
             registerErrors={registerErrors}
             onRegisterSubmit={onRegisterSubmit}
             registerLoading={registerMutation.isPending}
             registerError={registerMutation.error?.message}
+            registerSuccess={registerMutation.isSuccess ? 'Account created successfully! You can now log in.' : undefined}
         />
     );
 };

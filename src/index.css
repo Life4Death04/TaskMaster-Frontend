@@ -48,7 +48,7 @@
 @layer theme {
   .dark {
     --color-background-primary: #101222;
-    --color-background-primary-hover: #101222;
+    --color-background-primary-hover: #3b3d54;
     --color-background-input: #101222;
     --color-card-primary: #1c1c27;
     --color-text-primary: #ffffff;

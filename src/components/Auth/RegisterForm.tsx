@@ -26,12 +26,12 @@ export const RegisterForm = ({
     return (
         <form onSubmit={onSubmit} className="space-y-4">
             <div className="text-center">
-                <h2 className="text-gray-900 dark:text-white text-2xl font-bold leading-tight">Create an Account</h2>
+                <h2 className="text-text-primary text-2xl font-bold leading-tight">Create an Account</h2>
                 <p className="text-gray-500 dark:text-text-secondary text-sm mt-1">Please enter your details to register.</p>
             </div>
 
             {errorMessage && (
-                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg">
+                <div className="bg-error-background border border-error-border text-error-text px-4 py-3 rounded-lg">
                     {errorMessage}
                 </div>
             )}
@@ -40,7 +40,7 @@ export const RegisterForm = ({
                 <div>
                     <label
                         htmlFor="firstName"
-                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                        className="block text-sm font-medium text-text-primary mb-2"
                     >
                         First Name
                     </label>
@@ -54,7 +54,7 @@ export const RegisterForm = ({
                                 message: 'At least 2 characters',
                             },
                         })}
-                        className="w-full px-4 py-3 border border-gray-300 dark:border-border-dark rounded-lg bg-white dark:bg-background-dark text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                        className="w-full px-4 py-3 border border-border-input rounded-lg bg-background-input text-text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                         placeholder="John"
                     />
                     {errors.firstName && (
@@ -67,7 +67,7 @@ export const RegisterForm = ({
                 <div>
                     <label
                         htmlFor="lastName"
-                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                        className="block text-sm font-medium text-text-primary mb-2"
                     >
                         Last Name
                     </label>
@@ -81,7 +81,7 @@ export const RegisterForm = ({
                                 message: 'At least 2 characters',
                             },
                         })}
-                        className="w-full px-4 py-3 border border-gray-300 dark:border-border-dark rounded-lg bg-white dark:bg-background-dark text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                        className="w-full px-4 py-3 border border-border-input rounded-lg bg-background-input text-text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                         placeholder="Doe"
                     />
                     {errors.lastName && (
@@ -95,7 +95,7 @@ export const RegisterForm = ({
             <div>
                 <label
                     htmlFor="register-email"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    className="block text-sm font-medium text-text-primary mb-2"
                 >
                     Email Address
                 </label>
@@ -109,7 +109,7 @@ export const RegisterForm = ({
                             message: 'Invalid email address',
                         },
                     })}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-border-dark rounded-lg bg-white dark:bg-background-dark text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                    className="w-full px-4 py-3 border border-border-input rounded-lg bg-background-input text-text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                     placeholder="you@example.com"
                 />
                 {errors.email && (
@@ -122,7 +122,7 @@ export const RegisterForm = ({
             <div>
                 <label
                     htmlFor="register-password"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    className="block text-sm font-medium text-text-primary mb-2"
                 >
                     Password
                 </label>
@@ -136,7 +136,7 @@ export const RegisterForm = ({
                             message: 'Password must be at least 6 characters',
                         },
                     })}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-border-dark rounded-lg bg-white dark:bg-background-dark text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                    className="w-full px-4 py-3 border border-border-input rounded-lg bg-background-input text-text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                     placeholder="Enter your password"
                 />
                 {errors.password && (
@@ -149,7 +149,7 @@ export const RegisterForm = ({
             <div>
                 <label
                     htmlFor="register-confirm-password"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    className="block text-sm font-medium text-text-primary mb-2"
                 >
                     Confirm Password
                 </label>
@@ -163,7 +163,7 @@ export const RegisterForm = ({
                             message: 'Password must be at least 6 characters',
                         },
                     })}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-border-dark rounded-lg bg-white dark:bg-background-dark text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                    className="w-full px-4 py-3 border border-border-input rounded-lg bg-background-input text-text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
                     placeholder="Enter your password"
                 />
                 {errors.confirmPassword && (

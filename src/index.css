@@ -8,6 +8,7 @@
   --color-background-primary: #ffffff;
   --color-background-primary-hover: #e5e7eb;
   --color-background-input: #f9fafb;
+  --color-background-surface: #1a1d33;
   --color-card-primary: #ffffff;
   --color-border-default: #edf2f7;
   --color-border-input: #e2e8f0;
@@ -50,6 +51,7 @@
     --color-background-primary: #101222;
     --color-background-primary-hover: #3b3d54;
     --color-background-input: #101222;
+    --color-background-surface: #1a1d33;
     --color-card-primary: #1c1c27;
     --color-text-primary: #ffffff;
     --color-text-secondary: #9d9fb9;

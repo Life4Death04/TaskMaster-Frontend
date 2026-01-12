@@ -6,7 +6,6 @@ interface UpcomingDueDateItemProps {
     description: string;
     time?: string;
     priority?: 'high' | 'medium' | 'low';
-    assignee?: string;
 }
 
 /**
@@ -20,7 +19,6 @@ export const UpcomingDueDateItem = ({
     description,
     time,
     priority,
-    assignee,
 }: UpcomingDueDateItemProps) => {
     return (
         <div className="flex gap-3 p-3 hover:bg-background-primary-hover transition-colors hover:rounded-lg">
@@ -54,14 +52,6 @@ export const UpcomingDueDateItem = ({
                     </div>
                 )}
             </div>
-
-            {/* {assignee && (
-                <div className="flex-shrink-0">
-                    <div className="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center text-xs font-semibold">
-                        {assignee}
-                    </div>
-                </div>
-            )} */}
         </div>
     );
 };

@@ -77,11 +77,6 @@ export const DashboardContainer = () => {
         // TODO: Implement search logic
     };
 
-    const handleNotificationClick = () => {
-        // TODO: Open notifications panel
-        console.log('Notifications clicked');
-    };
-
     const handleTaskToggle = (id: string) => {
         // TODO: Toggle task completion
         console.log('Toggle task:', id);
@@ -111,7 +106,6 @@ export const DashboardContainer = () => {
             upcomingTasks={upcomingTasks}
             searchQuery={searchQuery}
             onSearchChange={handleSearchChange}
-            onNotificationClick={handleNotificationClick}
             onTaskToggle={handleTaskToggle}
             onTaskMenuClick={handleTaskMenuClick}
             onViewAllTasks={handleViewAllTasks}

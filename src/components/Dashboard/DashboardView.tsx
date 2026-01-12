@@ -1,6 +1,7 @@
 import { StatsCard } from './StatsCard';
 import { TaskItem } from './TaskItem';
 import { UpcomingDueDateItem } from './UpcomingDueDateItem';
+import { PageHeader } from '../common/PageHeader';
 
 interface Task {
     id: string;
@@ -10,7 +11,6 @@ interface Task {
     dueDate: string;
     dueTime?: string;
     priority: 'high' | 'medium' | 'low';
-    assignees: string[];
 }
 
 interface UpcomingTask {
@@ -21,7 +21,6 @@ interface UpcomingTask {
     description: string;
     time?: string;
     priority?: 'high' | 'medium' | 'low';
-    assignee?: string;
 }
 
 interface DashboardStats {
@@ -38,12 +37,9 @@ interface DashboardViewProps {
     upcomingTasks: UpcomingTask[];
     searchQuery: string;
     onSearchChange: (query: string) => void;
-    onNotificationClick: () => void;
     onTaskToggle: (id: string) => void;
     onTaskMenuClick: (id: string) => void;
     onViewAllTasks: () => void;
-    onCreateTask: () => void;
-    onCreateList: () => void;
     onAddReminder: () => void;
 }
 
@@ -59,56 +55,22 @@ export const DashboardView = ({
     upcomingTasks,
     searchQuery,
     onSearchChange,
-    onNotificationClick,
     onTaskToggle,
     onTaskMenuClick,
     onViewAllTasks,
-    onCreateTask,
-    onCreateList,
     onAddReminder,
 }: DashboardViewProps) => {
     return (
         <div className="min-h-screen bg-background-dark p-6">
             {/* Dashboard Header */}
-            <div className="mb-8">
-                <div className="flex items-center justify-between flex-wrap gap-4 ">
-                    <div>
-                        <h1 className="text-text-primary text-3xl font-bold mb-1">Dashboard</h1>
-                        <p className="text-text-secondary text-sm">Welcome back, {userName}. Here's your daily overview.</p>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                        <div className="relative">
-                            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-secondary pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <circle cx="11" cy="11" r="8" strokeWidth={2} />
-                                <path strokeLinecap="round" strokeWidth={2} d="m21 21-4.35-4.35" />
-                            </svg>
-                            <input
-                                type="text"
-                                placeholder="Search tasks..."
-                                value={searchQuery}
-                                onChange={(e) => onSearchChange(e.target.value)}
-                                className="pl-10 pr-4 py-2 bg-card-dark border border-border-dark rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary w-full"
-                            />
-                        </div>
-
-                        {/* <button
-              onClick={onNotificationClick}
-              className="p-2 bg-card-dark border border-border-dark rounded-lg hover:bg-background-primary-hover transition-colors text-text-secondary hover:text-text-primary"
-              aria-label="Notifications"
-            >
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                />
-              </svg>
-            </button> */}
-                    </div>
-                </div>
-            </div>
+            <PageHeader
+                title="Dashboard"
+                subtitle="Welcome back, {userName}. Here's your daily overview."
+                userName={userName}
+                searchQuery={searchQuery}
+                onSearchChange={onSearchChange}
+                showSearch={true}
+            />
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -142,20 +104,6 @@ export const DashboardView = ({
                     }
                 />
 
-                {/* <StatsCard title="QUICK ACTIONS" value="" variant="action">
-                    <button onClick={onCreateTask} className="quick-action-button quick-action-task">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                        </svg>
-                        Task
-                    </button>
-                    <button onClick={onCreateList} className="quick-action-button quick-action-list">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                        </svg>
-                        List
-                    </button>
-                </StatsCard> */}
             </div>
 
             {/* Main Content Grid */}
@@ -185,10 +133,6 @@ export const DashboardView = ({
                                 />
                             ))}
                         </div>
-
-                        {/* <div className="p-4 text-center">
-                            <p className="text-text-secondary text-sm">Drag and drop to prioritize tasks</p>
-                        </div> */}
                     </div>
                 </div>
 
@@ -223,24 +167,6 @@ export const DashboardView = ({
                                 Add Reminder
                             </button>
                         </div>
-
-
-                        {/* Pro Tip Box */}
-                        {/* <div className="m-4 p-4 bg-primary/10 rounded-lg border border-primary/20">
-                            <div className="flex gap-3">
-                                <div className="flex-shrink-0">
-                                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-                                        <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z\" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 className="text-text-primary font-semibold text-sm mb-1">Pro Tip</h4>
-                                    <p className="text-text-secondary text-xs">Drag tasks to the sidebar projects to quickly move them.</p>
-                                </div>
-                            </div>
-                        </div> */}
                     </div>
                 </div>
             </div>

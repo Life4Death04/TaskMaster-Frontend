@@ -12,6 +12,7 @@ import { AuthPage } from './pages/AuthPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { TasksPage } from './pages/TasksPage';
 import { ListsPage } from './pages/ListsPage';
+import { SettingsPage } from './pages/SettingsPage';
 import { ErrorPage } from './pages/ErrorPage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { MainLayout } from './layouts/MainLayout';
@@ -50,6 +51,17 @@ function AppContent() {
           <ProtectedRoute>
             <MainLayout>
               <ListsPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+        errorElement={<ErrorPage />}
+      />
+      <Route
+        path="/settings"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <SettingsPage />
             </MainLayout>
           </ProtectedRoute>
         }

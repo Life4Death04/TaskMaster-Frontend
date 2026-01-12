@@ -10,6 +10,7 @@ import { queryClient } from './lib/react-query';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthPage } from './pages/AuthPage';
 import { HomePage } from './pages/HomePage';
+import { DashboardPage } from './pages/DashboardPage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { MainLayout } from './layouts/MainLayout';
 
@@ -24,7 +25,7 @@ function AppContent() {
         element={
           <ProtectedRoute>
             <MainLayout>
-              <HomePage />
+              <DashboardPage />
             </MainLayout>
           </ProtectedRoute>
         }

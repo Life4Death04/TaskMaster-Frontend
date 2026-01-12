@@ -10,6 +10,7 @@ import { queryClient } from './lib/react-query';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthPage } from './pages/AuthPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { TasksPage } from './pages/TasksPage';
 import { ListsPage } from './pages/ListsPage';
 import { ErrorPage } from './pages/ErrorPage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
@@ -27,6 +28,17 @@ function AppContent() {
           <ProtectedRoute>
             <MainLayout>
               <DashboardPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+        errorElement={<ErrorPage />}
+      />
+      <Route
+        path="/tasks"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <TasksPage />
             </MainLayout>
           </ProtectedRoute>
         }

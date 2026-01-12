@@ -9,14 +9,17 @@ import i18n from './i18n';
 import { queryClient } from './lib/react-query';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthPage } from './pages/AuthPage';
-import { HomePage } from './pages/HomePage';
+import { DashboardPage } from './pages/DashboardPage';
+import { TasksPage } from './pages/TasksPage';
+import { ListsPage } from './pages/ListsPage';
+import { ErrorPage } from './pages/ErrorPage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { MainLayout } from './layouts/MainLayout';
 
 function AppContent() {
   return (
     <Routes>
-      <Route path="/auth" element={<AuthPage />} />
+      <Route path="/auth" element={<AuthPage />} errorElement={<ErrorPage />} />
       <Route path="/login" element={<Navigate to="/auth" replace />} />
       <Route path="/register" element={<Navigate to="/auth" replace />} />
       <Route
@@ -24,11 +27,35 @@ function AppContent() {
         element={
           <ProtectedRoute>
             <MainLayout>
-              <HomePage />
+              <DashboardPage />
             </MainLayout>
           </ProtectedRoute>
         }
+        errorElement={<ErrorPage />}
       />
+      <Route
+        path="/tasks"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <TasksPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+        errorElement={<ErrorPage />}
+      />
+      <Route
+        path="/lists"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <ListsPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+        errorElement={<ErrorPage />}
+      />
+      <Route path="/error" element={<ErrorPage />} />
       <Route path="/" element={<Navigate to="/auth" replace />} />
       <Route path="*" element={<Navigate to="/auth" replace />} />
     </Routes>

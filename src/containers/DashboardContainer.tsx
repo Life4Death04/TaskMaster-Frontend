@@ -25,7 +25,6 @@ export const DashboardContainer = () => {
             status: 'overdue' as const,
             dueDate: 'Yesterday',
             priority: 'high' as const,
-            assignees: ['MK'],
         },
         {
             id: '2',
@@ -35,7 +34,6 @@ export const DashboardContainer = () => {
             dueDate: 'Today',
             dueTime: '2:00 PM',
             priority: 'medium' as const,
-            assignees: ['JD'],
         },
         {
             id: '3',
@@ -44,7 +42,6 @@ export const DashboardContainer = () => {
             status: 'normal' as const,
             dueDate: 'Tomorrow',
             priority: 'low' as const,
-            assignees: ['AE', 'CD'],
         },
     ];
 
@@ -56,7 +53,6 @@ export const DashboardContainer = () => {
             title: 'Client Presentation',
             description: 'Marketing Strategy Review',
             priority: 'high' as const,
-            assignee: 'MK',
         },
         {
             id: '2',
@@ -101,16 +97,6 @@ export const DashboardContainer = () => {
         console.log('View all tasks');
     };
 
-    const handleCreateTask = () => {
-        // TODO: Open task creation modal
-        console.log('Create task');
-    };
-
-    const handleCreateList = () => {
-        // TODO: Open list creation modal
-        console.log('Create list');
-    };
-
     const handleAddReminder = () => {
         // TODO: Open reminder creation modal
         console.log('Add reminder');
@@ -129,8 +115,6 @@ export const DashboardContainer = () => {
             onTaskToggle={handleTaskToggle}
             onTaskMenuClick={handleTaskMenuClick}
             onViewAllTasks={handleViewAllTasks}
-            onCreateTask={handleCreateTask}
-            onCreateList={handleCreateList}
             onAddReminder={handleAddReminder}
         />
     );

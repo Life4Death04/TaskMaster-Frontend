@@ -6,7 +6,6 @@ interface TaskItemProps {
     dueDate: string;
     dueTime?: string;
     priority: 'high' | 'medium' | 'low';
-    assignees: string[];
     onToggleComplete: (id: string) => void;
     onMenuClick: (id: string) => void;
 }
@@ -23,7 +22,6 @@ export const TaskItem = ({
     dueDate,
     dueTime,
     priority,
-    assignees,
     onToggleComplete,
     onMenuClick,
 }: TaskItemProps) => {
@@ -67,17 +65,6 @@ export const TaskItem = ({
                             }`}></span>
                         <span className="text-text-secondary text-xs capitalize">{priority}</span>
                     </div>
-
-                    {/* <div className="flex items-center -space-x-2">
-                        {assignees.map((assignee, index) => (
-                            <div
-                                key={index}
-                                className="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center text-xs font-semibold border-2 border-background-dark"
-                            >
-                                {assignee}
-                            </div>
-                        ))}
-                    </div> */}
 
                     <button
                         onClick={() => onMenuClick(id)}

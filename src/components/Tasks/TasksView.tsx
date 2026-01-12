@@ -74,7 +74,7 @@ export const TasksView = ({
             {/* Filter Tabs, Sort, and Create Button */}
             <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
                 {/* Filter Tabs */}
-                <div className="flex items-center gap-2 bg-card-dark border border-border-default rounded-lg p-1">
+                <div className="flex flex-wrap items-center gap-2 bg-card-dark border border-border-default rounded-lg p-1">
                     {filterTabs.map((tab) => (
                         <button
                             key={tab.key}
@@ -90,7 +90,7 @@ export const TasksView = ({
                 </div>
 
                 {/* Sort and Create Button */}
-                <div className="flex items-center gap-4">
+                <div className="flex flex-wrap items-center gap-4">
                     {/* Sort Dropdown */}
                     <div className="relative">
                         <select

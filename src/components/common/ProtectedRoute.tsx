@@ -20,7 +20,6 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
     // Show loading spinner while checking authentication
     if (isLoading) {
-        console.log("Auth0: isLoading =", auth0Loading, "Redux isLoading =", reduxLoading);
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <div className="text-center">

@@ -8,6 +8,7 @@ const ENDPOINTS = {
   REGISTER: '/auth/register',
   LOGIN: '/auth/login',
   AUTH0_USER: (auth0Id: string) => `/users/auth0/${auth0Id}`,
+  ME: '/users/me',
 };
 
 interface BackendUserResponse {
@@ -125,4 +126,12 @@ export const syncUserWithBackendAPI = async (
     }
     throw error;
   }
+};
+
+/**
+ * API call to fetch current authenticated user
+ */
+export const getMeAPI = async (): Promise<User> => {
+  const response = await api.get<{ user: User }>(ENDPOINTS.ME);
+  return response.data.user;
 };

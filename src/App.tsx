@@ -7,26 +7,69 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { store } from './app/store';
 import i18n from './i18n';
 import { queryClient } from './lib/react-query';
-import { LoginPage } from './pages/LoginPage';
-import { RegisterPage } from './pages/RegisterPage';
-import { HomePage } from './pages/HomePage';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { AuthPage } from './pages/AuthPage';
+import { DashboardPage } from './pages/DashboardPage';
+import { TasksPage } from './pages/TasksPage';
+import { ListsPage } from './pages/ListsPage';
+import { SettingsPage } from './pages/SettingsPage';
+import { ErrorPage } from './pages/ErrorPage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
+import { MainLayout } from './layouts/MainLayout';
 
 function AppContent() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/auth" element={<AuthPage />} errorElement={<ErrorPage />} />
+      <Route path="/login" element={<Navigate to="/auth" replace />} />
+      <Route path="/register" element={<Navigate to="/auth" replace />} />
       <Route
         path="/home"
         element={
           <ProtectedRoute>
-            <HomePage />
+            <MainLayout>
+              <DashboardPage />
+            </MainLayout>
           </ProtectedRoute>
         }
+        errorElement={<ErrorPage />}
       />
-      <Route path="/" element={<Navigate to="/login" replace />} />
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      <Route
+        path="/tasks"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <TasksPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+        errorElement={<ErrorPage />}
+      />
+      <Route
+        path="/lists"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <ListsPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+        errorElement={<ErrorPage />}
+      />
+      <Route
+        path="/settings"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <SettingsPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+        errorElement={<ErrorPage />}
+      />
+      <Route path="/error" element={<ErrorPage />} />
+      <Route path="/" element={<Navigate to="/auth" replace />} />
+      <Route path="*" element={<Navigate to="/auth" replace />} />
     </Routes>
   );
 }
@@ -48,9 +91,11 @@ function App() {
       >
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
-            <BrowserRouter>
-              <AppContent />
-            </BrowserRouter>
+            <ThemeProvider>
+              <BrowserRouter>
+                <AppContent />
+              </BrowserRouter>
+            </ThemeProvider>
           </I18nextProvider>
         </Provider>
       </Auth0Provider>

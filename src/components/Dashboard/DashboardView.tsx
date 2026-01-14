@@ -38,9 +38,11 @@ interface DashboardViewProps {
     searchQuery: string;
     onSearchChange: (query: string) => void;
     onTaskToggle: (id: string) => void;
-    onTaskMenuClick: (id: string) => void;
     onViewAllTasks: () => void;
     onAddReminder: () => void;
+    onEditTask?: (id: string) => void;
+    onArchiveTask?: (id: string) => void;
+    onDeleteTask?: (id: string) => void;
 }
 
 /**
@@ -56,9 +58,11 @@ export const DashboardView = ({
     searchQuery,
     onSearchChange,
     onTaskToggle,
-    onTaskMenuClick,
     onViewAllTasks,
     onAddReminder,
+    onEditTask,
+    onArchiveTask,
+    onDeleteTask,
 }: DashboardViewProps) => {
     return (
         <div className="min-h-screen bg-background-dark p-6">
@@ -129,7 +133,9 @@ export const DashboardView = ({
                                     key={task.id}
                                     {...task}
                                     onToggleComplete={onTaskToggle}
-                                    onMenuClick={onTaskMenuClick}
+                                    onEdit={onEditTask}
+                                    onArchive={onArchiveTask}
+                                    onDelete={onDeleteTask}
                                 />
                             ))}
                         </div>

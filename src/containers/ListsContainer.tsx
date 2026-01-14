@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ListsView } from '../components/Lists/ListsView';
+import { useAppDispatch } from '@/hooks/redux';
+import { openModal } from '@/features/ui/uiSlice';
 
 type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
 
@@ -8,6 +10,7 @@ type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
  * Business logic container for the Lists page
  */
 export const ListsContainer = () => {
+    const dispatch = useAppDispatch();
     const [searchQuery, setSearchQuery] = useState('');
     const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
 
@@ -150,8 +153,7 @@ export const ListsContainer = () => {
     };
 
     const handleCreateList = () => {
-        // TODO: Open create list modal
-        console.log('Create new list');
+        dispatch(openModal({ type: 'CREATE_LIST' }));
     };
 
     return (

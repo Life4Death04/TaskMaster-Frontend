@@ -25,8 +25,10 @@ interface TasksViewProps {
     onFilterChange: (filter: FilterTab) => void;
     onSortChange: (sort: SortOption) => void;
     onTaskToggle: (id: string) => void;
-    onTaskMenuClick: (id: string) => void;
     onCreateTask: () => void;
+    onEditTask?: (id: string) => void;
+    onArchiveTask?: (id: string) => void;
+    onDeleteTask?: (id: string) => void;
 }
 
 /**
@@ -43,8 +45,10 @@ export const TasksView = ({
     onFilterChange,
     onSortChange,
     onTaskToggle,
-    onTaskMenuClick,
     onCreateTask,
+    onEditTask,
+    onArchiveTask,
+    onDeleteTask,
 }: TasksViewProps) => {
     const filterTabs: { key: FilterTab; label: string }[] = [
         { key: 'all', label: 'All Tasks' },
@@ -141,7 +145,9 @@ export const TasksView = ({
                         priority={task.priority}
                         progressStatus={task.progressStatus}
                         onToggleComplete={onTaskToggle}
-                        onMenuClick={onTaskMenuClick}
+                        onEdit={onEditTask}
+                        onArchive={onArchiveTask}
+                        onDelete={onDeleteTask}
                     />
                 ))}
             </div>

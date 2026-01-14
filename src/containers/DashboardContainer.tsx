@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { DashboardView } from '@/components/Dashboard/DashboardView';
+import { useAppDispatch } from '@/hooks/redux';
+import { openModal } from '@/features/ui/uiSlice';
 
 /**
  * Dashboard Container Component
  * Handles all business logic for the dashboard
  */
 export const DashboardContainer = () => {
+    const dispatch = useAppDispatch();
     const [searchQuery, setSearchQuery] = useState('');
 
     // Mock data - replace with actual data from Redux/API
@@ -82,9 +85,32 @@ export const DashboardContainer = () => {
         console.log('Toggle task:', id);
     };
 
-    const handleTaskMenuClick = (id: string) => {
-        // TODO: Open task menu
-        console.log('Task menu clicked:', id);
+    const handleEditTask = (id: string) => {
+        const task = recentTasks.find(t => t.id === id);
+        if (task) {
+            dispatch(openModal({
+                type: 'EDIT_TASK',
+                data: {
+                    id: task.id,
+                    title: task.title,
+                    description: task.description,
+                    status: task.status === 'overdue' || task.status === 'normal' ? 'TODO' : 'DONE',
+                    priority: task.priority.toUpperCase(),
+                    dueDate: task.dueDate,
+                    listName: undefined,
+                },
+            }));
+        }
+    };
+
+    const handleArchiveTask = (id: string) => {
+        // TODO: Archive task
+        console.log('Archive task:', id);
+    };
+
+    const handleDeleteTask = (id: string) => {
+        // TODO: Delete task with confirmation
+        console.log('Delete task:', id);
     };
 
     const handleViewAllTasks = () => {
@@ -107,9 +133,11 @@ export const DashboardContainer = () => {
             searchQuery={searchQuery}
             onSearchChange={handleSearchChange}
             onTaskToggle={handleTaskToggle}
-            onTaskMenuClick={handleTaskMenuClick}
             onViewAllTasks={handleViewAllTasks}
             onAddReminder={handleAddReminder}
+            onEditTask={handleEditTask}
+            onArchiveTask={handleArchiveTask}
+            onDeleteTask={handleDeleteTask}
         />
     );
 };

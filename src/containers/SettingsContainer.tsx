@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SettingsView } from '../components/Settings/SettingsView';
+import { useAppDispatch } from '@/hooks/redux';
+import { logout } from '@/features/auth/authSlice';
 
 /**
  * Settings Container
  * Business logic container for the Settings page
  */
 export const SettingsContainer = () => {
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
     // Mock user data - will be replaced with Redux state later
     const userName = 'Jane Doe';
     const userEmail = 'jane.doe@example.com';
@@ -54,8 +60,10 @@ export const SettingsContainer = () => {
     };
 
     const handleLogout = () => {
-        // TODO: Implement logout logic
-        console.log('Logout');
+        // Clear Redux auth state and localStorage tokens
+        dispatch(logout());
+        // Redirect to auth page
+        navigate('/auth');
     };
 
     const handleDeleteAccount = () => {

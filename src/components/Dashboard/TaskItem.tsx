@@ -1,3 +1,5 @@
+import { TaskOptionsMenu } from '../common/TaskOptionsMenu';
+
 interface TaskItemProps {
     id: string;
     title: string;
@@ -7,7 +9,9 @@ interface TaskItemProps {
     dueTime?: string;
     priority: 'high' | 'medium' | 'low';
     onToggleComplete: (id: string) => void;
-    onMenuClick: (id: string) => void;
+    onEdit?: (id: string) => void;
+    onArchive?: (id: string) => void;
+    onDelete?: (id: string) => void;
 }
 
 /**
@@ -23,7 +27,9 @@ export const TaskItem = ({
     dueTime,
     priority,
     onToggleComplete,
-    onMenuClick,
+    onEdit,
+    onArchive,
+    onDelete,
 }: TaskItemProps) => {
     return (
         <div className="flex gap-3 p-4 rounded-lg hover:bg-background-primary-hover transition-colors border border-border-default hover:border-border-dark">
@@ -66,17 +72,14 @@ export const TaskItem = ({
                         <span className="text-text-secondary text-xs capitalize">{priority}</span>
                     </div>
 
-                    <button
-                        onClick={() => onMenuClick(id)}
-                        className="ml-auto p-1 hover:bg-background-primary-hover rounded transition-colors text-text-secondary"
-                        aria-label="Task options"
-                    >
-                        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                            <circle cx="12" cy="5" r="2" />
-                            <circle cx="12" cy="12" r="2" />
-                            <circle cx="12" cy="19" r="2" />
-                        </svg>
-                    </button>
+                    <div className="ml-auto">
+                        <TaskOptionsMenu
+                            taskId={id}
+                            onEdit={onEdit}
+                            onArchive={onArchive}
+                            onDelete={onDelete}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

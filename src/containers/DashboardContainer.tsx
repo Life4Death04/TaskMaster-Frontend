@@ -82,9 +82,19 @@ export const DashboardContainer = () => {
         console.log('Toggle task:', id);
     };
 
-    const handleTaskMenuClick = (id: string) => {
-        // TODO: Open task menu
-        console.log('Task menu clicked:', id);
+    const handleEditTask = (id: string) => {
+        // TODO: Open edit task modal with task data
+        console.log('Edit task:', id);
+    };
+
+    const handleArchiveTask = (id: string) => {
+        // TODO: Archive task
+        console.log('Archive task:', id);
+    };
+
+    const handleDeleteTask = (id: string) => {
+        // TODO: Delete task with confirmation
+        console.log('Delete task:', id);
     };
 
     const handleViewAllTasks = () => {
@@ -107,9 +117,11 @@ export const DashboardContainer = () => {
             searchQuery={searchQuery}
             onSearchChange={handleSearchChange}
             onTaskToggle={handleTaskToggle}
-            onTaskMenuClick={handleTaskMenuClick}
             onViewAllTasks={handleViewAllTasks}
             onAddReminder={handleAddReminder}
+            onEditTask={handleEditTask}
+            onArchiveTask={handleArchiveTask}
+            onDeleteTask={handleDeleteTask}
         />
     );
 };

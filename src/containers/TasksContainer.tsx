@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { TasksView } from '../components/Tasks/TasksView';
+import { useAppDispatch } from '@/hooks/redux';
+import { openModal } from '@/features/ui/uiSlice';
 
 type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
 type SortOption = 'recent' | 'dueDate' | 'priority';
@@ -9,6 +11,7 @@ type SortOption = 'recent' | 'dueDate' | 'priority';
  * Business logic container for the Tasks page
  */
 export const TasksContainer = () => {
+    const dispatch = useAppDispatch();
     const [searchQuery, setSearchQuery] = useState('');
     const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
     const [sortOption, setSortOption] = useState<SortOption>('recent');
@@ -151,14 +154,24 @@ export const TasksContainer = () => {
         console.log('Toggle task:', id);
     };
 
-    const handleTaskMenuClick = (id: string) => {
-        // TODO: Open task menu
-        console.log('Task menu clicked:', id);
+    const handleEditTask = (id: string) => {
+        // TODO: Open edit task modal with task data
+        console.log('Edit task:', id);
+        // dispatch(openModal({ type: 'EDIT_TASK', data: taskData }));
+    };
+
+    const handleArchiveTask = (id: string) => {
+        // TODO: Archive task
+        console.log('Archive task:', id);
+    };
+
+    const handleDeleteTask = (id: string) => {
+        // TODO: Delete task with confirmation
+        console.log('Delete task:', id);
     };
 
     const handleCreateTask = () => {
-        // TODO: Open create task modal
-        console.log('Create new task');
+        dispatch(openModal({ type: 'CREATE_TASK' }));
     };
 
     return (
@@ -172,8 +185,10 @@ export const TasksContainer = () => {
             onFilterChange={handleFilterChange}
             onSortChange={handleSortChange}
             onTaskToggle={handleTaskToggle}
-            onTaskMenuClick={handleTaskMenuClick}
             onCreateTask={handleCreateTask}
+            onEditTask={handleEditTask}
+            onArchiveTask={handleArchiveTask}
+            onDeleteTask={handleDeleteTask}
         />
     );
 };

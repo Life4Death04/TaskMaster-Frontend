@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { DashboardView } from '@/components/Dashboard/DashboardView';
+import { useAppDispatch } from '@/hooks/redux';
+import { openModal } from '@/features/ui/uiSlice';
 
 /**
  * Dashboard Container Component
  * Handles all business logic for the dashboard
  */
 export const DashboardContainer = () => {
+    const dispatch = useAppDispatch();
     const [searchQuery, setSearchQuery] = useState('');
 
     // Mock data - replace with actual data from Redux/API
@@ -83,8 +86,21 @@ export const DashboardContainer = () => {
     };
 
     const handleEditTask = (id: string) => {
-        // TODO: Open edit task modal with task data
-        console.log('Edit task:', id);
+        const task = recentTasks.find(t => t.id === id);
+        if (task) {
+            dispatch(openModal({
+                type: 'EDIT_TASK',
+                data: {
+                    id: task.id,
+                    title: task.title,
+                    description: task.description,
+                    status: task.status === 'overdue' || task.status === 'normal' ? 'TODO' : 'DONE',
+                    priority: task.priority.toUpperCase(),
+                    dueDate: task.dueDate,
+                    listName: undefined,
+                },
+            }));
+        }
     };
 
     const handleArchiveTask = (id: string) => {

@@ -155,9 +155,21 @@ export const TasksContainer = () => {
     };
 
     const handleEditTask = (id: string) => {
-        // TODO: Open edit task modal with task data
-        console.log('Edit task:', id);
-        // dispatch(openModal({ type: 'EDIT_TASK', data: taskData }));
+        const task = allTasks.find(t => t.id === id);
+        if (task) {
+            dispatch(openModal({
+                type: 'EDIT_TASK',
+                data: {
+                    id: task.id,
+                    title: task.title,
+                    description: task.description,
+                    status: task.progressStatus,
+                    priority: task.priority.toUpperCase(),
+                    dueDate: task.dueDate.replace('Due: ', ''),
+                    listName: task.label || undefined,
+                },
+            }));
+        }
     };
 
     const handleArchiveTask = (id: string) => {

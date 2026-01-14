@@ -17,11 +17,13 @@ import { ErrorPage } from './pages/ErrorPage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { MainLayout } from './layouts/MainLayout';
 import { AuthBootstrap } from './components/common/AuthBootstrap';
+import { ModalManager } from './components/Modals/ModalManager';
 
 function AppContent() {
   return (
     <>
       <AuthBootstrap />
+      <ModalManager />
       <Routes>
         <Route path="/auth" element={<AuthPage />} errorElement={<ErrorPage />} />
         <Route path="/login" element={<Navigate to="/auth" replace />} />

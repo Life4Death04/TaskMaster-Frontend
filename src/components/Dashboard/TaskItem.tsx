@@ -32,7 +32,7 @@ export const TaskItem = ({
     onDelete,
 }: TaskItemProps) => {
     return (
-        <div className="flex gap-3 p-4 rounded-lg hover:bg-background-primary-hover transition-colors border border-border-default hover:border-border-dark">
+        <div className="flex gap-3 p-4 rounded-lg bg-card-primary hover:bg-background-primary-hover transition-colors border border-border-default hover:border-border-dark">
             <div className="pt-1">
                 <input
                     type="checkbox"

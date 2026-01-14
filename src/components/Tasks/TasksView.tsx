@@ -64,7 +64,7 @@ export const TasksView = ({
     ];
 
     return (
-        <div className="min-h-screen bg-background-dark p-6">
+        <div className="min-h-screen bg-background-primary p-6">
             {/* Page Header */}
             <PageHeader
                 title="My Tasks"
@@ -78,7 +78,7 @@ export const TasksView = ({
             {/* Filter Tabs, Sort, and Create Button */}
             <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
                 {/* Filter Tabs */}
-                <div className="flex flex-wrap items-center gap-2 bg-card-dark border border-border-default rounded-lg p-1">
+                <div className="flex flex-wrap items-center gap-2 bg-card-primary border border-border-default rounded-lg p-1">
                     {filterTabs.map((tab) => (
                         <button
                             key={tab.key}
@@ -100,7 +100,7 @@ export const TasksView = ({
                         <select
                             value={sortOption}
                             onChange={(e) => onSortChange(e.target.value as SortOption)}
-                            className="pl-4 pr-10 py-2 bg-card-dark border border-border-default rounded-lg text-text-primary text-sm font-medium cursor-pointer hover:bg-background-primary-hover transition-colors appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
+                            className="pl-4 pr-10 py-2 bg-card-primary border border-border-default rounded-lg text-text-primary text-sm font-medium cursor-pointer hover:bg-background-primary-hover transition-colors appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
                         >
                             {sortOptions.map((option) => (
                                 <option key={option.key} value={option.key}>
@@ -121,7 +121,7 @@ export const TasksView = ({
                     {/* Create Task Button */}
                     <button
                         onClick={onCreateTask}
-                        className="px-6 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg font-medium transition-colors flex items-center gap-2 shadow-md hover:shadow-lg"
+                        className="px-6 py-2.5 bg-gradient-blueToPurple hover:bg-primary-hover text-white rounded-lg font-medium transition-colors flex items-center gap-2 shadow-md hover:shadow-lg"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

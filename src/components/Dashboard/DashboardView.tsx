@@ -65,7 +65,7 @@ export const DashboardView = ({
     onDeleteTask,
 }: DashboardViewProps) => {
     return (
-        <div className="min-h-screen bg-background-dark p-6">
+        <div className="min-h-screen bg-background-primary p-6">
             {/* Dashboard Header */}
             <PageHeader
                 title="Dashboard"
@@ -144,7 +144,7 @@ export const DashboardView = ({
 
                 {/* Upcoming Due Dates Section */}
                 <div className="lg:col-span-1">
-                    <div className="bg-card-dark">
+                    <div className="">
                         <div className="flex items-center justify-between py-6">
                             <h2 className="text-text-primary text-xl font-bold">Upcoming Due Dates</h2>
                             <button className="px-2 hover:bg-background-primary-hover rounded-lg transition-colors text-text-secondary hover:text-text-primary" aria-label="Calendar">
@@ -157,7 +157,7 @@ export const DashboardView = ({
                             </button>
                         </div>
 
-                        <div className="bg-background-surface border border-border-default rounded-lg p-4">
+                        <div className="bg-card-primary border border-border-default rounded-lg p-4">
                             <div className="divide-y divide-border-default">
                                 {upcomingTasks.map((task) => (
                                     <UpcomingDueDateItem key={task.id} {...task} />

@@ -21,9 +21,9 @@ export const UpcomingDueDateItem = ({
     priority,
 }: UpcomingDueDateItemProps) => {
     return (
-        <div className="flex gap-3 p-3 hover:bg-background-primary-hover transition-colors hover:rounded-lg">
-            <div className="flex-shrink-0">
-                <div className="w-12 h-12 rounded-lg bg-card-dark border border-border-default flex flex-col items-center justify-center">
+        <div className="flex gap-3 p-3 bg-card-primary hover:bg-background-primary-hover transition-colors hover:rounded-lg">
+            <div className="flex items-center justify-center">
+                <div className="w-12 h-12 rounded-lg bg-background-primary border border-border-default flex flex-col items-center justify-center">
                     <span className="text-text-secondary text-[10px] font-semibold uppercase">{month}</span>
                     <span className="text-text-primary text-lg font-bold leading-none">{date}</span>
                 </div>

@@ -45,7 +45,7 @@ export const ListCard = ({
     return (
         <button
             onClick={onClick}
-            className="group h-full bg-card-dark border border-border-default rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-left"
+            className="group h-full bg-card-primary border border-border-default rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-left"
         >
             {/* Colored top border */}
             <div className={`h-1.5 ${color}`}></div>

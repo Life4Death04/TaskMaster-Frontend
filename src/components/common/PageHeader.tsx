@@ -46,7 +46,7 @@ export const PageHeader = ({
                                 placeholder="Search..."
                                 value={searchQuery}
                                 onChange={(e) => onSearchChange(e.target.value)}
-                                className="pl-10 pr-4 py-2 bg-card-dark border rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary w-full"
+                                className="pl-10 pr-4 py-2 bg-background-input border border-border-input rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary w-full"
                             />
                         </div>
                     )}

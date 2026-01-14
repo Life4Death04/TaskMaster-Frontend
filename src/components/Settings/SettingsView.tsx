@@ -42,7 +42,7 @@ export const SettingsView = ({
     onApplyChanges,
 }: SettingsViewProps) => {
     return (
-        <div className="min-h-screen bg-background-dark p-6">
+        <div className="min-h-screen bg-background-primary p-6">
             {/* Header */}
             <div className="mb-8">
                 <h1 className="text-text-primary text-3xl font-bold mb-2">Account Settings</h1>
@@ -50,7 +50,7 @@ export const SettingsView = ({
             </div>
 
             {/* Profile Card */}
-            <div className="bg-card-dark border border-border-default rounded-xl p-6 mb-6">
+            <div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6">
                 <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex flex-wrap items-center gap-4">
                         {/* Avatar with Camera Icon */}
@@ -96,7 +96,7 @@ export const SettingsView = ({
                     {/* Edit Profile Button */}
                     <button
                         onClick={onEditProfile}
-                        className="px-6 py-2.5 bg-background-primary-hover hover:cursor-pointer hover:bg-background-primary text-text-primary rounded-lg font-medium transition-colors border border-border-default hover:border-white w-full md:w-auto"
+                        className="px-6 py-2.5 bg-background-primary hover:cursor-pointer hover:bg-background-primary-hover text-text-primary rounded-lg font-medium transition-colors border border-border-default hover:border-white w-full md:w-auto"
                     >
                         Edit Profile
                     </button>
@@ -104,7 +104,7 @@ export const SettingsView = ({
             </div>
 
             {/* General Preferences */}
-            <div className="bg-card-dark border border-border-default rounded-xl p-6 mb-6">
+            <div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6">
                 <h3 className="text-text-primary text-lg font-bold mb-6">General Preferences</h3>
 
                 <div className="space-y-6">
@@ -202,7 +202,7 @@ export const SettingsView = ({
             ToDo: Change/fix buttons responsiveness for extra small screens
             */}
             {/* Account Management */}
-            <div className="bg-card-dark border border-border-default rounded-xl p-6 mb-6">
+            <div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6">
                 <h3 className="text-text-primary text-lg font-bold mb-6">Account Management</h3>
 
                 <div className="flex flex-wrap items-center gap-4 mb-4">
@@ -236,7 +236,7 @@ export const SettingsView = ({
 
             {/* Action Buttons */}
             {hasChanges && (
-                <div className="bg-card-dark p-4 flex flex-wrap items-center justify-end gap-4">
+                <div className="bg-card-primary p-4 flex flex-wrap items-center justify-end gap-4">
                     <button
                         onClick={onDiscard}
                         className="px-6 py-2.5 bg-background-primary-hover hover:bg-border-dark text-text-primary rounded-lg font-medium transition-colors w-full md:w-auto"

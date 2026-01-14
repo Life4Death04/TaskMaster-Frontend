@@ -42,7 +42,7 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
             <aside
                 className={`
           fixed top-0 left-0 h-full z-50
-          bg-background-primary
+          bg-card-primary
           border-r border-border-input
           transition-all duration-300 ease-in-out
           

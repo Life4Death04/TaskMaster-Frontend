@@ -58,7 +58,7 @@ export const TaskCard = ({
     };
 
     return (
-        <div className="flex gap-4 p-4 bg-card-primary border border-border-default rounded-xl hover:border-border-input hover:shadow-md transition-all">
+        <div className="flex gap-4 p-4 bg-card-primary border border-border-default rounded-xl hover:border-border-input hover:shadow-lg shadow-md transition-all">
             {/* Checkbox */}
             <div className="pt-1">
                 <input

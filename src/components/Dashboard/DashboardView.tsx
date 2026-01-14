@@ -122,7 +122,7 @@ export const DashboardView = ({
                                     {activeTasksCount} Active
                                 </span>
                             </div>
-                            <button onClick={onViewAllTasks} className="text-primary hover:text-primary-hover text-sm font-medium transition-colors">
+                            <button onClick={onViewAllTasks} className="text-primary hover:text-primary-hover text-sm font-medium transition-colors hover:cursor-pointer">
                                 View All
                             </button>
                         </div>
@@ -144,10 +144,10 @@ export const DashboardView = ({
 
                 {/* Upcoming Due Dates Section */}
                 <div className="lg:col-span-1">
-                    <div className="">
+                    <div>
                         <div className="flex items-center justify-between py-6">
                             <h2 className="text-text-primary text-xl font-bold">Upcoming Due Dates</h2>
-                            <button className="px-2 hover:bg-background-primary-hover rounded-lg transition-colors text-text-secondary hover:text-text-primary" aria-label="Calendar">
+                            <button className="px-2 hover:bg-background-primary-hover rounded-lg transition-colors text-text-secondary hover:text-text-primary hover:cursor-pointer" aria-label="Calendar">
                                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth={2} />
                                     <line x1="16" y1="2" x2="16" y2="6" strokeWidth={2} strokeLinecap="round" />
@@ -157,14 +157,14 @@ export const DashboardView = ({
                             </button>
                         </div>
 
-                        <div className="bg-card-primary border border-border-default rounded-lg p-4">
+                        <div className="bg-card-primary border border-border-default rounded-lg p-4 shadow-md">
                             <div className="divide-y divide-border-default">
                                 {upcomingTasks.map((task) => (
                                     <UpcomingDueDateItem key={task.id} {...task} />
                                 ))}
                             </div>
 
-                            <button onClick={onAddReminder} className="w-full p-2 my-2 flex items-center justify-center gap-2 text-text-secondary hover:text-text-primary hover:bg-background-primary-hover transition-colors border border-dashed border-border-default rounded-lg">
+                            <button onClick={onAddReminder} className="w-full p-2 my-2 flex items-center justify-center gap-2 text-text-secondary hover:text-text-primary hover:bg-background-primary-hover transition-colors border border-dashed border-border-default rounded-lg hover:cursor-pointer">
                                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                     <circle cx="12" cy="12" r="10" strokeWidth={2} />
                                     <line x1="12" y1="8" x2="12" y2="16" strokeWidth={2} strokeLinecap="round" />

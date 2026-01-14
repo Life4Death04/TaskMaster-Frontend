@@ -44,7 +44,7 @@ export const EditTaskModal = ({ isOpen, onClose, task }: EditTaskModalProps) => 
                     </div>
                     <button
                         onClick={onClose}
-                        className="text-text-secondary hover:text-text-primary transition-colors p-1"
+                        className="text-text-secondary hover:text-text-primary hover:cursor-pointer transition-colors p-1"
                         aria-label="Close modal"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -173,12 +173,12 @@ export const EditTaskModal = ({ isOpen, onClose, task }: EditTaskModalProps) => 
                 <div className="flex items-center justify-end gap-3 p-6 pt-4 border-t border-border-default">
                     <button
                         onClick={onClose}
-                        className="px-6 py-2.5 bg-background-primary-hover hover:bg-border-dark text-text-primary rounded-lg font-medium transition-colors"
+                        className="px-6 py-2.5 bg-background-primary-hover hover:bg-border-dark hover:cursor-pointer text-text-primary rounded-lg font-medium transition-colors"
                     >
                         Cancel
                     </button>
                     <button
-                        className="px-6 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg font-medium transition-colors shadow-lg"
+                        className="px-6 py-2.5 bg-primary hover:bg-primary-hover hover:cursor-pointer text-white rounded-lg font-medium transition-colors shadow-lg"
                     >
                         Save Changes
                     </button>

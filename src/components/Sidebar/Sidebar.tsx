@@ -54,7 +54,7 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                     {isMobile && (
                         <button
                             onClick={onToggle}
-                            className="p-2 rounded-lg hover:bg-background-primary-hover transition-colors"
+                            className="p-2 rounded-lg hover:bg-background-primary-hover transition-colors hover:cursor-pointer"
                             aria-label={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
                         >
 
@@ -99,7 +99,7 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                             key={item.path}
                             to={item.path}
                             onClick={onClose}
-                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors"
+                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors hover:cursor-pointer"
                         >
                             <div className="w-5 h-5 text-text-primary flex-shrink-0">
                                 {item.icon}
@@ -119,7 +119,7 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                                 key={list.id}
                                 to={`/lists/${list.id}`}
                                 onClick={onClose}
-                                className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors"
+                                className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors hover:cursor-pointer"
                             >
                                 <svg
                                     className="w-5 h-5 flex-shrink-0"
@@ -143,7 +143,7 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                         key={"/settings"}
                         to={"/settings"}
                         onClick={onClose}
-                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors w-full"
+                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors w-full hover:cursor-pointer"
                     >
                         <div className="w-5 h-5 text-text-primary flex-shrink-0">
                             <svg

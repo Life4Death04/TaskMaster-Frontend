@@ -78,7 +78,7 @@ export const TasksView = ({
             {/* Filter Tabs, Sort, and Create Button */}
             <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
                 {/* Filter Tabs */}
-                <div className="flex flex-wrap items-center gap-2 bg-card-primary border border-border-default rounded-lg p-1">
+                <div className="flex flex-wrap items-center gap-2 bg-card-primary shadow-md border border-border-default rounded-lg p-1">
                     {filterTabs.map((tab) => (
                         <button
                             key={tab.key}
@@ -121,7 +121,7 @@ export const TasksView = ({
                     {/* Create Task Button */}
                     <button
                         onClick={onCreateTask}
-                        className="px-6 py-2.5 bg-gradient-blueToPurple hover:bg-primary-hover text-white rounded-lg font-medium transition-colors flex items-center gap-2 shadow-md hover:shadow-lg"
+                        className="px-6 py-2.5 bg-gradient-blueToPurple hover:bg-primary-hover text-white rounded-lg font-medium transition-colors flex items-center gap-2 shadow-md hover:shadow-lg hover:cursor-pointer"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -164,7 +164,7 @@ export const TasksView = ({
                     <p className="text-text-secondary text-sm mb-6">Create your first task to get started</p>
                     <button
                         onClick={onCreateTask}
-                        className="px-6 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+                        className="px-6 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg font-medium transition-colors flex items-center gap-2 hover:cursor-pointer"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

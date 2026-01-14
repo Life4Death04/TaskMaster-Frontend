@@ -124,14 +124,14 @@ export const AuthView = ({
                                     <div className="mt-2 text-xs text-gray-400 dark:text-gray-600">
                                         By continuing, you agree to TaskMaster's{' '}
                                         <a
-                                            className="hover:text-gray-500 dark:hover:text-gray-400 underline"
+                                            className="hover:text-gray-500 dark:hover:text-gray-400 hover:cursor-pointer underline"
                                             href="#"
                                         >
                                             Terms
                                         </a>{' '}
                                         and{' '}
                                         <a
-                                            className="hover:text-gray-500 dark:hover:text-gray-400 underline"
+                                            className="hover:text-gray-500 dark:hover:text-gray-400 hover:cursor-pointer underline"
                                             href="#"
                                         >
                                             Privacy Policy
@@ -180,14 +180,14 @@ export const AuthView = ({
                                     <div className="mt-2 text-xs text-gray-400 dark:text-gray-600">
                                         By continuing, you agree to TaskMaster's{' '}
                                         <a
-                                            className="hover:text-gray-500 dark:hover:text-gray-400 underline"
+                                            className="hover:text-gray-500 dark:hover:text-gray-400 hover:cursor-pointer underline"
                                             href="#"
                                         >
                                             Terms
                                         </a>{' '}
                                         and{' '}
                                         <a
-                                            className="hover:text-gray-500 dark:hover:text-gray-400 underline"
+                                            className="hover:text-gray-500 dark:hover:text-gray-400 hover:cursor-pointer underline"
                                             href="#"
                                         >
                                             Privacy Policy

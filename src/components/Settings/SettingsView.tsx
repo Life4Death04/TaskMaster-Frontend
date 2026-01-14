@@ -64,7 +64,7 @@ export const SettingsView = ({
                             </div>
                             <button
                                 onClick={onEditProfile}
-                                className="absolute bottom-0 right-0 w-7 h-7 bg-primary rounded-full flex items-center justify-center hover:bg-primary-hover transition-colors shadow-lg"
+                                className="absolute bottom-0 right-0 w-7 h-7 bg-primary rounded-full flex items-center justify-center hover:bg-primary-hover transition-colors shadow-lg hover:cursor-pointer"
                                 aria-label="Edit profile picture"
                             >
                                 <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -151,7 +151,7 @@ export const SettingsView = ({
                         <div className="flex items-center gap-2 bg-background-primary-hover border border-border-default rounded-lg p-1">
                             <button
                                 onClick={() => onLanguageChange('en')}
-                                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${language === 'en'
+                                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors hover:cursor-pointer ${language === 'en'
                                     ? 'bg-primary text-white'
                                     : 'text-text-secondary hover:text-text-primary'
                                     }`}
@@ -160,7 +160,7 @@ export const SettingsView = ({
                             </button>
                             <button
                                 onClick={() => onLanguageChange('es')}
-                                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${language === 'es'
+                                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors hover:cursor-pointer ${language === 'es'
                                     ? 'bg-primary text-white'
                                     : 'text-text-secondary hover:text-text-primary'
                                     }`}
@@ -209,7 +209,7 @@ export const SettingsView = ({
                     {/* Logout Button */}
                     <button
                         onClick={onLogout}
-                        className="flex-1 min-w-[100px] px-6 py-3 bg-background-primary-hover hover:border-white text-text-primary rounded-lg font-medium transition-colors border border-border-default flex items-center justify-center gap-2"
+                        className="flex-1 min-w-[100px] px-6 py-3 bg-background-primary-hover hover:border-white text-text-primary rounded-lg font-medium transition-colors border border-border-default flex items-center justify-center gap-2 hover:cursor-pointer"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -220,7 +220,7 @@ export const SettingsView = ({
                     {/* Delete Account Button */}
                     <button
                         onClick={onDeleteAccount}
-                        className="flex-1 min-w-[100px] px-6 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg font-medium transition-colors border border-red-500/30 flex items-center justify-center gap-2"
+                        className="flex-1 min-w-[100px] px-6 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg font-medium transition-colors border border-red-500/30 flex items-center justify-center gap-2 hover:cursor-pointer"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -239,13 +239,13 @@ export const SettingsView = ({
                 <div className="bg-card-primary p-4 flex flex-wrap items-center justify-end gap-4">
                     <button
                         onClick={onDiscard}
-                        className="px-6 py-2.5 bg-background-primary-hover hover:bg-border-dark text-text-primary rounded-lg font-medium transition-colors w-full md:w-auto"
+                        className="px-6 py-2.5 bg-background-primary-hover hover:bg-border-dark text-text-primary rounded-lg font-medium transition-colors w-full md:w-auto hover:cursor-pointer"
                     >
                         Discard
                     </button>
                     <button
                         onClick={onApplyChanges}
-                        className="px-6 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2 shadow-md w-full md:w-auto"
+                        className="px-6 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2 shadow-md w-full md:w-auto hover:cursor-pointer"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />

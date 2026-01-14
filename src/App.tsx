@@ -16,61 +16,65 @@ import { SettingsPage } from './pages/SettingsPage';
 import { ErrorPage } from './pages/ErrorPage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { MainLayout } from './layouts/MainLayout';
+import { AuthBootstrap } from './components/common/AuthBootstrap';
 
 function AppContent() {
   return (
-    <Routes>
-      <Route path="/auth" element={<AuthPage />} errorElement={<ErrorPage />} />
-      <Route path="/login" element={<Navigate to="/auth" replace />} />
-      <Route path="/register" element={<Navigate to="/auth" replace />} />
-      <Route
-        path="/home"
-        element={
-          <ProtectedRoute>
-            <MainLayout>
-              <DashboardPage />
-            </MainLayout>
-          </ProtectedRoute>
-        }
-        errorElement={<ErrorPage />}
-      />
-      <Route
-        path="/tasks"
-        element={
-          <ProtectedRoute>
-            <MainLayout>
-              <TasksPage />
-            </MainLayout>
-          </ProtectedRoute>
-        }
-        errorElement={<ErrorPage />}
-      />
-      <Route
-        path="/lists"
-        element={
-          <ProtectedRoute>
-            <MainLayout>
-              <ListsPage />
-            </MainLayout>
-          </ProtectedRoute>
-        }
-        errorElement={<ErrorPage />}
-      />
-      <Route
-        path="/settings"
-        element={
-          <ProtectedRoute>
-            <MainLayout>
-              <SettingsPage />
-            </MainLayout>
-          </ProtectedRoute>
-        }
-        errorElement={<ErrorPage />}
-      />
-      <Route path="/error" element={<ErrorPage />} />
-      <Route path="/" element={<Navigate to="/auth" replace />} />
-      <Route path="*" element={<Navigate to="/auth" replace />} />
-    </Routes>
+    <>
+      <AuthBootstrap />
+      <Routes>
+        <Route path="/auth" element={<AuthPage />} errorElement={<ErrorPage />} />
+        <Route path="/login" element={<Navigate to="/auth" replace />} />
+        <Route path="/register" element={<Navigate to="/auth" replace />} />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <DashboardPage />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+          errorElement={<ErrorPage />}
+        />
+        <Route
+          path="/tasks"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <TasksPage />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+          errorElement={<ErrorPage />}
+        />
+        <Route
+          path="/lists"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <ListsPage />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+          errorElement={<ErrorPage />}
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <SettingsPage />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+          errorElement={<ErrorPage />}
+        />
+        <Route path="/error" element={<ErrorPage />} />
+        <Route path="/" element={<Navigate to="/auth" replace />} />
+        <Route path="*" element={<Navigate to="/auth" replace />} />
+      </Routes>
+    </>
   );
 }
 

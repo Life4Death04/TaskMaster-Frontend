@@ -33,7 +33,7 @@ export const CreateTaskModal = ({ isOpen, onClose }: CreateTaskModalProps) => {
                     </div>
                     <button
                         onClick={onClose}
-                        className="text-text-secondary hover:text-text-primary transition-colors p-1"
+                        className="text-text-secondary hover:text-text-primary hover:cursor-pointer transition-colors p-1"
                         aria-label="Close modal"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -122,7 +122,7 @@ export const CreateTaskModal = ({ isOpen, onClose }: CreateTaskModalProps) => {
                                 <button
                                     type="button"
                                     onClick={() => setPriority('LOW')}
-                                    className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all ${priority === 'LOW'
+                                    className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all hover:cursor-pointer ${priority === 'LOW'
                                         ? 'bg-green-500/20 text-green-400 border-2 border-green-500'
                                         : 'bg-background-input text-text-secondary border border-border-input hover:border-green-500/50'
                                         }`}
@@ -132,7 +132,7 @@ export const CreateTaskModal = ({ isOpen, onClose }: CreateTaskModalProps) => {
                                 <button
                                     type="button"
                                     onClick={() => setPriority('MEDIUM')}
-                                    className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all ${priority === 'MEDIUM'
+                                    className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all hover:cursor-pointer ${priority === 'MEDIUM'
                                         ? 'bg-orange-500/20 text-orange-400 border-2 border-orange-500'
                                         : 'bg-background-input text-text-secondary border border-border-input hover:border-orange-500/50'
                                         }`}
@@ -142,7 +142,7 @@ export const CreateTaskModal = ({ isOpen, onClose }: CreateTaskModalProps) => {
                                 <button
                                     type="button"
                                     onClick={() => setPriority('HIGH')}
-                                    className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all ${priority === 'HIGH'
+                                    className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all hover:cursor-pointer ${priority === 'HIGH'
                                         ? 'bg-red-500/20 text-red-400 border-2 border-red-500'
                                         : 'bg-background-input text-text-secondary border border-border-input hover:border-red-500/50'
                                         }`}
@@ -181,12 +181,12 @@ export const CreateTaskModal = ({ isOpen, onClose }: CreateTaskModalProps) => {
                 <div className="flex items-center justify-end gap-3 p-6 pt-4 border-t border-border-default">
                     <button
                         onClick={onClose}
-                        className="px-6 py-2.5 bg-background-primary-hover hover:bg-border-dark text-text-primary rounded-lg font-medium transition-colors"
+                        className="px-6 py-2.5 bg-background-primary-hover hover:bg-border-dark hover:cursor-pointer text-text-primary rounded-lg font-medium transition-colors"
                     >
                         Cancel
                     </button>
                     <button
-                        className="px-6 py-2.5 bg-gradient-blueToPurple hover:bg-primary-hover text-white rounded-lg font-medium transition-colors shadow-lg"
+                        className="px-6 py-2.5 bg-gradient-blueToPurple hover:bg-primary-hover hover:cursor-pointer text-white rounded-lg font-medium transition-colors shadow-lg"
                     >
                         Create Task
                     </button>

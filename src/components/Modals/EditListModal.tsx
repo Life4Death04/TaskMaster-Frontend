@@ -50,7 +50,7 @@ export const EditListModal = ({ isOpen, onClose, list }: EditListModalProps) => 
                     </div>
                     <button
                         onClick={onClose}
-                        className="text-text-secondary hover:text-text-primary transition-colors p-1"
+                        className="text-text-secondary hover:text-text-primary hover:cursor-pointer transition-colors p-1"
                         aria-label="Close modal"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -98,7 +98,7 @@ export const EditListModal = ({ isOpen, onClose, list }: EditListModalProps) => 
                                     key={color.value}
                                     type="button"
                                     onClick={() => setSelectedColor(color.value)}
-                                    className={`w-10 h-10 rounded-full ${color.class} transition-transform hover:scale-110 ${selectedColor === color.value
+                                    className={`w-10 h-10 rounded-full ${color.class} transition-transform hover:scale-110 hover:cursor-pointer ${selectedColor === color.value
                                         ? 'ring-4 ring-white/30 scale-110'
                                         : ''
                                         }`}
@@ -112,7 +112,7 @@ export const EditListModal = ({ isOpen, onClose, list }: EditListModalProps) => 
                 {/* Footer */}
                 <div className="flex items-center justify-between p-6 pt-4 border-t border-border-dark">
                     <button
-                        className="px-6 py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg font-medium transition-colors border border-red-500/30 flex items-center gap-2"
+                        className="px-6 py-2.5 bg-red-500/10 hover:bg-red-500/20 hover:cursor-pointer text-red-500 rounded-lg font-medium transition-colors border border-red-500/30 flex items-center gap-2"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -122,12 +122,12 @@ export const EditListModal = ({ isOpen, onClose, list }: EditListModalProps) => 
                     <div className="flex items-center gap-3">
                         <button
                             onClick={onClose}
-                            className="px-6 py-2.5 bg-background-primary-hover hover:bg-border-dark text-text-primary rounded-lg font-medium transition-colors"
+                            className="px-6 py-2.5 bg-background-primary-hover hover:bg-border-dark hover:cursor-pointer text-text-primary rounded-lg font-medium transition-colors"
                         >
                             Cancel
                         </button>
                         <button
-                            className="px-6 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg font-medium transition-colors shadow-lg"
+                            className="px-6 py-2.5 bg-primary hover:bg-primary-hover hover:cursor-pointer text-white rounded-lg font-medium transition-colors shadow-lg"
                         >
                             Save Changes
                         </button>

@@ -69,7 +69,7 @@ export const LoginForm = ({
                     </label>
                     <a
                         href="#"
-                        className="block text-sm font-medium text-primary dark:text-primary hover:text-primary-hover mb-2"
+                        className="block text-sm font-medium text-primary dark:text-primary hover:text-primary-hover hover:cursor-pointer mb-2"
                     >
                         Forgot password?
                     </a>

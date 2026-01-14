@@ -38,7 +38,7 @@ export const CreateListModal = ({ isOpen, onClose }: CreateListModalProps) => {
                     <h2 className="text-text-primary text-xl font-bold">Create New List</h2>
                     <button
                         onClick={onClose}
-                        className="text-text-secondary hover:text-text-primary transition-colors p-1"
+                        className="text-text-secondary hover:text-text-primary hover:cursor-pointer transition-colors p-1"
                         aria-label="Close modal"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -89,7 +89,7 @@ export const CreateListModal = ({ isOpen, onClose }: CreateListModalProps) => {
                                     key={color.value}
                                     type="button"
                                     onClick={() => setSelectedColor(color.value)}
-                                    className={`w-10 h-10 rounded-full ${color.class} transition-transform hover:scale-110 ${selectedColor === color.value
+                                    className={`w-10 h-10 rounded-full ${color.class} transition-transform hover:scale-110 hover:cursor-pointer ${selectedColor === color.value
                                         ? 'ring-4 ring-white/30 scale-110'
                                         : ''
                                         }`}
@@ -104,12 +104,12 @@ export const CreateListModal = ({ isOpen, onClose }: CreateListModalProps) => {
                 <div className="flex items-center justify-end gap-3 p-6 pt-4 border-t border-border-default">
                     <button
                         onClick={onClose}
-                        className="px-6 py-2.5 bg-background-primary-hover hover:bg-background-primary text-text-primary rounded-lg font-medium transition-colors border border-border-default"
+                        className="px-6 py-2.5 bg-background-primary-hover hover:bg-background-primary hover:cursor-pointer text-text-primary rounded-lg font-medium transition-colors border border-border-default"
                     >
                         Cancel
                     </button>
                     <button
-                        className="px-6 py-2.5 bg-gradient-blueToPurple hover:bg-primary-hover text-white rounded-lg font-medium transition-colors shadow-lg"
+                        className="px-6 py-2.5 bg-gradient-blueToPurple hover:bg-primary-hover hover:cursor-pointer text-white rounded-lg font-medium transition-colors shadow-lg"
                     >
                         Create List
                     </button>

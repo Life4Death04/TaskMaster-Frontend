@@ -36,9 +36,9 @@ export const EditListModal = ({ isOpen, onClose, list }: EditListModalProps) => 
             />
 
             {/* Modal */}
-            <div className="relative w-full max-w-md mx-4 bg-card-dark border border-border-dark rounded-2xl shadow-2xl">
+            <div className="relative w-full max-w-md mx-4 bg-background-primary border border-border-default rounded-2xl shadow-2xl">
                 {/* Header */}
-                <div className="flex items-center justify-between p-6 pb-4 border-b border-border-dark">
+                <div className="flex items-center justify-between p-6 pb-4 border-b border-border-default">
                     <div>
                         <div className="flex items-center gap-2 mb-1">
                             <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -70,7 +70,7 @@ export const EditListModal = ({ isOpen, onClose, list }: EditListModalProps) => 
                             type="text"
                             value={listName}
                             onChange={(e) => setListName(e.target.value)}
-                            className="w-full px-4 py-2.5 bg-background-primary-hover border border-border-dark rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                            className="w-full px-4 py-2.5 bg-background-input border border-border-input rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                         />
                     </div>
 
@@ -83,7 +83,7 @@ export const EditListModal = ({ isOpen, onClose, list }: EditListModalProps) => 
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             rows={3}
-                            className="w-full px-4 py-2.5 bg-background-primary-hover border border-border-dark rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
+                            className="w-full px-4 py-2.5 bg-background-input border border-border-input rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
                         />
                     </div>
 
@@ -110,15 +110,7 @@ export const EditListModal = ({ isOpen, onClose, list }: EditListModalProps) => 
                 </div>
 
                 {/* Footer */}
-                <div className="flex items-center justify-between p-6 pt-4 border-t border-border-dark">
-                    <button
-                        className="px-6 py-2.5 bg-red-500/10 hover:bg-red-500/20 hover:cursor-pointer text-red-500 rounded-lg font-medium transition-colors border border-red-500/30 flex items-center gap-2"
-                    >
-                        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                        Delete List
-                    </button>
+                <div className="flex items-center justify-end p-6 pt-4 border-t border-border-default">
                     <div className="flex items-center gap-3">
                         <button
                             onClick={onClose}

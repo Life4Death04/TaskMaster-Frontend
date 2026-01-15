@@ -153,8 +153,47 @@ export const ListDetailsContainer = () => {
     };
 
     const handleDeleteTask = (id: string) => {
-        // TODO: Delete task
-        console.log('Delete task:', id);
+        const task = allTasks.find(t => t.id === id);
+        if (task) {
+            dispatch(openModal({
+                type: 'DELETE_CONFIRMATION',
+                data: {
+                    itemName: task.title,
+                    itemType: 'task',
+                    onConfirm: () => {
+                        // TODO: Implement actual delete logic here
+                        console.log('Task deleted:', id);
+                    },
+                },
+            }));
+        }
+    };
+
+    const handleEditList = () => {
+        dispatch(openModal({
+            type: 'EDIT_LIST',
+            data: {
+                id: listData.id,
+                name: listData.name,
+                color: listData.color,
+                description: listData.description,
+            },
+        }));
+    };
+
+    const handleDeleteList = () => {
+        dispatch(openModal({
+            type: 'DELETE_CONFIRMATION',
+            data: {
+                itemName: listData.name,
+                itemType: 'list',
+                onConfirm: () => {
+                    // TODO: Implement actual delete logic here
+                    console.log('List deleted:', listData.id);
+                    navigate('/lists'); // Navigate back to lists page after deletion
+                },
+            },
+        }));
     };
 
     return (
@@ -172,6 +211,8 @@ export const ListDetailsContainer = () => {
             onSearchChange={handleSearchChange}
             onFilterChange={handleFilterChange}
             onToggleFavorite={handleToggleFavorite}
+            onEditList={handleEditList}
+            onDeleteList={handleDeleteList}
             onCreateTask={handleCreateTask}
             onTaskToggle={handleTaskToggle}
             onTaskClick={handleTaskClick}

@@ -29,6 +29,8 @@ interface ListDetailsViewProps {
     onSearchChange: (query: string) => void;
     onFilterChange: (filter: FilterTab) => void;
     onToggleFavorite?: () => void;
+    onEditList?: () => void;
+    onDeleteList?: () => void;
     onCreateTask: () => void;
     onTaskToggle: (id: string) => void;
     onTaskClick?: (id: string) => void;
@@ -55,6 +57,8 @@ export const ListDetailsView = ({
     onSearchChange,
     onFilterChange,
     onToggleFavorite,
+    onEditList,
+    onDeleteList,
     onCreateTask,
     onTaskToggle,
     onTaskClick,
@@ -71,8 +75,20 @@ export const ListDetailsView = ({
     // Action buttons for the header
     const actionButtons = (
         <>
+            {/* Delete List Button */}
+            <button
+                onClick={onDeleteList}
+                className="p-2 hover:bg-background-primary-hover hover:cursor-pointer rounded-lg transition-colors text-text-secondary hover:text-text-primary"
+                aria-label="Delete list"
+            >
+                <svg className="w-5 h-5 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+            </button>
+
             {/* Edit List Button */}
             <button
+                onClick={onEditList}
                 className="p-2 hover:bg-background-primary-hover hover:cursor-pointer rounded-lg transition-colors text-text-secondary hover:text-text-primary"
                 aria-label="Edit list"
             >

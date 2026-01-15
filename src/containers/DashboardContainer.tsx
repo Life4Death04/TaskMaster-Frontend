@@ -85,6 +85,24 @@ export const DashboardContainer = () => {
         console.log('Toggle task:', id);
     };
 
+    const handleTaskClick = (id: string) => {
+        const task = recentTasks.find(t => t.id === id);
+        if (task) {
+            dispatch(openModal({
+                type: 'TASK_DETAILS',
+                data: {
+                    id: task.id,
+                    title: task.title,
+                    description: task.description,
+                    status: task.status === 'overdue' || task.status === 'normal' ? 'TODO' : 'DONE',
+                    priority: task.priority.toUpperCase(),
+                    dueDate: task.dueDate,
+                    listName: 'No List',
+                },
+            }));
+        }
+    };
+
     const handleEditTask = (id: string) => {
         const task = recentTasks.find(t => t.id === id);
         if (task) {
@@ -133,6 +151,7 @@ export const DashboardContainer = () => {
             searchQuery={searchQuery}
             onSearchChange={handleSearchChange}
             onTaskToggle={handleTaskToggle}
+            onTaskClick={handleTaskClick}
             onViewAllTasks={handleViewAllTasks}
             onAddReminder={handleAddReminder}
             onEditTask={handleEditTask}

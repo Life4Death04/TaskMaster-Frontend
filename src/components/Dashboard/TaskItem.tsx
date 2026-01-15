@@ -9,6 +9,7 @@ interface TaskItemProps {
     dueTime?: string;
     priority: 'high' | 'medium' | 'low';
     onToggleComplete: (id: string) => void;
+    onClick?: (id: string) => void;
     onEdit?: (id: string) => void;
     onArchive?: (id: string) => void;
     onDelete?: (id: string) => void;
@@ -27,13 +28,17 @@ export const TaskItem = ({
     dueTime,
     priority,
     onToggleComplete,
+    onClick,
     onEdit,
     onArchive,
     onDelete,
 }: TaskItemProps) => {
     return (
-        <div className="flex gap-3 p-4 rounded-lg bg-card-primary hover:bg-background-primary-hover transition-colors border border-border-default hover:border-border-dark">
-            <div className="pt-1">
+        <div
+            className="flex gap-3 p-4 rounded-lg bg-card-primary hover:bg-background-primary-hover transition-colors border border-border-default hover:border-border-dark hover:cursor-pointer"
+            onClick={() => onClick?.(id)}
+        >
+            <div className="pt-1" onClick={(e) => e.stopPropagation()}>
                 <input
                     type="checkbox"
                     checked={status === 'completed'}
@@ -72,7 +77,7 @@ export const TaskItem = ({
                         <span className="text-text-secondary text-xs capitalize">{priority}</span>
                     </div>
 
-                    <div className="ml-auto">
+                    <div className="ml-auto" onClick={(e) => e.stopPropagation()}>
                         <TaskOptionsMenu
                             taskId={id}
                             onEdit={onEdit}

@@ -50,7 +50,7 @@ export const SettingsView = ({
             </div>
 
             {/* Profile Card */}
-            <div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6">
+            <div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6 shadow-md">
                 <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex flex-wrap items-center gap-4">
                         {/* Avatar with Camera Icon */}
@@ -104,7 +104,7 @@ export const SettingsView = ({
             </div>
 
             {/* General Preferences */}
-            <div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6">
+            <div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6 shadow-md">
                 <h3 className="text-text-primary text-lg font-bold mb-6">General Preferences</h3>
 
                 <div className="space-y-6">
@@ -202,7 +202,7 @@ export const SettingsView = ({
             ToDo: Change/fix buttons responsiveness for extra small screens
             */}
             {/* Account Management */}
-            <div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6">
+            <div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6 shadow-md">
                 <h3 className="text-text-primary text-lg font-bold mb-6">Account Management</h3>
 
                 <div className="flex flex-wrap items-center gap-4 mb-4">
@@ -236,7 +236,7 @@ export const SettingsView = ({
 
             {/* Action Buttons */}
             {hasChanges && (
-                <div className="bg-card-primary p-4 flex flex-wrap items-center justify-end gap-4">
+                <div className="bg-card-primary p-4 flex flex-wrap items-center justify-end gap-4 shadow-md rounded-lg">
                     <button
                         onClick={onDiscard}
                         className="px-6 py-2.5 bg-background-primary-hover hover:bg-border-dark text-text-primary rounded-lg font-medium transition-colors w-full md:w-auto hover:cursor-pointer"

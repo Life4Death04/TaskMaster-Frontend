@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ListsView } from '../components/Lists/ListsView';
 import { useAppDispatch } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
@@ -11,6 +12,7 @@ type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
  */
 export const ListsContainer = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
     const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
 
@@ -148,8 +150,7 @@ export const ListsContainer = () => {
     };
 
     const handleListClick = (id: string) => {
-        // TODO: Navigate to list detail page
-        console.log('List clicked:', id);
+        navigate(`/lists/${id}`);
     };
 
     const handleCreateList = () => {

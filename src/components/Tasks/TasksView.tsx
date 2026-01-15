@@ -1,5 +1,6 @@
 import { PageHeader } from '../common/PageHeader';
 import { TaskCard } from './TaskCard';
+import { TaskFilterBar } from '../common/TaskFilterBar';
 
 type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
 type SortOption = 'recent' | 'dueDate' | 'priority';
@@ -77,61 +78,17 @@ export const TasksView = ({
                 showSearch={true}
             />
 
-            {/* Filter Tabs, Sort, and Create Button */}
-            <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
-                {/* Filter Tabs */}
-                <div className="flex flex-wrap items-center gap-2 bg-card-primary shadow-md border border-border-default rounded-lg p-1">
-                    {filterTabs.map((tab) => (
-                        <button
-                            key={tab.key}
-                            onClick={() => onFilterChange(tab.key)}
-                            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeFilter === tab.key
-                                ? 'bg-primary text-white'
-                                : 'text-text-secondary hover:text-text-primary hover:bg-background-primary-hover'
-                                }`}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
-                </div>
-
-                {/* Sort and Create Button */}
-                <div className="flex flex-wrap items-center gap-4">
-                    {/* Sort Dropdown */}
-                    <div className="relative">
-                        <select
-                            value={sortOption}
-                            onChange={(e) => onSortChange(e.target.value as SortOption)}
-                            className="pl-4 pr-10 py-2 bg-card-primary border border-border-default rounded-lg text-text-primary text-sm font-medium cursor-pointer hover:bg-background-primary-hover transition-colors appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
-                        >
-                            {sortOptions.map((option) => (
-                                <option key={option.key} value={option.key}>
-                                    Sort: {option.label}
-                                </option>
-                            ))}
-                        </select>
-                        <svg
-                            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary pointer-events-none"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </div>
-
-                    {/* Create Task Button */}
-                    <button
-                        onClick={onCreateTask}
-                        className="px-6 py-2.5 bg-gradient-blueToPurple hover:bg-primary-hover text-white rounded-lg font-medium transition-colors flex items-center gap-2 shadow-md hover:shadow-lg hover:cursor-pointer"
-                    >
-                        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                        </svg>
-                        Create Task
-                    </button>
-                </div>
-            </div>
+            {/* Filter Bar with Tabs, Sort, and Create Button */}
+            <TaskFilterBar
+                filterTabs={filterTabs}
+                activeFilter={activeFilter}
+                onFilterChange={onFilterChange}
+                onCreateTask={onCreateTask}
+                showSort={true}
+                sortOption={sortOption}
+                sortOptions={sortOptions}
+                onSortChange={onSortChange}
+            />
 
             {/* Tasks List */}
             <div className="space-y-3">

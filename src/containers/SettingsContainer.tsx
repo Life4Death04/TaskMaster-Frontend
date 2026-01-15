@@ -3,15 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { SettingsView } from '../components/Settings/SettingsView';
 import { useAppDispatch } from '@/hooks/redux';
 import { logout } from '@/features/auth/authSlice';
-import { useNavigate } from 'react-router-dom';
 
 /**
  * Settings Container
  * Business logic container for the Settings page
  */
 export const SettingsContainer = () => {
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate();
 
     // Mock user data - will be replaced with Redux state later
     const userName = 'Jane Doe';

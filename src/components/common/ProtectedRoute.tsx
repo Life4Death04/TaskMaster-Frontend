@@ -11,7 +11,7 @@ interface ProtectedRouteProps {
  * Shows loading state while checking auth, redirects to login if not authenticated
  */
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-    const { isLoading: auth0Loading, loginWithRedirect } = useAuth0();
+    const { isLoading: auth0Loading } = useAuth0();
     const { isAuthenticated, isLoading: reduxLoading } = useAppSelector(
         (state) => state.auth
     );
@@ -32,7 +32,6 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
     // Redirect to login if not authenticated
     if (!isAuthenticated) {
-        loginWithRedirect();
         return null;
     }
 

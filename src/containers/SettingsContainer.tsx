@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { SettingsView } from '../components/Settings/SettingsView';
+import { useAppDispatch } from '@/hooks/redux';
+import { logout } from '@/features/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * Settings Container
@@ -18,6 +21,8 @@ export const SettingsContainer = () => {
     const [language, setLanguage] = useState<'en' | 'es'>('en');
     const [emailNotifications, setEmailNotifications] = useState(true);
     const [hasChanges, setHasChanges] = useState(false);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     // Original values to track changes
     const [originalSettings, setOriginalSettings] = useState({
@@ -54,8 +59,8 @@ export const SettingsContainer = () => {
     };
 
     const handleLogout = () => {
-        // TODO: Implement logout logic
-        console.log('Logout');
+        dispatch(logout());
+        navigate('/auth');
     };
 
     const handleDeleteAccount = () => {

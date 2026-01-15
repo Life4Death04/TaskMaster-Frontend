@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Sidebar, type NavigationItem, type ListItem } from '@/components/Sidebar/Sidebar';
+import { logout } from '@/features/auth/authSlice';
+import { useAppDispatch } from '@/hooks/redux';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * Container component for Sidebar
@@ -8,6 +11,8 @@ import { Sidebar, type NavigationItem, type ListItem } from '@/components/Sideba
 export const SidebarContainer = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     // Navigation items configuration
     const navigationItems: NavigationItem[] = [
@@ -112,6 +117,11 @@ export const SidebarContainer = () => {
         }
     };
 
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate('/auth');
+    }
+
     return (
         <Sidebar
             isOpen={isOpen}
@@ -120,6 +130,7 @@ export const SidebarContainer = () => {
             onClose={handleClose}
             navigationItems={navigationItems}
             listItems={listItems}
+            onLogout={handleLogout}
         />
     );
 };

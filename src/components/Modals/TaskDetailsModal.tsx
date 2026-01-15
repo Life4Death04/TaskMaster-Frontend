@@ -76,7 +76,7 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, tas
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
             <div className="relative w-full max-w-2xl mx-4 bg-[#1e1e2e] rounded-2xl shadow-2xl overflow-hidden">
                 {/* Header with action buttons */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-border-default">
+                <div className="bg-background-primary flex items-center justify-between px-6 py-4 border-b border-border-default">
                     <div>
                         {/* Edit Button */}
                         <button
@@ -116,7 +116,7 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, tas
                 </div>
 
                 {/* Content Area */}
-                <div className="flex flex-col lg:flex-row gap-6">
+                <div className="flex flex-col lg:flex-row gap-6 bg-background-primary">
                     {/* Left Column - Main Content */}
                     <div className="flex-1 p-6">
                         {/* Task ID */}
@@ -166,13 +166,13 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, tas
                     </div>
 
                     {/* Right Column - Metadata */}
-                    <div className="lg:w-64 space-y-6 bg-background-primary p-6 border-l border-border-default">
+                    <div className="lg:w-64 space-y-6 bg-background-primary p-6 border-t lg:border-t-0 lg:border-l border-border-default">
                         {/* Due Date */}
                         <div>
                             <h3 className="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-3">
                                 DUE DATE
                             </h3>
-                            <div className="flex items-start gap-3 p-3 rounded-lg">
+                            <div className="flex items-start gap-3 p-3 rounded-lg bg-background-primary">
                                 <div className="p-2 bg-primary/20 rounded-lg">
                                     <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />

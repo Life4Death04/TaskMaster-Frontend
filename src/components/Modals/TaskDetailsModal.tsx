@@ -1,4 +1,6 @@
 import React from 'react';
+import { useAppDispatch } from '@/hooks/redux';
+import { openModal } from '@/features/ui/uiSlice';
 import { getStatusBadge, getPriorityBadge } from '@/utils/taskHelpers';
 
 interface TaskDetailsModalProps {
@@ -15,8 +17,39 @@ interface TaskDetailsModalProps {
 }
 
 export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, task }) => {
+    const dispatch = useAppDispatch();
     const statusBadge = getStatusBadge(task?.status);
     const priorityBadge = getPriorityBadge(task?.priority);
+
+    const handleDeleteClick = () => {
+        dispatch(openModal({
+            type: 'DELETE_CONFIRMATION',
+            data: {
+                itemName: task?.title || 'this task',
+                itemType: 'task',
+                onConfirm: () => {
+                    // TODO: Implement actual delete logic here
+                    console.log('Task deleted:', task?.id);
+                    onClose();
+                },
+            },
+        }));
+    };
+
+    const handleEditClick = () => {
+        dispatch(openModal({
+            type: 'EDIT_TASK',
+            data: {
+                id: task?.id,
+                title: task?.title,
+                description: task?.description,
+                status: task?.status,
+                priority: task?.priority,
+                dueDate: task?.dueDate,
+                listName: task?.listName,
+            },
+        }));
+    };
 
     return (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
@@ -24,23 +57,25 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, tas
                 {/* Header with action buttons */}
                 <div className="bg-background-primary flex items-center justify-between px-6 py-4 border-b border-border-default">
                     <div>
+                        {/* Delete Button */}
+                        <button
+                            onClick={handleDeleteClick}
+                            className="p-2 hover:bg-background-primary-hover hover:cursor-pointer rounded-lg transition-colors text-text-secondary hover:text-text-primary"
+                            aria-label="Delete task"
+                        >
+                            <svg className="w-5 h-5 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+
                         {/* Edit Button */}
                         <button
+                            onClick={handleEditClick}
                             className="p-2 hover:bg-background-primary-hover hover:cursor-pointer rounded-lg transition-colors text-text-secondary hover:text-text-primary"
                             aria-label="Edit task"
                         >
                             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                            </svg>
-                        </button>
-
-                        {/* Delete Button */}
-                        <button
-                            className="p-2 hover:bg-background-primary-hover hover:cursor-pointer rounded-lg transition-colors text-text-secondary hover:text-text-primary"
-                            aria-label="Delete task"
-                        >
-                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
                         </button>
                     </div>

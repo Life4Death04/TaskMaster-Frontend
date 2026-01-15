@@ -5,6 +5,7 @@ import { EditTaskModal } from './EditTaskModal';
 import { CreateListModal } from './CreateListModal';
 import { EditListModal } from './EditListModal';
 import { TaskDetailsModal } from './TaskDetailsModal';
+import { DeleteConfirmationModal } from './DeleteConfirmationModal';
 
 export const ModalManager = () => {
     const dispatch = useAppDispatch();
@@ -31,6 +32,17 @@ export const ModalManager = () => {
 
         case 'TASK_DETAILS':
             return <TaskDetailsModal onClose={handleClose} task={data} />;
+
+        case 'DELETE_CONFIRMATION':
+            return (
+                <DeleteConfirmationModal
+                    isOpen={isOpen}
+                    onClose={handleClose}
+                    onConfirm={data?.onConfirm || (() => { })}
+                    itemName={data?.itemName || 'item'}
+                    itemType={data?.itemType || 'item'}
+                />
+            );
 
         default:
             return null;

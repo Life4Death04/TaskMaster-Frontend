@@ -38,6 +38,7 @@ interface DashboardViewProps {
     searchQuery: string;
     onSearchChange: (query: string) => void;
     onTaskToggle: (id: string) => void;
+    onTaskClick?: (id: string) => void;
     onViewAllTasks: () => void;
     onAddReminder: () => void;
     onEditTask?: (id: string) => void;
@@ -58,6 +59,7 @@ export const DashboardView = ({
     searchQuery,
     onSearchChange,
     onTaskToggle,
+    onTaskClick,
     onViewAllTasks,
     onAddReminder,
     onEditTask,
@@ -133,6 +135,7 @@ export const DashboardView = ({
                                     key={task.id}
                                     {...task}
                                     onToggleComplete={onTaskToggle}
+                                    onClick={onTaskClick}
                                     onEdit={onEditTask}
                                     onArchive={onArchiveTask}
                                     onDelete={onDeleteTask}

@@ -10,6 +10,7 @@ interface TaskCardProps {
     priority: 'high' | 'medium' | 'low';
     progressStatus: 'TODO' | 'IN_PROGRESS' | 'DONE';
     onToggleComplete: (id: string) => void;
+    onClick?: (id: string) => void;
     onEdit?: (id: string) => void;
     onArchive?: (id: string) => void;
     onDelete?: (id: string) => void;
@@ -29,6 +30,7 @@ export const TaskCard = ({
     priority,
     progressStatus,
     onToggleComplete,
+    onClick,
     onEdit,
     onArchive,
     onDelete,
@@ -58,9 +60,12 @@ export const TaskCard = ({
     };
 
     return (
-        <div className="flex gap-4 p-4 bg-card-primary border border-border-default rounded-xl hover:border-border-input hover:shadow-lg shadow-md transition-all">
+        <div
+            className="flex gap-4 p-4 bg-card-primary border border-border-default rounded-xl hover:border-border-input hover:shadow-lg shadow-md transition-all hover:cursor-pointer"
+            onClick={() => onClick?.(id)}
+        >
             {/* Checkbox */}
-            <div className="pt-1">
+            <div className="pt-1" onClick={(e) => e.stopPropagation()}>
                 <input
                     type="checkbox"
                     checked={isCompleted}
@@ -106,12 +111,14 @@ export const TaskCard = ({
             </div>
 
             {/* Menu Button */}
-            <TaskOptionsMenu
-                taskId={id}
-                onEdit={onEdit}
-                onArchive={onArchive}
-                onDelete={onDelete}
-            />
+            <div onClick={(e) => e.stopPropagation()}>
+                <TaskOptionsMenu
+                    taskId={id}
+                    onEdit={onEdit}
+                    onArchive={onArchive}
+                    onDelete={onDelete}
+                />
+            </div>
         </div>
     );
 };

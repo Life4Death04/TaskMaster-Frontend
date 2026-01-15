@@ -4,6 +4,7 @@ import { CreateTaskModal } from './CreateTaskModal';
 import { EditTaskModal } from './EditTaskModal';
 import { CreateListModal } from './CreateListModal';
 import { EditListModal } from './EditListModal';
+import { TaskDetailsModal } from './TaskDetailsModal';
 
 export const ModalManager = () => {
     const dispatch = useAppDispatch();
@@ -27,6 +28,9 @@ export const ModalManager = () => {
 
         case 'EDIT_LIST':
             return <EditListModal isOpen={isOpen} onClose={handleClose} list={data} />;
+
+        case 'TASK_DETAILS':
+            return <TaskDetailsModal onClose={handleClose} task={data} />;
 
         default:
             return null;

@@ -154,6 +154,24 @@ export const TasksContainer = () => {
         console.log('Toggle task:', id);
     };
 
+    const handleTaskClick = (id: string) => {
+        const task = allTasks.find(t => t.id === id);
+        if (task) {
+            dispatch(openModal({
+                type: 'TASK_DETAILS',
+                data: {
+                    id: task.id,
+                    title: task.title,
+                    description: task.description,
+                    status: task.progressStatus,
+                    priority: task.priority.toUpperCase(),
+                    dueDate: task.dueDate.replace('Due: ', ''),
+                    listName: task.label || 'No List',
+                },
+            }));
+        }
+    };
+
     const handleEditTask = (id: string) => {
         const task = allTasks.find(t => t.id === id);
         if (task) {
@@ -197,6 +215,7 @@ export const TasksContainer = () => {
             onFilterChange={handleFilterChange}
             onSortChange={handleSortChange}
             onTaskToggle={handleTaskToggle}
+            onTaskClick={handleTaskClick}
             onCreateTask={handleCreateTask}
             onEditTask={handleEditTask}
             onArchiveTask={handleArchiveTask}

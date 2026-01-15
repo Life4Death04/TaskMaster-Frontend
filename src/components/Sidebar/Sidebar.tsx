@@ -20,13 +20,14 @@ interface SidebarProps {
     onClose: () => void;
     navigationItems: NavigationItem[];
     listItems: ListItem[];
+    onLogout: () => void;
 }
 
 /**
  * Presentational Sidebar Component
  * Renders the sidebar UI without handling any logic
  */
-export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, listItems }: SidebarProps) => {
+export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, listItems, onLogout }: SidebarProps) => {
     return (
         <>
             {/* Overlay for mobile when sidebar is open */}
@@ -138,7 +139,7 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
 
 
                 {/* Sidebar Footer */}
-                <div className="flex items-center justify-between p-4 border-t border-border-input lg:w-50 bottom-0 right-0 left-0 absolute">
+                <div className="flex items-center flex-col justify-between p-4 border-t border-border-input lg:w-50 bottom-0 right-0 left-0 absolute">
                     <Link
                         key={"/settings"}
                         to={"/settings"}
@@ -170,6 +171,17 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                             <span className="text-text-primary">{"Settings"}</span>
                         )}
                     </Link>
+
+                    <button onClick={onLogout} className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors w-full hover:cursor-pointer">
+                        <div className="w-5 h-5 text-text-primary flex-shrink-0">
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                        </div>
+                        {isOpen && (
+                            <span className="text-text-primary">{"Log out"}</span>
+                        )}
+                    </button>
                 </div>
             </aside>
         </>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { getStatusBadge, getPriorityBadge } from '@/utils/taskHelpers';
 
 interface TaskDetailsModalProps {
     onClose: () => void;
@@ -14,63 +15,8 @@ interface TaskDetailsModalProps {
 }
 
 export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, task }) => {
-    // Helper function to get status badge styling
-    const getStatusBadge = () => {
-        switch (task?.status) {
-            case 'IN_PROGRESS':
-                return {
-                    bg: 'bg-blue-500/20',
-                    text: 'text-blue-400',
-                    label: 'IN PROGRESS',
-                };
-            case 'DONE':
-                return {
-                    bg: 'bg-green-500/20',
-                    text: 'text-green-400',
-                    label: 'COMPLETED',
-                };
-            case 'TODO':
-            default:
-                return {
-                    bg: 'bg-gray-500/20',
-                    text: 'text-gray-400',
-                    label: 'TO DO',
-                };
-        }
-    };
-
-    // Helper function to get priority badge styling
-    const getPriorityBadge = () => {
-        switch (task?.priority?.toUpperCase()) {
-            case 'HIGH':
-                return {
-                    bg: 'bg-red-500/20',
-                    text: 'text-red-400',
-                    label: 'HIGH PRIORITY',
-                };
-            case 'MEDIUM':
-                return {
-                    bg: 'bg-orange-500/20',
-                    text: 'text-orange-400',
-                    label: 'MEDIUM PRIORITY',
-                };
-            case 'LOW':
-                return {
-                    bg: 'bg-green-500/20',
-                    text: 'text-green-400',
-                    label: 'LOW PRIORITY',
-                };
-            default:
-                return {
-                    bg: 'bg-gray-500/20',
-                    text: 'text-gray-400',
-                    label: 'NO PRIORITY',
-                };
-        }
-    };
-
-    const statusBadge = getStatusBadge();
-    const priorityBadge = getPriorityBadge();
+    const statusBadge = getStatusBadge(task?.status);
+    const priorityBadge = getPriorityBadge(task?.priority);
 
     return (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">

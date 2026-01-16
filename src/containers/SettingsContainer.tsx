@@ -14,8 +14,6 @@ export const SettingsContainer = () => {
     const userName = 'Jane Doe';
     const userEmail = 'jane.doe@example.com';
     const userAvatar = undefined;
-    const isPro = true;
-    const isActive = true;
 
     // Settings state
     const [darkMode, setDarkMode] = useState(true);
@@ -98,8 +96,6 @@ export const SettingsContainer = () => {
             userName={userName}
             userEmail={userEmail}
             userAvatar={userAvatar}
-            isPro={isPro}
-            isActive={isActive}
             darkMode={darkMode}
             language={language}
             emailNotifications={emailNotifications}

@@ -1,4 +1,5 @@
 import { PageHeader } from '../common/PageHeader';
+import { ActionButton } from '../common/ActionButton';
 
 type ViewMode = 'month' | 'week' | 'day';
 
@@ -94,7 +95,7 @@ export const CalendarView = ({
             {/* Calendar Header Controls */}
             <div className="mb-6 flex items-center justify-between flex-wrap gap-4">
                 {/* Month Navigation */}
-                <div className="flex items-center gap-4 bg-card-primary shadow-md border border-border-default rounded-lg p-2">
+                <div className="flex items-center sm:gap-4 bg-card-primary shadow-md border border-border-default rounded-lg p-2">
                     <button
                         onClick={onPreviousMonth}
                         className="p-2 hover:bg-background-primary-hover rounded-lg transition-colors text-text-primary hover:cursor-pointer"
@@ -105,7 +106,7 @@ export const CalendarView = ({
                         </svg>
                     </button>
 
-                    <h2 className="text-xl font-semibold text-text-primary min-w-[140px] text-center">
+                    <h2 className="text-md md:text-xl font-semibold text-text-primary min-w-[110px] lg:min-w-[140px] text-center">
                         {currentMonth} {currentYear}
                     </h2>
 
@@ -120,35 +121,49 @@ export const CalendarView = ({
                     </button>
                 </div>
 
-                {/* View Mode Switcher */}
-                <div className="flex items-center gap-2 bg-card-primary shadow-md border border-border-default rounded-lg p-1">
-                    <button
-                        onClick={() => onViewModeChange('month')}
-                        className={`px-4 py-2 rounded-md text-sm font-medium transition-colors hover:cursor-pointer ${viewMode === 'month'
-                            ? 'bg-primary text-white'
-                            : 'text-text-secondary hover:text-text-primary hover:bg-background-primary-hover'
-                            }`}
-                    >
-                        MONTH
-                    </button>
-                    <button
-                        onClick={() => onViewModeChange('week')}
-                        className={`px-4 py-2 rounded-md text-sm font-medium transition-colors hover:cursor-pointer ${viewMode === 'week'
-                            ? 'bg-primary text-white'
-                            : 'text-text-secondary hover:text-text-primary hover:bg-background-primary-hover'
-                            }`}
-                    >
-                        WEEK
-                    </button>
-                    <button
-                        onClick={() => onViewModeChange('day')}
-                        className={`px-4 py-2 rounded-md text-sm font-medium transition-colors hover:cursor-pointer ${viewMode === 'day'
-                            ? 'bg-primary text-white'
-                            : 'text-text-secondary hover:text-text-primary hover:bg-background-primary-hover'
-                            }`}
-                    >
-                        DAY
-                    </button>
+                <div className='flex flex-wrap gap-4'>
+                    {/* View Mode Switcher */}
+                    <div className="flex flex-wrap items-center gap-2 bg-card-primary shadow-md border border-border-default rounded-lg p-2">
+                        <button
+                            onClick={() => onViewModeChange('month')}
+                            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors hover:cursor-pointer ${viewMode === 'month'
+                                ? 'bg-primary text-white'
+                                : 'text-text-secondary hover:text-text-primary hover:bg-background-primary-hover'
+                                }`}
+                        >
+                            MONTH
+                        </button>
+                        <button
+                            onClick={() => onViewModeChange('week')}
+                            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors hover:cursor-pointer ${viewMode === 'week'
+                                ? 'bg-primary text-white'
+                                : 'text-text-secondary hover:text-text-primary hover:bg-background-primary-hover'
+                                }`}
+                        >
+                            WEEK
+                        </button>
+                        <button
+                            onClick={() => onViewModeChange('day')}
+                            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors hover:cursor-pointer ${viewMode === 'day'
+                                ? 'bg-primary text-white'
+                                : 'text-text-secondary hover:text-text-primary hover:bg-background-primary-hover'
+                                }`}
+                        >
+                            DAY
+                        </button>
+                    </div>
+
+                    {/* Create Task Button */}
+                    <ActionButton
+                        onClick={onAddTask}
+                        label="Create Task"
+                        icon={
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                            </svg>
+                        }
+                        variant="gradient"
+                    />
                 </div>
             </div>
 
@@ -207,17 +222,6 @@ export const CalendarView = ({
                     })}
                 </div>
             </div>
-
-            {/* Floating Add Button */}
-            <button
-                onClick={onAddTask}
-                className="fixed bottom-8 right-8 w-14 h-14 bg-primary hover:bg-primary-hover text-white rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 hover:cursor-pointer z-50"
-                aria-label="Add new task"
-            >
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-            </button>
         </div>
     );
 };

@@ -18,6 +18,7 @@ export const DashboardContainer = () => {
         totalTasks: 24,
         completedToday: 8,
         overdue: 3,
+        totalLists: 5,
     };
 
     const recentTasks = [

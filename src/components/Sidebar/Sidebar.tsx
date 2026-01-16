@@ -44,51 +44,69 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                 className={`
           fixed top-0 left-0 h-full z-50
           bg-card-primary
-          border-r border-border-input
+          border-r border-border-default
           transition-all duration-300 ease-in-out
           
           ${isOpen ? 'w-50' : 'w-19'}
         `}
             >
                 {/* Sidebar Header */}
-                <div className="flex items-center justify-between p-4 border-b border-border-input lg:w-50">
-                    {isMobile && (
-                        <button
-                            onClick={onToggle}
-                            className="p-2 rounded-lg hover:bg-background-primary-hover transition-colors hover:cursor-pointer"
-                            aria-label={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
-                        >
+                <div className="flex items-center justify-between p-4 border-b border-border-default lg:w-50">
+                    {isMobile ? (
+                        <>
+                            <button
+                                onClick={onToggle}
+                                className="p-2 rounded-lg hover:bg-background-primary-hover transition-colors hover:cursor-pointer"
+                                aria-label={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+                            >
 
-                            {isOpen ? (
-                                <svg
-                                    className="w-5 h-5 text-gray-600 dark:text-gray-400"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-                                    />
-                                </svg>
-                            ) : (
-                                <svg
-                                    className="w-5 h-5 text-gray-600 dark:text-gray-400"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M13 5l7 7-7 7M5 5l7 7-7 7"
-                                    />
-                                </svg>
-                            )}
-                        </button>
+                                {isOpen ? (
+                                    <svg
+                                        className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+                                        />
+                                    </svg>
+                                ) : (
+                                    <svg
+                                        className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M13 5l7 7-7 7M5 5l7 7-7 7"
+                                        />
+                                    </svg>
+                                )}
+                            </button>
+                            {isOpen && (
+
+                                <div className="flex items-center mx-auto gap-3 px-2">
+                                    <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg w-10 h-10 flex items-center justify-center shadow-lg shadow-purple-900/20">
+                                        <span className="material-symbols-outlined text-white">check_circle</span>
+                                    </div>
+                                </div>
+                            )
+                            }
+                        </>
+                    ) : (
+                        <div className="flex items-center gap-3 px-2">
+                            <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg w-10 h-10 flex items-center justify-center shadow-lg shadow-purple-900/20">
+                                <span className="material-symbols-outlined text-white">check_circle</span>
+                            </div>
+                            <h1 className="text-xl font-bold tracking-tight">TaskMaster</h1>
+                        </div>
                     )
                     }
                 </div>
@@ -113,7 +131,7 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                 </nav>
 
                 {/* Lists Navigation Section */}
-                <div className="border-t border-border-input">
+                <div className="border-t border-border-default">
                     <div className="space-y-2 p-4">
                         {listItems.map((list) => (
                             <Link
@@ -139,7 +157,7 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
 
 
                 {/* Sidebar Footer */}
-                <div className="flex items-center flex-col justify-between p-4 border-t border-border-input lg:w-50 bottom-0 right-0 left-0 absolute">
+                <div className="flex items-center flex-col justify-between p-4 border-t border-border-default lg:w-50 bottom-0 right-0 left-0 absolute">
                     <Link
                         key={"/settings"}
                         to={"/settings"}

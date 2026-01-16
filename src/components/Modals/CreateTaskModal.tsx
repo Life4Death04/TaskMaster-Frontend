@@ -46,7 +46,7 @@ export const CreateTaskModal = ({ isOpen, onClose }: CreateTaskModalProps) => {
                 <div className="p-6 space-y-5">
                     {/* Task Name */}
                     <div>
-                        <label className="block text-text-primary text-sm font-semibold mb-2 border-border-input">
+                        <label className="block text-text-primary text-sm font-semibold mb-2">
                             Task Name
                         </label>
                         <input
@@ -54,7 +54,7 @@ export const CreateTaskModal = ({ isOpen, onClose }: CreateTaskModalProps) => {
                             placeholder="e.g., Deploy system review"
                             value={taskName}
                             onChange={(e) => setTaskName(e.target.value)}
-                            className="w-full px-4 py-2.5 bg-background-input border border-border-default rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                            className="w-full px-4 py-2.5 bg-background-input border border-border-input rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                         />
                     </div>
 

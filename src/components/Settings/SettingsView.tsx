@@ -2,8 +2,6 @@ interface SettingsViewProps {
     userName: string;
     userEmail: string;
     userAvatar?: string;
-    isPro: boolean;
-    isActive: boolean;
     darkMode: boolean;
     language: 'en' | 'es';
     emailNotifications: boolean;
@@ -26,8 +24,6 @@ export const SettingsView = ({
     userName,
     userEmail,
     userAvatar,
-    isPro,
-    isActive,
     darkMode,
     language,
     emailNotifications,
@@ -77,19 +73,7 @@ export const SettingsView = ({
                         {/* User Info */}
                         <div>
                             <h2 className="text-text-primary text-xl font-bold mb-1">{userName}</h2>
-                            <p className="text-text-secondary text-sm mb-2">{userEmail}</p>
-                            <div className="flex items-center gap-2">
-                                {isPro && (
-                                    <span className="px-2.5 py-1 text-xs font-bold bg-primary/20 text-primary rounded uppercase">
-                                        PRO USER
-                                    </span>
-                                )}
-                                {isActive && (
-                                    <span className="px-2.5 py-1 text-xs font-bold bg-green-500/20 text-green-400 rounded uppercase">
-                                        ACTIVE
-                                    </span>
-                                )}
-                            </div>
+                            <p className="text-text-secondary text-sm">{userEmail}</p>
                         </div>
                     </div>
 
@@ -116,6 +100,18 @@ export const SettingsView = ({
                                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                                 </svg>
                             </div>
+                            {/* Here should be language switcher for screens < 640px */}
+                            <button
+                                onClick={onDarkModeToggle}
+                                className={`min-[510px]:hidden relative w-12 h-6 rounded-full transition-colors ${darkMode ? 'bg-primary' : 'bg-gray-600'
+                                    }`}
+                                aria-label="Toggle dark mode"
+                            >
+                                <span
+                                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${darkMode ? 'translate-x-6' : 'translate-x-0'
+                                        }`}
+                                ></span>
+                            </button>
                             <div>
                                 <p className="text-text-primary font-semibold">Dark Mode</p>
                                 <p className="text-text-secondary text-sm">Adjust the visual theme of the app.</p>
@@ -123,7 +119,7 @@ export const SettingsView = ({
                         </div>
                         <button
                             onClick={onDarkModeToggle}
-                            className={`relative w-12 h-6 rounded-full transition-colors ${darkMode ? 'bg-primary' : 'bg-gray-600'
+                            className={`hidden min-[510px]:block relative w-12 h-6 rounded-full transition-colors ${darkMode ? 'bg-primary' : 'bg-gray-600'
                                 }`}
                             aria-label="Toggle dark mode"
                         >
@@ -135,7 +131,7 @@ export const SettingsView = ({
                     </div>
 
                     {/* Language */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between ">
                         <div className="flex items-center flex-wrap gap-4">
                             <div className="w-10 h-10 rounded-lg bg-background-primary-hover flex items-center justify-center">
                                 <svg className="w-5 h-5 text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -143,12 +139,33 @@ export const SettingsView = ({
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
                                 </svg>
                             </div>
+                            <div className="flex min-[510px]:hidden items-center gap-2 bg-background-primary-hover border border-border-default rounded-lg p-1">
+                                <button
+                                    onClick={() => onLanguageChange('en')}
+                                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors hover:cursor-pointer ${language === 'en'
+                                        ? 'bg-primary text-white'
+                                        : 'text-text-secondary hover:text-text-primary'
+                                        }`}
+                                >
+                                    EN
+                                </button>
+                                <button
+                                    onClick={() => onLanguageChange('es')}
+                                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors hover:cursor-pointer ${language === 'es'
+                                        ? 'bg-primary text-white'
+                                        : 'text-text-secondary hover:text-text-primary'
+                                        }`}
+                                >
+                                    ES
+                                </button>
+                            </div>
                             <div>
                                 <p className="text-text-primary font-semibold">Language</p>
                                 <p className="text-text-secondary text-sm">Choose your preferred language.</p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2 bg-background-primary-hover border border-border-default rounded-lg p-1">
+                        {/* Here should be language switcher for screens >= 640px */}
+                        <div className="hidden min-[510px]:flex items-center gap-2 bg-background-primary-hover border border-border-default rounded-lg p-1">
                             <button
                                 onClick={() => onLanguageChange('en')}
                                 className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors hover:cursor-pointer ${language === 'en'
@@ -178,14 +195,27 @@ export const SettingsView = ({
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
                             </div>
+                            {/* Here should be language switcher for screens < 640px */}
+                            <button
+                                onClick={onEmailNotificationsToggle}
+                                className={`min-[510px]:hidden relative w-12 h-6 rounded-full transition-colors ${emailNotifications ? 'bg-primary' : 'bg-gray-600'
+                                    }`}
+                                aria-label="Toggle email notifications"
+                            >
+                                <span
+                                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${emailNotifications ? 'translate-x-6' : 'translate-x-0'
+                                        }`}
+                                ></span>
+                            </button>
                             <div>
                                 <p className="text-text-primary font-semibold">Email Notifications</p>
                                 <p className="text-text-secondary text-sm">Receive updates about your tasks.</p>
                             </div>
                         </div>
+                        {/* Here should be language switcher for screens >= 640px */}
                         <button
                             onClick={onEmailNotificationsToggle}
-                            className={`relative w-12 h-6 rounded-full transition-colors ${emailNotifications ? 'bg-primary' : 'bg-gray-600'
+                            className={`hidden min-[510px]:block relative w-12 h-6 rounded-full transition-colors ${emailNotifications ? 'bg-primary' : 'bg-gray-600'
                                 }`}
                             aria-label="Toggle email notifications"
                         >

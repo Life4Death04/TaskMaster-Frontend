@@ -44,14 +44,14 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                 className={`
           fixed top-0 left-0 h-full z-50
           bg-card-primary
-          border-r border-border-input
+          border-r border-border-default
           transition-all duration-300 ease-in-out
           
           ${isOpen ? 'w-50' : 'w-19'}
         `}
             >
                 {/* Sidebar Header */}
-                <div className="flex items-center justify-between p-4 border-b border-border-input lg:w-50">
+                <div className="flex items-center justify-between p-4 border-b border-border-default lg:w-50">
                     {isMobile && (
                         <button
                             onClick={onToggle}
@@ -113,7 +113,7 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                 </nav>
 
                 {/* Lists Navigation Section */}
-                <div className="border-t border-border-input">
+                <div className="border-t border-border-default">
                     <div className="space-y-2 p-4">
                         {listItems.map((list) => (
                             <Link
@@ -139,7 +139,7 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
 
 
                 {/* Sidebar Footer */}
-                <div className="flex items-center flex-col justify-between p-4 border-t border-border-input lg:w-50 bottom-0 right-0 left-0 absolute">
+                <div className="flex items-center flex-col justify-between p-4 border-t border-border-default lg:w-50 bottom-0 right-0 left-0 absolute">
                     <Link
                         key={"/settings"}
                         to={"/settings"}

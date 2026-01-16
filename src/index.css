@@ -10,7 +10,11 @@
   --color-background-input: #ffffff;
   --color-background-surface: #1a1d33;
   --color-card-primary: #ffffff;
-  --color-border-default: #cbd5e1;
+  --color-border-default: color-mix(
+    in srgb,
+    var(--color-slate-300) 50%,
+    transparent
+  );
   --color-border-input: #e2e8f0;
   --color-text-primary: #000000;
   --color-text-secondary: #718096;
@@ -62,7 +66,11 @@
     --color-card-primary: #1a1d33;
     --color-text-primary: #ffffff;
     --color-text-secondary: #9d9fb9;
-    --color-border-default: #3b3d54;
+    --color-border-default: color-mix(
+      in srgb,
+      var(--color-slate-700) 50%,
+      transparent
+    );
     --color-border-input: #4a4c6a;
     --color-svg-fill-primary: #ffffff;
 

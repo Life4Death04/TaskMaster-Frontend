@@ -54,7 +54,7 @@ export const TaskFilterBar = <T extends string = string, S extends string = stri
                         <select
                             value={sortOption}
                             onChange={(e) => onSortChange(e.target.value as S)}
-                            className="pl-4 pr-10 py-2 bg-card-primary border border-border-default rounded-lg text-text-primary text-sm font-medium cursor-pointer hover:bg-background-primary-hover transition-colors appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
+                            className="px-6 py-2.5 pr-10 bg-card-primary border border-border-default rounded-lg text-text-primary text-sm font-medium cursor-pointer hover:bg-background-primary-hover transition-colors appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
                         >
                             {sortOptions.map((option) => (
                                 <option key={option.key} value={option.key}>

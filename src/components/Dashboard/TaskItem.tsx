@@ -35,7 +35,7 @@ export const TaskItem = ({
 }: TaskItemProps) => {
     return (
         <div
-            className="flex gap-3 p-4 rounded-lg bg-card-primary hover:bg-background-primary-hover transition-colors border border-border-default hover:border-border-dark hover:cursor-pointer"
+            className="flex gap-3 p-4 rounded-lg bg-card-primary hover:bg-background-primary-hover transition-colors border border-border-default hover:border-border-dark hover:cursor-pointer shadow-md"
             onClick={() => onClick?.(id)}
         >
             <div className="pt-1" onClick={(e) => e.stopPropagation()}>

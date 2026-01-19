@@ -18,7 +18,9 @@ export const SettingsContainer = () => {
     // Settings state
     const [darkMode, setDarkMode] = useState(true);
     const [language, setLanguage] = useState<'en' | 'es'>('en');
-    const [emailNotifications, setEmailNotifications] = useState(true);
+    const [defaultPriority, setDefaultPriority] = useState<'LOW' | 'MEDIUM' | 'HIGH'>('MEDIUM');
+    const [defaultStatus, setDefaultStatus] = useState<'TODO' | 'IN_PROGRESS' | 'DONE'>('TODO');
+    const [dateFormat, setDateFormat] = useState<'MM_DD_YYYY' | 'DD_MM_YYYY' | 'YYYY_MM_DD'>('DD_MM_YYYY');
     const [hasChanges, setHasChanges] = useState(false);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -27,7 +29,9 @@ export const SettingsContainer = () => {
     const [originalSettings, setOriginalSettings] = useState({
         darkMode: true,
         language: 'en' as 'en' | 'es',
-        emailNotifications: true,
+        defaultPriority: 'MEDIUM' as 'LOW' | 'MEDIUM' | 'HIGH',
+        defaultStatus: 'TODO' as 'TODO' | 'IN_PROGRESS' | 'DONE',
+        dateFormat: 'DD_MM_YYYY' as 'MM_DD_YYYY' | 'DD_MM_YYYY' | 'YYYY_MM_DD',
     });
 
     // Check if settings have changed
@@ -35,9 +39,11 @@ export const SettingsContainer = () => {
         const changed =
             darkMode !== originalSettings.darkMode ||
             language !== originalSettings.language ||
-            emailNotifications !== originalSettings.emailNotifications;
+            defaultPriority !== originalSettings.defaultPriority ||
+            defaultStatus !== originalSettings.defaultStatus ||
+            dateFormat !== originalSettings.dateFormat;
         setHasChanges(changed);
-    }, [darkMode, language, emailNotifications, originalSettings]);
+    }, [darkMode, language, defaultPriority, defaultStatus, dateFormat, originalSettings]);
 
     // Event handlers
     const handleEditProfile = () => {
@@ -53,8 +59,16 @@ export const SettingsContainer = () => {
         setLanguage(lang);
     };
 
-    const handleEmailNotificationsToggle = () => {
-        setEmailNotifications(!emailNotifications);
+    const handleDefaultPriorityChange = (priority: 'LOW' | 'MEDIUM' | 'HIGH') => {
+        setDefaultPriority(priority);
+    };
+
+    const handleDefaultStatusChange = (status: 'TODO' | 'IN_PROGRESS' | 'DONE') => {
+        setDefaultStatus(status);
+    };
+
+    const handleDateFormatChange = (format: 'MM_DD_YYYY' | 'DD_MM_YYYY' | 'YYYY_MM_DD') => {
+        setDateFormat(format);
     };
 
     const handleLogout = () => {
@@ -73,18 +87,22 @@ export const SettingsContainer = () => {
         // Reset to original values
         setDarkMode(originalSettings.darkMode);
         setLanguage(originalSettings.language);
-        setEmailNotifications(originalSettings.emailNotifications);
+        setDefaultPriority(originalSettings.defaultPriority);
+        setDefaultStatus(originalSettings.defaultStatus);
+        setDateFormat(originalSettings.dateFormat);
     };
 
     const handleApplyChanges = () => {
         // TODO: Save settings to backend/Redux
-        console.log('Apply changes:', { darkMode, language, emailNotifications });
+        console.log('Apply changes:', { darkMode, language, defaultPriority, defaultStatus, dateFormat });
 
         // Update original settings
         setOriginalSettings({
             darkMode,
             language,
-            emailNotifications,
+            defaultPriority,
+            defaultStatus,
+            dateFormat,
         });
 
         // Success message could be shown here
@@ -98,12 +116,16 @@ export const SettingsContainer = () => {
             userAvatar={userAvatar}
             darkMode={darkMode}
             language={language}
-            emailNotifications={emailNotifications}
+            defaultPriority={defaultPriority}
+            defaultStatus={defaultStatus}
+            dateFormat={dateFormat}
             hasChanges={hasChanges}
             onEditProfile={handleEditProfile}
             onDarkModeToggle={handleDarkModeToggle}
             onLanguageChange={handleLanguageChange}
-            onEmailNotificationsToggle={handleEmailNotificationsToggle}
+            onDefaultPriorityChange={handleDefaultPriorityChange}
+            onDefaultStatusChange={handleDefaultStatusChange}
+            onDateFormatChange={handleDateFormatChange}
             onLogout={handleLogout}
             onDeleteAccount={handleDeleteAccount}
             onDiscard={handleDiscard}

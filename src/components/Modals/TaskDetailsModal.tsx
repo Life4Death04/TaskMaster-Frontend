@@ -2,18 +2,11 @@ import React from 'react';
 import { useAppDispatch } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
 import { getStatusBadge, getPriorityBadge } from '@/utils/taskHelpers';
+import type { Task } from '@/types';
 
 interface TaskDetailsModalProps {
     onClose: () => void;
-    task?: {
-        id: string;
-        title: string;
-        description: string;
-        status: string;
-        priority: string;
-        dueDate: string;
-        listName: string;
-    };
+    task?: Task;
 }
 
 export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, task }) => {
@@ -22,32 +15,30 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, tas
     const priorityBadge = getPriorityBadge(task?.priority);
 
     const handleDeleteClick = () => {
+        if (!task?.id) return;
+
+        // Close task details modal first
+        onClose();
+
+        // Open delete confirmation with task data (no functions in Redux!)
         dispatch(openModal({
             type: 'DELETE_CONFIRMATION',
             data: {
-                itemName: task?.title || 'this task',
+                taskId: task.id,
+                itemName: task.taskName || 'this task',
                 itemType: 'task',
-                onConfirm: () => {
-                    // TODO: Implement actual delete logic here
-                    console.log('Task deleted:', task?.id);
-                    onClose();
-                },
             },
         }));
     };
 
     const handleEditClick = () => {
+        if (!task) return;
+
+        // Close current modal and open edit modal
+        onClose();
         dispatch(openModal({
             type: 'EDIT_TASK',
-            data: {
-                id: task?.id,
-                title: task?.title,
-                description: task?.description,
-                status: task?.status,
-                priority: task?.priority,
-                dueDate: task?.dueDate,
-                listName: task?.listName,
-            },
+            data: task,
         }));
     };
 
@@ -109,7 +100,7 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, tas
 
                         {/* Task Title */}
                         <h2 className="text-2xl font-bold text-text-primary mb-4">
-                            {task?.title || 'Untitled Task'}
+                            {task?.taskName || 'Untitled Task'}
                         </h2>
 
                         {/* Status and Priority Badges */}
@@ -181,7 +172,9 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, tas
                                     </svg>
                                 </div>
                                 <div>
-                                    <p className="text-text-primary font-semibold text-sm">{task?.listName || 'No List'}</p>
+                                    <p className="text-text-primary font-semibold text-sm">
+                                        {task?.listId ? `List #${task.listId}` : 'No List'}
+                                    </p>
                                     <p className="text-text-secondary text-xs mt-0.5">Task category</p>
                                 </div>
                             </div>

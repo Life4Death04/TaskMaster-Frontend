@@ -1,5 +1,5 @@
 import api from '@/lib/axios';
-import type { Task, ApiResponse } from '@/types';
+import type { Task } from '@/types';
 import type {
   CreateTaskFormData,
   EditTaskFormData,
@@ -17,25 +17,21 @@ const ENDPOINTS = {
  * Fetch all tasks for authenticated user
  */
 export const fetchTasksAPI = async (): Promise<Task[]> => {
-  const response = await api.get<ApiResponse<{ tasks: Task[] }>>(
-    ENDPOINTS.TASKS
-  );
-  return response.data.data?.tasks || [];
+  const response = await api.get<{ data: Task[] }>(ENDPOINTS.TASKS);
+  return response.data.data || [];
 };
 
 /**
  * Get a single task by ID
  */
 export const getTaskByIdAPI = async (taskId: number): Promise<Task> => {
-  const response = await api.get<ApiResponse<Task>>(
-    ENDPOINTS.TASK_BY_ID(taskId)
-  );
+  const response = await api.get<Task>(ENDPOINTS.TASK_BY_ID(taskId));
 
-  if (!response.data.data) {
+  if (!response.data) {
     throw new Error('Task not found');
   }
 
-  return response.data.data;
+  return response.data;
 };
 
 /**
@@ -44,13 +40,13 @@ export const getTaskByIdAPI = async (taskId: number): Promise<Task> => {
 export const createTaskAPI = async (
   data: CreateTaskFormData
 ): Promise<Task> => {
-  const response = await api.post<ApiResponse<Task>>(ENDPOINTS.TASKS, data);
+  const response = await api.post<Task>(ENDPOINTS.TASKS, data);
 
-  if (!response.data.data) {
+  if (!response.data) {
     throw new Error('Failed to create task');
   }
 
-  return response.data.data;
+  return response.data;
 };
 
 /**
@@ -61,16 +57,16 @@ export const updateTaskAPI = async (params: {
   data: EditTaskFormData;
 }): Promise<Task> => {
   const { id, data } = params;
-  const response = await api.patch<ApiResponse<Task>>(ENDPOINTS.TASKS, {
+  const response = await api.patch<Task>(ENDPOINTS.TASKS, {
     id,
     ...data,
   });
 
-  if (!response.data.data) {
+  if (!response.data) {
     throw new Error('Failed to update task');
   }
 
-  return response.data.data;
+  return response.data;
 };
 
 /**
@@ -84,28 +80,24 @@ export const deleteTaskAPI = async (taskId: number): Promise<void> => {
  * Toggle task archived status
  */
 export const toggleTaskArchivedAPI = async (taskId: number): Promise<Task> => {
-  const response = await api.patch<ApiResponse<{ data: Task }>>(
-    ENDPOINTS.TOGGLE_ARCHIVED(taskId)
-  );
+  const response = await api.patch<Task>(ENDPOINTS.TOGGLE_ARCHIVED(taskId));
 
-  if (!response.data.data?.data) {
+  if (!response.data) {
     throw new Error('Failed to toggle archived status');
   }
 
-  return response.data.data.data;
+  return response.data;
 };
 
 /**
  * Toggle task status (TODO <-> DONE)
  */
 export const toggleTaskStatusAPI = async (taskId: number): Promise<Task> => {
-  const response = await api.patch<ApiResponse<{ data: Task }>>(
-    ENDPOINTS.TOGGLE_STATUS(taskId)
-  );
+  const response = await api.patch<Task>(ENDPOINTS.TOGGLE_STATUS(taskId));
 
-  if (!response.data.data?.data) {
+  if (!response.data) {
     throw new Error('Failed to toggle task status');
   }
 
-  return response.data.data.data;
+  return response.data;
 };

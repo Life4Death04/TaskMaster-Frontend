@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { closeModal } from '@/features/ui/uiSlice';
-import { useCreateTask, useUpdateTask } from '@/api/mutations/tasks.mutations';
+import { useCreateTask, useUpdateTask, useDeleteTask } from '@/api/mutations/tasks.mutations';
 import { CreateTaskModal } from './CreateTaskModal';
 import { EditTaskModal } from './EditTaskModal';
 import { CreateListModal } from './CreateListModal';
@@ -15,6 +15,7 @@ export const ModalManager = () => {
 
     const createTaskMutation = useCreateTask();
     const updateTaskMutation = useUpdateTask();
+    const deleteTaskMutation = useDeleteTask();
 
     const handleClose = () => {
         dispatch(closeModal());
@@ -40,6 +41,17 @@ export const ModalManager = () => {
             handleClose();
         } catch (error) {
             console.error('Failed to update task:', error);
+        }
+    };
+
+    const handleDeleteTask = async () => {
+        if (!data?.taskId) return;
+
+        try {
+            await deleteTaskMutation.mutateAsync(data.taskId);
+            handleClose();
+        } catch (error) {
+            console.error('Failed to delete task:', error);
         }
     };
 
@@ -81,9 +93,10 @@ export const ModalManager = () => {
                 <DeleteConfirmationModal
                     isOpen={isOpen}
                     onClose={handleClose}
-                    onConfirm={data?.onConfirm || (() => { })}
+                    onConfirm={handleDeleteTask}
                     itemName={data?.itemName || 'item'}
                     itemType={data?.itemType || 'item'}
+                    isLoading={deleteTaskMutation.isPending}
                 />
             );
 

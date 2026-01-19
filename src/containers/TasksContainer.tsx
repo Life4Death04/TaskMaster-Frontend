@@ -3,7 +3,7 @@ import { TasksView } from '../components/Tasks/TasksView';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
 import { useFetchTasks } from '@/api/queries/tasks.queries';
-import { useDeleteTask, useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
+import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
 
 type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
 type SortOption = 'recent' | 'dueDate' | 'priority';
@@ -21,7 +21,6 @@ export const TasksContainer = () => {
 
     // Fetch tasks from API
     const { data: tasks = [], isLoading, error } = useFetchTasks();
-    const deleteTaskMutation = useDeleteTask();
     const toggleStatusMutation = useToggleTaskStatus();
 
     const userName = user?.firstName || 'User';
@@ -188,22 +187,15 @@ export const TasksContainer = () => {
     const handleDeleteTask = (id: string) => {
         const task = tasks.find((t) => t.id === Number(id));
         if (task) {
-            dispatch(
-                openModal({
-                    type: 'DELETE_CONFIRMATION',
-                    data: {
-                        itemName: task.taskName,
-                        itemType: 'task' as const,
-                        onConfirm: async () => {
-                            try {
-                                await deleteTaskMutation.mutateAsync(task.id);
-                            } catch (error) {
-                                console.error('Failed to delete task:', error);
-                            }
-                        },
-                    },
-                })
-            );
+            // Open delete confirmation with task data (no functions in Redux!)
+            dispatch(openModal({
+                type: 'DELETE_CONFIRMATION',
+                data: {
+                    taskId: task.id,
+                    itemName: task.taskName || 'this task',
+                    itemType: 'task',
+                },
+            }));
         }
     };
 

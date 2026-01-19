@@ -1,5 +1,9 @@
 import api from '@/lib/axios';
-import type { Task, CreateTaskDto, UpdateTaskDto, ApiResponse } from '@/types';
+import type { Task, ApiResponse } from '@/types';
+import type {
+  CreateTaskFormData,
+  EditTaskFormData,
+} from '@/schemas/task.schemas';
 
 // API Endpoints
 const ENDPOINTS = {
@@ -23,31 +27,30 @@ export const fetchTasksAPI = async (): Promise<Task[]> => {
  * Get a single task by ID
  */
 export const getTaskByIdAPI = async (taskId: number): Promise<Task> => {
-  const response = await api.get<ApiResponse<{ data: Task }>>(
+  const response = await api.get<ApiResponse<Task>>(
     ENDPOINTS.TASK_BY_ID(taskId)
   );
 
-  if (!response.data.data?.data) {
+  if (!response.data.data) {
     throw new Error('Task not found');
   }
 
-  return response.data.data.data;
+  return response.data.data;
 };
 
 /**
  * Create a new task
  */
-export const createTaskAPI = async (data: CreateTaskDto): Promise<Task> => {
-  const response = await api.post<ApiResponse<{ data: Task }>>(
-    ENDPOINTS.TASKS,
-    data
-  );
+export const createTaskAPI = async (
+  data: CreateTaskFormData
+): Promise<Task> => {
+  const response = await api.post<ApiResponse<Task>>(ENDPOINTS.TASKS, data);
 
-  if (!response.data.data?.data) {
+  if (!response.data.data) {
     throw new Error('Failed to create task');
   }
 
-  return response.data.data.data;
+  return response.data.data;
 };
 
 /**
@@ -55,22 +58,19 @@ export const createTaskAPI = async (data: CreateTaskDto): Promise<Task> => {
  */
 export const updateTaskAPI = async (params: {
   id: number;
-  data: UpdateTaskDto;
+  data: EditTaskFormData;
 }): Promise<Task> => {
   const { id, data } = params;
-  const response = await api.patch<ApiResponse<{ data: Task }>>(
-    ENDPOINTS.TASKS,
-    {
-      id,
-      ...data,
-    }
-  );
+  const response = await api.patch<ApiResponse<Task>>(ENDPOINTS.TASKS, {
+    id,
+    ...data,
+  });
 
-  if (!response.data.data?.data) {
+  if (!response.data.data) {
     throw new Error('Failed to update task');
   }
 
-  return response.data.data.data;
+  return response.data.data;
 };
 
 /**

@@ -35,19 +35,6 @@ export interface Task {
   archived: boolean;
 }
 
-export interface CreateTaskDto {
-  taskName: string;
-  description?: string;
-  dueDate?: string;
-  priority?: PriorityTypes;
-  status?: StatusTypes;
-  listId?: number;
-}
-
-export interface UpdateTaskDto extends Partial<CreateTaskDto> {
-  archived?: boolean;
-}
-
 // ============================================
 // List Types
 // ============================================

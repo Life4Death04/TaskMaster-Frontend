@@ -6,7 +6,8 @@ import {
   toggleTaskArchivedAPI,
   toggleTaskStatusAPI,
 } from '../request/tasks.api';
-import type { Task, UpdateTaskDto } from '@/types';
+import type { Task } from '@/types';
+import type { EditTaskFormData } from '@/schemas/task.schemas';
 
 /**
  * Mutation hook to create a new task
@@ -17,6 +18,7 @@ export const useCreateTask = () => {
 
   return useMutation({
     mutationFn: createTaskAPI,
+    retry: false, // Disable retry to prevent duplicate creation
     onSuccess: () => {
       // Invalidate and refetch tasks list
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
@@ -35,8 +37,9 @@ export const useUpdateTask = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (params: { id: number; data: UpdateTaskDto }) =>
+    mutationFn: (params: { id: number; data: EditTaskFormData }) =>
       updateTaskAPI(params),
+    retry: false, // Disable retry to prevent duplicate updates
     onSuccess: (updatedTask) => {
       // Invalidate tasks list and specific task
       queryClient.invalidateQueries({ queryKey: ['tasks'] });

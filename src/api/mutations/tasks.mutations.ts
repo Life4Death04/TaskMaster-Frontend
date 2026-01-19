@@ -99,6 +99,7 @@ export const useToggleTaskStatus = () => {
 
   return useMutation({
     mutationFn: toggleTaskStatusAPI,
+    retry: false, // Disable retry to prevent duplicate toggles
     onSuccess: (updatedTask: Task) => {
       // Invalidate tasks list and specific task
       queryClient.invalidateQueries({ queryKey: ['tasks'] });

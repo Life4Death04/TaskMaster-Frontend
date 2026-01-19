@@ -4,12 +4,16 @@ interface SettingsViewProps {
     userAvatar?: string;
     darkMode: boolean;
     language: 'en' | 'es';
-    emailNotifications: boolean;
+    defaultPriority: 'LOW' | 'MEDIUM' | 'HIGH';
+    defaultStatus: 'TODO' | 'IN_PROGRESS' | 'DONE';
+    dateFormat: 'MM_DD_YYYY' | 'DD_MM_YYYY' | 'YYYY_MM_DD';
     hasChanges: boolean;
     onEditProfile: () => void;
     onDarkModeToggle: () => void;
     onLanguageChange: (lang: 'en' | 'es') => void;
-    onEmailNotificationsToggle: () => void;
+    onDefaultPriorityChange: (priority: 'LOW' | 'MEDIUM' | 'HIGH') => void;
+    onDefaultStatusChange: (status: 'TODO' | 'IN_PROGRESS' | 'DONE') => void;
+    onDateFormatChange: (format: 'MM_DD_YYYY' | 'DD_MM_YYYY' | 'YYYY_MM_DD') => void;
     onLogout: () => void;
     onDeleteAccount: () => void;
     onDiscard: () => void;
@@ -26,12 +30,16 @@ export const SettingsView = ({
     userAvatar,
     darkMode,
     language,
-    emailNotifications,
+    defaultPriority,
+    defaultStatus,
+    dateFormat,
     hasChanges,
     onEditProfile,
     onDarkModeToggle,
     onLanguageChange,
-    onEmailNotificationsToggle,
+    onDefaultPriorityChange,
+    onDefaultStatusChange,
+    onDateFormatChange,
     onLogout,
     onDeleteAccount,
     onDiscard,
@@ -187,43 +195,79 @@ export const SettingsView = ({
                         </div>
                     </div>
 
-                    {/* Email Notifications */}
-                    <div className="relative flex items-center justify-between">
-                        <div className="flex flex-wrap items-center gap-4">
+                    {/* Default Task Priority */}
+                    <div className="relative flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-4">
                             <div className="w-10 h-10 rounded-lg bg-background-primary-hover flex items-center justify-center">
                                 <svg className="w-5 h-5 text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                                 </svg>
                             </div>
-                            {/* Here should be language switcher for screens < 640px */}
-                            <button
-                                onClick={onEmailNotificationsToggle}
-                                className={`min-[510px]:hidden relative w-12 h-6 rounded-full transition-colors ${emailNotifications ? 'bg-primary' : 'bg-gray-600'
-                                    }`}
-                                aria-label="Toggle email notifications"
-                            >
-                                <span
-                                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${emailNotifications ? 'translate-x-6' : 'translate-x-0'
-                                        }`}
-                                ></span>
-                            </button>
                             <div>
-                                <p className="text-text-primary font-semibold">Email Notifications</p>
-                                <p className="text-text-secondary text-sm">Receive updates about your tasks.</p>
+                                <p className="text-text-primary font-semibold">Default Task Priority</p>
+                                <p className="text-text-secondary text-sm">Priority for newly created tasks.</p>
                             </div>
                         </div>
-                        {/* Here should be language switcher for screens >= 640px */}
-                        <button
-                            onClick={onEmailNotificationsToggle}
-                            className={`hidden min-[510px]:block relative w-12 h-6 rounded-full transition-colors ${emailNotifications ? 'bg-primary' : 'bg-gray-600'
-                                }`}
-                            aria-label="Toggle email notifications"
+                        <select
+                            value={defaultPriority}
+                            onChange={(e) => onDefaultPriorityChange(e.target.value as 'LOW' | 'MEDIUM' | 'HIGH')}
+                            className="px-4 py-2 bg-background-primary-hover border border-border-default rounded-lg text-text-primary font-medium transition-colors hover:cursor-pointer focus:outline-none focus:border-primary"
                         >
-                            <span
-                                className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${emailNotifications ? 'translate-x-6' : 'translate-x-0'
-                                    }`}
-                            ></span>
-                        </button>
+                            <option value="LOW">Low</option>
+                            <option value="MEDIUM">Medium</option>
+                            <option value="HIGH">High</option>
+                        </select>
+                    </div>
+
+                    {/* Default Task Status */}
+                    <div className="relative flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 rounded-lg bg-background-primary-hover flex items-center justify-center">
+                                <svg className="w-5 h-5 text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p className="text-text-primary font-semibold">Default Task Status</p>
+                                <p className="text-text-secondary text-sm">Status for newly created tasks.</p>
+                            </div>
+                        </div>
+                        <select
+                            value={defaultStatus}
+                            onChange={(e) => onDefaultStatusChange(e.target.value as 'TODO' | 'IN_PROGRESS' | 'DONE')}
+                            className="px-4 py-2 bg-background-primary-hover border border-border-default rounded-lg text-text-primary font-medium transition-colors hover:cursor-pointer focus:outline-none focus:border-primary"
+                        >
+                            <option value="TODO">To Do</option>
+                            <option value="IN_PROGRESS">In Progress</option>
+                            <option value="DONE">Done</option>
+                        </select>
+                    </div>
+
+                    {/* Date Format */}
+                    <div className="relative flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 rounded-lg bg-background-primary-hover flex items-center justify-center">
+                                <svg className="w-5 h-5 text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                                    <line x1="16" y1="2" x2="16" y2="6" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                                    <line x1="8" y1="2" x2="8" y2="6" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                                    <line x1="3" y1="10" x2="21" y2="10" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p className="text-text-primary font-semibold">Date Format</p>
+                                <p className="text-text-secondary text-sm">Preferred display format for dates.</p>
+                            </div>
+                        </div>
+                        <select
+                            value={dateFormat}
+                            onChange={(e) => onDateFormatChange(e.target.value as 'MM_DD_YYYY' | 'DD_MM_YYYY' | 'YYYY_MM_DD')}
+                            className="px-4 py-2 bg-background-primary-hover border border-border-default rounded-lg text-text-primary font-medium transition-colors hover:cursor-pointer focus:outline-none focus:border-primary"
+                        >
+                            <option value="DD_MM_YYYY">DD/MM/YYYY</option>
+                            <option value="MM_DD_YYYY">MM/DD/YYYY</option>
+                            <option value="YYYY_MM_DD">YYYY/MM/DD</option>
+                        </select>
                     </div>
                 </div>
             </div>

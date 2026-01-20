@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
 import { useFetchTasks } from '@/api/queries/tasks.queries';
 import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
+import { useFetchSettings } from '@/api/queries/settings.queries';
 
 type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
 type SortOption = 'recent' | 'dueDate' | 'priority';
@@ -22,6 +23,10 @@ export const TasksContainer = () => {
     // Fetch tasks from API
     const { data: tasks = [], isLoading, error } = useFetchTasks();
     const toggleStatusMutation = useToggleTaskStatus();
+
+    // Fetch user settings for date format
+    const { data: settings } = useFetchSettings();
+    const dateFormat = settings?.dateFormat || 'MM_DD_YYYY';
 
     const userName = user?.firstName || 'User';
 
@@ -90,11 +95,22 @@ export const TasksContainer = () => {
                             hour12: true,
                         });
                     } else {
-                        dueDate = `Due: ${date.toLocaleDateString('en-US', {
-                            month: 'short',
-                            day: 'numeric',
-                            year: 'numeric',
-                        })}`;
+                        // Format date based on user's date format preference
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const year = date.getFullYear();
+
+                        let formattedDate = ''
+                        if (dateFormat === 'DD_MM_YYYY') {
+                            formattedDate = `${day}/${month}/${year}`;
+                        } else if (dateFormat === 'YYYY_MM_DD') {
+                            formattedDate = `${year}/${month}/${day}`;
+                        } else {
+                            // Default: MM_DD_YYYY
+                            formattedDate = `${month}/${day}/${year}`;
+                        }
+
+                        dueDate = `Due: ${formattedDate}`;
                     }
                 }
 
@@ -115,7 +131,7 @@ export const TasksContainer = () => {
                     progressStatus: task.status,
                 };
             }),
-        [processedTasks]
+        [processedTasks, dateFormat]
     );
 
     // Event handlers

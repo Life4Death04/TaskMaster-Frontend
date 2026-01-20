@@ -3,6 +3,13 @@ import { SettingSelector } from './SettingSelector';
 interface SettingsViewProps {
     userName: string;
     userEmail: string;
+    isEditingName: boolean;
+    editedFirstName: string;
+    editedLastName: string;
+    onFirstNameChange: (name: string) => void;
+    onLastNameChange: (name: string) => void;
+    onSaveName: () => void;
+    onCancelNameEdit: () => void;
     darkMode: boolean;
     language: 'en' | 'es';
     defaultPriority: 'LOW' | 'MEDIUM' | 'HIGH';
@@ -28,6 +35,13 @@ interface SettingsViewProps {
 export const SettingsView = ({
     userName,
     userEmail,
+    isEditingName,
+    editedFirstName,
+    editedLastName,
+    onFirstNameChange,
+    onLastNameChange,
+    onSaveName,
+    onCancelNameEdit,
     darkMode,
     language,
     defaultPriority,
@@ -66,7 +80,47 @@ export const SettingsView = ({
 
                         {/* User Info */}
                         <div className="text-center sm:text-left">
-                            <h2 className="text-text-primary text-xl font-bold mb-1">{userName}</h2>
+                            {isEditingName ? (
+                                <div className="flex flex-col gap-2 mb-2">
+                                    <div className="flex flex-wrap items-center gap-2 border border-border-input rounded-lg p-2">
+                                        <input
+                                            type="text"
+                                            value={editedFirstName}
+                                            onChange={(e) => onFirstNameChange(e.target.value)}
+                                            placeholder="First Name"
+                                            className="w-full sm:w-fit px-3 py-1.5 bg-background-input border border-border-input rounded-lg text-text-primary font-semibold focus:outline-none focus:ring-2 focus:ring-primary"
+                                            autoFocus
+                                        />
+                                        <input
+                                            type="text"
+                                            value={editedLastName}
+                                            onChange={(e) => onLastNameChange(e.target.value)}
+                                            placeholder="Last Name"
+                                            className="w-full sm:w-fit px-3 py-1.5 bg-background-input border border-border-input rounded-lg text-text-primary font-semibold focus:outline-none focus:ring-2 focus:ring-primary"
+                                        />
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            onClick={onSaveName}
+                                            className="flex-1 px-4 py-2 bg-green-500 hover:bg-green-600 rounded-lg transition-colors hover:cursor-pointer text-white font-medium flex items-center justify-center gap-2"
+                                        >
+                                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        </button>
+                                        <button
+                                            onClick={onCancelNameEdit}
+                                            className="flex-1 px-4 py-2 bg-red-500 hover:bg-red-600 rounded-lg transition-colors hover:cursor-pointer text-white font-medium flex items-center justify-center gap-2"
+                                        >
+                                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <h2 className="text-text-primary text-xl font-bold mb-1">{userName}</h2>
+                            )}
                             <p className="text-text-secondary text-sm">{userEmail}</p>
                         </div>
                     </div>

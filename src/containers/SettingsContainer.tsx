@@ -32,6 +32,11 @@ export const SettingsContainer = () => {
     const [dateFormat, setDateFormat] = useState<'MM_DD_YYYY' | 'DD_MM_YYYY' | 'YYYY_MM_DD'>('DD_MM_YYYY');
     const [hasChanges, setHasChanges] = useState(false);
 
+    // Profile editing state
+    const [isEditingName, setIsEditingName] = useState(false);
+    const [editedFirstName, setEditedFirstName] = useState('');
+    const [editedLastName, setEditedLastName] = useState('');
+
     // Original values to track changes
     const [originalSettings, setOriginalSettings] = useState({
         darkMode: true,
@@ -76,8 +81,29 @@ export const SettingsContainer = () => {
 
     // Event handlers
     const handleEditProfile = () => {
-        // TODO: Open edit profile modal
-        console.log('Edit profile');
+        setIsEditingName(true);
+        setEditedFirstName(user?.firstName || '');
+        setEditedLastName(user?.lastName || '');
+    };
+
+    const handleFirstNameChange = (name: string) => {
+        setEditedFirstName(name);
+    };
+
+    const handleLastNameChange = (name: string) => {
+        setEditedLastName(name);
+    };
+
+    const handleSaveName = () => {
+        // TODO: Implement API call to update user name
+        console.log('Save name:', editedFirstName, editedLastName);
+        setIsEditingName(false);
+    };
+
+    const handleCancelNameEdit = () => {
+        setIsEditingName(false);
+        setEditedFirstName('');
+        setEditedLastName('');
     };
 
     const handleDarkModeToggle = () => {
@@ -174,6 +200,13 @@ export const SettingsContainer = () => {
         <SettingsView
             userName={user ? `${user.firstName} ${user.lastName}` : 'User'}
             userEmail={user?.email || 'user@example.com'}
+            isEditingName={isEditingName}
+            editedFirstName={editedFirstName}
+            editedLastName={editedLastName}
+            onFirstNameChange={handleFirstNameChange}
+            onLastNameChange={handleLastNameChange}
+            onSaveName={handleSaveName}
+            onCancelNameEdit={handleCancelNameEdit}
             darkMode={darkMode}
             language={language}
             defaultPriority={defaultPriority}

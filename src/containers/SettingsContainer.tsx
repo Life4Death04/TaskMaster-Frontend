@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { logout } from '@/features/auth/authSlice';
 import { useFetchSettings } from '@/api/queries/settings.queries';
 import { useUpdateSettings } from '@/api/mutations/settings.mutations';
+import { useUpdateUser } from '@/api/mutations/users.mutations';
 import { useTheme } from '@/contexts/ThemeContext';
 import type { ThemeTypes, DateFormatTypes, LanguageTypes, PriorityTypes, StatusTypes } from '@/types';
 
@@ -23,6 +24,7 @@ export const SettingsContainer = () => {
     // Fetch settings from API
     const { data: settings, isLoading, error } = useFetchSettings();
     const updateSettingsMutation = useUpdateSettings();
+    const updateUserMutation = useUpdateUser();
 
     // Settings state
     const [darkMode, setDarkMode] = useState(true);
@@ -94,10 +96,33 @@ export const SettingsContainer = () => {
         setEditedLastName(name);
     };
 
-    const handleSaveName = () => {
-        // TODO: Implement API call to update user name
-        console.log('Save name:', editedFirstName, editedLastName);
-        setIsEditingName(false);
+    const handleSaveName = async () => {
+        // Validate inputs
+        const trimmedFirstName = editedFirstName.trim();
+        const trimmedLastName = editedLastName.trim();
+
+        if (!trimmedFirstName || !trimmedLastName) {
+            alert('Both first name and last name are required.');
+            return;
+        }
+
+        if (trimmedFirstName.length < 2 || trimmedLastName.length < 2) {
+            alert('Names must be at least 2 characters long.');
+            return;
+        }
+
+        try {
+            await updateUserMutation.mutateAsync({
+                firstName: trimmedFirstName,
+                lastName: trimmedLastName,
+            });
+
+            setIsEditingName(false);
+            console.log('✅ Name updated successfully!');
+        } catch (error) {
+            console.error('Failed to update name:', error);
+            alert('Failed to update name. Please try again.');
+        }
     };
 
     const handleCancelNameEdit = () => {

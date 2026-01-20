@@ -1,16 +1,27 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { CalendarView } from '@/components/Calendar/CalendarView';
 import { useAppDispatch } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
+import { useFetchTasks } from '@/api/queries/tasks.queries';
+import type { Task } from '@/types';
 
 type ViewMode = 'month' | 'week' | 'day';
 
-interface TaskEvent {
-    id: string;
-    title: string;
-    color: string;
-    date: string;
-}
+/**
+ * Get priority-based color styling for calendar events
+ */
+const getPriorityColors = (priority: string): string => {
+    switch (priority.toUpperCase()) {
+        case 'HIGH':
+            return 'bg-red-500/80 text-white';
+        case 'MEDIUM':
+            return 'bg-amber-500/80 text-white';
+        case 'LOW':
+            return 'bg-green-500/80 text-white';
+        default:
+            return 'bg-gray-500/80 text-white';
+    }
+};
 
 /**
  * Calendar Container
@@ -21,20 +32,20 @@ export const CalendarContainer = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [viewMode, setViewMode] = useState<ViewMode>('month');
 
-    // Mock data - will be replaced with Redux state/API call later
-    const mockTasks: TaskEvent[] = [
-        { id: '1', title: 'Q4 Strategic Planning', color: 'bg-red-500/80 text-white', date: '2026-01-02' },
-        { id: '2', title: 'Survey Redesign', color: 'bg-amber-500/80 text-white', date: '2026-10-02' },
-        { id: '3', title: 'Clean-Backup', color: 'bg-cyan-500/80 text-white', date: '2026-10-04' },
-        { id: '4', title: 'Client Kickoff Meeting', color: 'bg-purple-500/80 text-white', date: '2026-10-05' },
-        { id: '5', title: 'Contract Review', color: 'bg-gray-500/80 text-white', date: '2026-10-05' },
-        { id: '6', title: 'Send Assets', color: 'bg-amber-600/80 text-white', date: '2026-10-05' },
-        { id: '7', title: 'User Interview #1', color: 'bg-yellow-500/80 text-white', date: '2026-10-09' },
-        { id: '8', title: 'User Interview #2', color: 'bg-yellow-500/80 text-white', date: '2026-10-11' },
-        { id: '9', title: 'Project Launch 🚀', color: 'bg-pink-500/80 text-white', date: '2026-10-12' },
-        { id: '10', title: 'Sync with Team', color: 'bg-teal-500/80 text-white', date: '2026-10-16' },
-        { id: '11', title: 'Client Review', color: 'bg-red-400/80 text-white', date: '2026-10-20' },
-    ];
+    // Fetch tasks from API
+    const { data: tasks = [], isLoading, error } = useFetchTasks();
+
+    // Map tasks to calendar events format
+    const calendarTasks = useMemo(() => {
+        return tasks
+            .filter((task: Task) => task.dueDate && !task.archived)
+            .map((task: Task) => ({
+                id: String(task.id),
+                title: task.taskName,
+                color: getPriorityColors(task.priority),
+                date: task.dueDate!,
+            }));
+    }, [tasks]);
 
     // Get calendar data
     const monthNames = [
@@ -66,21 +77,11 @@ export const CalendarContainer = () => {
     };
 
     const handleTaskClick = (taskId: string) => {
-        const task = mockTasks.find(t => t.id === taskId);
+        const task = tasks.find((t: Task) => String(t.id) === taskId);
         if (task) {
-            // TODO: Open task details modal with actual task data
-            console.log('Task clicked:', taskId);
             dispatch(openModal({
                 type: 'TASK_DETAILS',
-                data: {
-                    id: task.id,
-                    title: task.title,
-                    description: 'Task description will be loaded from API',
-                    status: 'TODO',
-                    priority: 'MEDIUM',
-                    dueDate: task.date,
-                    listName: 'General',
-                },
+                data: task,
             }));
         }
     };
@@ -89,6 +90,24 @@ export const CalendarContainer = () => {
         dispatch(openModal({ type: 'CREATE_TASK' }));
     };
 
+    // Show loading state
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center h-full">
+                <div className="text-text-secondary">Loading calendar...</div>
+            </div>
+        );
+    }
+
+    // Show error state
+    if (error) {
+        return (
+            <div className="flex items-center justify-center h-full">
+                <div className="text-red-500">Failed to load tasks</div>
+            </div>
+        );
+    }
+
     return (
         <CalendarView
             userName="User"
@@ -96,7 +115,7 @@ export const CalendarContainer = () => {
             currentMonthNumber={currentMonthNumber}
             currentYear={currentYear}
             viewMode={viewMode}
-            tasks={mockTasks}
+            tasks={calendarTasks}
             daysInMonth={daysInMonth}
             firstDayOfMonth={firstDayOfMonth}
             onPreviousMonth={handlePreviousMonth}

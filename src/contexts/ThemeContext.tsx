@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
+import { useFetchSettings } from '@/api/queries/settings.queries';
 
 type Theme = 'light' | 'dark';
 
@@ -12,19 +13,20 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-    const [theme, setTheme] = useState<Theme>(() => {
-        // Check localStorage first
-        const savedTheme = localStorage.getItem('theme') as Theme;
-        if (savedTheme) {
-            return savedTheme;
-        }
-        // Check system preference
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 'dark';
-        }
-        return 'light';
-    });
+    const [theme, setTheme] = useState<Theme>('dark'); // Default to dark while loading
 
+    // Fetch user settings to get theme preference
+    const { data: settings, isLoading } = useFetchSettings();
+
+    // Update theme when settings are loaded
+    useEffect(() => {
+        if (settings && !isLoading) {
+            const userTheme = settings.theme === 'DARK' ? 'dark' : 'light';
+            setTheme(userTheme);
+        }
+    }, [settings, isLoading]);
+
+    // Apply theme to document
     useEffect(() => {
         const root = window.document.documentElement;
 
@@ -33,9 +35,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
         // Add current theme class
         root.classList.add(theme);
-
-        // Save to localStorage
-        localStorage.setItem('theme', theme);
     }, [theme]);
 
     const toggleTheme = () => {

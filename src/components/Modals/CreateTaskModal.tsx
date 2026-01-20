@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createTaskSchema, type CreateTaskFormData } from '@/schemas/task.schemas';
+import { useFetchSettings } from '@/api/queries/settings.queries';
 
 interface CreateTaskModalProps {
     isOpen: boolean;
@@ -15,6 +16,13 @@ export const CreateTaskModal = ({
     onSubmit,
     isLoading = false
 }: CreateTaskModalProps) => {
+    // Fetch user settings for default values
+    const { data: settings } = useFetchSettings();
+
+    // Determine default values from settings or fallback
+    const defaultStatus = settings?.defaultStatus || 'TODO';
+    const defaultPriority = settings?.defaultPriority || 'MEDIUM';
+
     const {
         register,
         handleSubmit,
@@ -27,9 +35,9 @@ export const CreateTaskModal = ({
         defaultValues: {
             taskName: '',
             description: '',
-            status: 'TODO',
+            status: defaultStatus,
             dueDate: '',
-            priority: 'MEDIUM',
+            priority: defaultPriority,
             listId: undefined,
         },
     });

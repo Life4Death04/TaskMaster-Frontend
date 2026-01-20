@@ -20,13 +20,14 @@ interface SidebarProps {
     onClose: () => void;
     navigationItems: NavigationItem[];
     listItems: ListItem[];
+    onLogout: () => void;
 }
 
 /**
  * Presentational Sidebar Component
  * Renders the sidebar UI without handling any logic
  */
-export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, listItems }: SidebarProps) => {
+export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, listItems, onLogout }: SidebarProps) => {
     return (
         <>
             {/* Overlay for mobile when sidebar is open */}
@@ -42,52 +43,70 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
             <aside
                 className={`
           fixed top-0 left-0 h-full z-50
-          bg-background-primary
-          border-r border-border-input
+          bg-card-primary
+          border-r border-border-default
           transition-all duration-300 ease-in-out
           
           ${isOpen ? 'w-50' : 'w-19'}
         `}
             >
                 {/* Sidebar Header */}
-                <div className="flex items-center justify-between p-4 border-b border-border-input lg:w-50">
-                    {isMobile && (
-                        <button
-                            onClick={onToggle}
-                            className="p-2 rounded-lg hover:bg-background-primary-hover transition-colors"
-                            aria-label={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
-                        >
+                <div className="flex items-center justify-between p-4 border-b border-border-default lg:w-50">
+                    {isMobile ? (
+                        <>
+                            <button
+                                onClick={onToggle}
+                                className="p-2 rounded-lg hover:bg-background-primary-hover transition-colors hover:cursor-pointer"
+                                aria-label={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+                            >
 
-                            {isOpen ? (
-                                <svg
-                                    className="w-5 h-5 text-gray-600 dark:text-gray-400"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-                                    />
-                                </svg>
-                            ) : (
-                                <svg
-                                    className="w-5 h-5 text-gray-600 dark:text-gray-400"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M13 5l7 7-7 7M5 5l7 7-7 7"
-                                    />
-                                </svg>
-                            )}
-                        </button>
+                                {isOpen ? (
+                                    <svg
+                                        className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+                                        />
+                                    </svg>
+                                ) : (
+                                    <svg
+                                        className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M13 5l7 7-7 7M5 5l7 7-7 7"
+                                        />
+                                    </svg>
+                                )}
+                            </button>
+                            {isOpen && (
+
+                                <div className="flex items-center mx-auto gap-3 px-2">
+                                    <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg w-10 h-10 flex items-center justify-center shadow-lg shadow-purple-900/20">
+                                        <span className="material-symbols-outlined text-white">check_circle</span>
+                                    </div>
+                                </div>
+                            )
+                            }
+                        </>
+                    ) : (
+                        <div className="flex items-center gap-3 px-2">
+                            <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg w-10 h-10 flex items-center justify-center shadow-lg shadow-purple-900/20">
+                                <span className="material-symbols-outlined text-white">check_circle</span>
+                            </div>
+                            <h1 className="text-xl font-bold tracking-tight">TaskMaster</h1>
+                        </div>
                     )
                     }
                 </div>
@@ -99,7 +118,7 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                             key={item.path}
                             to={item.path}
                             onClick={onClose}
-                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors"
+                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors hover:cursor-pointer"
                         >
                             <div className="w-5 h-5 text-text-primary flex-shrink-0">
                                 {item.icon}
@@ -112,14 +131,14 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                 </nav>
 
                 {/* Lists Navigation Section */}
-                <div className="border-t border-border-input">
+                <div className="border-t border-border-default">
                     <div className="space-y-2 p-4">
                         {listItems.map((list) => (
                             <Link
                                 key={list.id}
                                 to={`/lists/${list.id}`}
                                 onClick={onClose}
-                                className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors"
+                                className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors hover:cursor-pointer"
                             >
                                 <svg
                                     className="w-5 h-5 flex-shrink-0"
@@ -138,12 +157,12 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
 
 
                 {/* Sidebar Footer */}
-                <div className="flex items-center justify-between p-4 border-t border-border-input lg:w-50 bottom-0 right-0 left-0 absolute">
+                <div className="flex items-center flex-col justify-between p-4 border-t border-border-default lg:w-50 bottom-0 right-0 left-0 absolute">
                     <Link
                         key={"/settings"}
                         to={"/settings"}
                         onClick={onClose}
-                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors w-full"
+                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors w-full hover:cursor-pointer"
                     >
                         <div className="w-5 h-5 text-text-primary flex-shrink-0">
                             <svg
@@ -170,6 +189,17 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                             <span className="text-text-primary">{"Settings"}</span>
                         )}
                     </Link>
+
+                    <button onClick={onLogout} className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors w-full hover:cursor-pointer">
+                        <div className="w-5 h-5 text-text-primary flex-shrink-0">
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                        </div>
+                        {isOpen && (
+                            <span className="text-text-primary">{"Log out"}</span>
+                        )}
+                    </button>
                 </div>
             </aside>
         </>

@@ -5,6 +5,9 @@ interface PageHeaderProps {
     searchQuery: string;
     onSearchChange: (query: string) => void;
     showSearch?: boolean;
+    showBackButton?: boolean;
+    onBack?: () => void;
+    actionButtons?: React.ReactNode;
 }
 
 /**
@@ -18,18 +21,40 @@ export const PageHeader = ({
     searchQuery,
     onSearchChange,
     showSearch = true,
+    showBackButton = false,
+    onBack,
+    actionButtons,
 }: PageHeaderProps) => {
     const formattedSubtitle = userName ? subtitle.replace('{userName}', userName) : subtitle;
 
     return (
         <div className="mb-8">
             <div className="flex items-center justify-between flex-wrap gap-4">
-                <div>
-                    <h1 className="text-text-primary text-3xl font-bold mb-1">{title}</h1>
-                    <p className="text-text-secondary text-sm">{formattedSubtitle}</p>
+                <div className="flex items-center gap-4">
+                    {/* Back Button */}
+                    {showBackButton && onBack && (
+                        <button
+                            onClick={onBack}
+                            className="p-2 hover:bg-background-primary-hover hover:cursor-pointer rounded-lg transition-colors text-text-secondary hover:text-text-primary"
+                            aria-label="Go back"
+                        >
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                    )}
+
+                    {/* Title and Subtitle */}
+                    <div>
+                        <h1 className="text-text-primary text-3xl font-bold mb-1">{title}</h1>
+                        <p className="text-text-secondary text-sm">{formattedSubtitle}</p>
+                    </div>
                 </div>
 
                 <div className="flex items-center gap-4">
+                    {/* Action Buttons (for List Details) */}
+                    {actionButtons}
+
                     {showSearch && (
                         <div className="relative">
                             <svg
@@ -46,7 +71,7 @@ export const PageHeader = ({
                                 placeholder="Search..."
                                 value={searchQuery}
                                 onChange={(e) => onSearchChange(e.target.value)}
-                                className="pl-10 pr-4 py-2 bg-card-dark border rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary w-full"
+                                className="pl-10 pr-4 py-2 bg-background-input border border-border-input rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary w-full"
                             />
                         </div>
                     )}

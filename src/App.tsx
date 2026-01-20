@@ -12,16 +12,20 @@ import { AuthPage } from './pages/AuthPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { TasksPage } from './pages/TasksPage';
 import { ListsPage } from './pages/ListsPage';
+import { ListDetailsPage } from './pages/ListDetailsPage';
+import { CalendarPage } from './pages/CalendarPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { ErrorPage } from './pages/ErrorPage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { MainLayout } from './layouts/MainLayout';
 import { AuthBootstrap } from './components/common/AuthBootstrap';
+import { ModalManager } from './components/Modals/ModalManager';
 
 function AppContent() {
   return (
     <>
       <AuthBootstrap />
+      <ModalManager />
       <Routes>
         <Route path="/auth" element={<AuthPage />} errorElement={<ErrorPage />} />
         <Route path="/login" element={<Navigate to="/auth" replace />} />
@@ -54,6 +58,28 @@ function AppContent() {
             <ProtectedRoute>
               <MainLayout>
                 <ListsPage />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+          errorElement={<ErrorPage />}
+        />
+        <Route
+          path="/lists/:listId"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <ListDetailsPage />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+          errorElement={<ErrorPage />}
+        />
+        <Route
+          path="/calendar"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <CalendarPage />
               </MainLayout>
             </ProtectedRoute>
           }

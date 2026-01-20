@@ -174,7 +174,6 @@ export const SettingsContainer = () => {
         <SettingsView
             userName={user ? `${user.firstName} ${user.lastName}` : 'User'}
             userEmail={user?.email || 'user@example.com'}
-            userAvatar={user?.profileImage || undefined}
             darkMode={darkMode}
             language={language}
             defaultPriority={defaultPriority}

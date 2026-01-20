@@ -1,7 +1,8 @@
+import { SettingSelector } from './SettingSelector';
+
 interface SettingsViewProps {
     userName: string;
     userEmail: string;
-    userAvatar?: string;
     darkMode: boolean;
     language: 'en' | 'es';
     defaultPriority: 'LOW' | 'MEDIUM' | 'HIGH';
@@ -27,7 +28,6 @@ interface SettingsViewProps {
 export const SettingsView = ({
     userName,
     userEmail,
-    userAvatar,
     darkMode,
     language,
     defaultPriority,
@@ -56,30 +56,16 @@ export const SettingsView = ({
             {/* Profile Card */}
             <div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6 shadow-md">
                 <div className="flex items-center justify-between flex-wrap gap-4">
-                    <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex flex-wrap items-center justify-center gap-4">
                         {/* Avatar with Camera Icon */}
                         <div className="relative">
                             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/80 to-accent/80 flex items-center justify-center text-2xl font-bold text-white">
-                                {userAvatar ? (
-                                    <img src={userAvatar} alt={userName} className="w-full h-full rounded-full object-cover" />
-                                ) : (
-                                    userName.charAt(0).toUpperCase()
-                                )}
+                                {userName.charAt(0).toUpperCase()}
                             </div>
-                            <button
-                                onClick={onEditProfile}
-                                className="absolute bottom-0 right-0 w-7 h-7 bg-primary rounded-full flex items-center justify-center hover:bg-primary-hover transition-colors shadow-lg hover:cursor-pointer"
-                                aria-label="Edit profile picture"
-                            >
-                                <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                            </button>
                         </div>
 
                         {/* User Info */}
-                        <div>
+                        <div className="text-center sm:text-left">
                             <h2 className="text-text-primary text-xl font-bold mb-1">{userName}</h2>
                             <p className="text-text-secondary text-sm">{userEmail}</p>
                         </div>
@@ -196,85 +182,63 @@ export const SettingsView = ({
                     </div>
 
                     {/* Default Task Priority */}
-                    <div className="relative flex items-center justify-between gap-4">
-                        <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 rounded-lg bg-background-primary-hover flex items-center justify-center">
-                                <svg className="w-5 h-5 text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p className="text-text-primary font-semibold">Default Task Priority</p>
-                                <p className="text-text-secondary text-sm">Priority for newly created tasks.</p>
-                            </div>
-                        </div>
-                        <select
-                            value={defaultPriority}
-                            onChange={(e) => onDefaultPriorityChange(e.target.value as 'LOW' | 'MEDIUM' | 'HIGH')}
-                            className="px-4 py-2 bg-background-primary-hover border border-border-default rounded-lg text-text-primary font-medium transition-colors hover:cursor-pointer focus:outline-none focus:border-primary"
-                        >
-                            <option value="LOW">Low</option>
-                            <option value="MEDIUM">Medium</option>
-                            <option value="HIGH">High</option>
-                        </select>
-                    </div>
+                    <SettingSelector
+                        icon={
+                            <svg className="w-5 h-5 text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        }
+                        title="Default Task Priority"
+                        description="Priority for newly created tasks."
+                        value={defaultPriority}
+                        options={[
+                            { value: 'LOW', label: 'Low' },
+                            { value: 'MEDIUM', label: 'Medium' },
+                            { value: 'HIGH', label: 'High' },
+                        ]}
+                        onChange={onDefaultPriorityChange}
+                    />
 
                     {/* Default Task Status */}
-                    <div className="relative flex items-center justify-between gap-4">
-                        <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 rounded-lg bg-background-primary-hover flex items-center justify-center">
-                                <svg className="w-5 h-5 text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p className="text-text-primary font-semibold">Default Task Status</p>
-                                <p className="text-text-secondary text-sm">Status for newly created tasks.</p>
-                            </div>
-                        </div>
-                        <select
-                            value={defaultStatus}
-                            onChange={(e) => onDefaultStatusChange(e.target.value as 'TODO' | 'IN_PROGRESS' | 'DONE')}
-                            className="px-4 py-2 bg-background-primary-hover border border-border-default rounded-lg text-text-primary font-medium transition-colors hover:cursor-pointer focus:outline-none focus:border-primary"
-                        >
-                            <option value="TODO">To Do</option>
-                            <option value="IN_PROGRESS">In Progress</option>
-                            <option value="DONE">Done</option>
-                        </select>
-                    </div>
+                    <SettingSelector
+                        icon={
+                            <svg className="w-5 h-5 text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                        }
+                        title="Default Task Status"
+                        description="Status for newly created tasks."
+                        value={defaultStatus}
+                        options={[
+                            { value: 'TODO', label: 'To Do' },
+                            { value: 'IN_PROGRESS', label: 'In Progress' },
+                            { value: 'DONE', label: 'Done' },
+                        ]}
+                        onChange={onDefaultStatusChange}
+                    />
 
                     {/* Date Format */}
-                    <div className="relative flex items-center justify-between gap-4">
-                        <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 rounded-lg bg-background-primary-hover flex items-center justify-center">
-                                <svg className="w-5 h-5 text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-                                    <line x1="16" y1="2" x2="16" y2="6" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-                                    <line x1="8" y1="2" x2="8" y2="6" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-                                    <line x1="3" y1="10" x2="21" y2="10" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p className="text-text-primary font-semibold">Date Format</p>
-                                <p className="text-text-secondary text-sm">Preferred display format for dates.</p>
-                            </div>
-                        </div>
-                        <select
-                            value={dateFormat}
-                            onChange={(e) => onDateFormatChange(e.target.value as 'MM_DD_YYYY' | 'DD_MM_YYYY' | 'YYYY_MM_DD')}
-                            className="px-4 py-2 bg-background-primary-hover border border-border-default rounded-lg text-text-primary font-medium transition-colors hover:cursor-pointer focus:outline-none focus:border-primary"
-                        >
-                            <option value="DD_MM_YYYY">DD/MM/YYYY</option>
-                            <option value="MM_DD_YYYY">MM/DD/YYYY</option>
-                            <option value="YYYY_MM_DD">YYYY/MM/DD</option>
-                        </select>
-                    </div>
+                    <SettingSelector
+                        icon={
+                            <svg className="w-5 h-5 text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                                <line x1="16" y1="2" x2="16" y2="6" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                                <line x1="8" y1="2" x2="8" y2="6" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                                <line x1="3" y1="10" x2="21" y2="10" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        }
+                        title="Date Format"
+                        description="Preferred display format for dates."
+                        value={dateFormat}
+                        options={[
+                            { value: 'DD_MM_YYYY', label: 'DD/MM/YYYY' },
+                            { value: 'MM_DD_YYYY', label: 'MM/DD/YYYY' },
+                            { value: 'YYYY_MM_DD', label: 'YYYY/MM/DD' },
+                        ]}
+                        onChange={onDateFormatChange}
+                    />
                 </div>
             </div>
-
-            {/* 
-            ToDo: Change/fix buttons responsiveness for extra small screens
-            */}
             {/* Account Management */}
             <div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6 shadow-md">
                 <h3 className="text-text-primary text-lg font-bold mb-6">Account Management</h3>

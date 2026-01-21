@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAppDispatch } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
+import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
 import { getStatusBadge, getPriorityBadge } from '@/utils/taskHelpers';
 import type { Task } from '@/types';
 
@@ -11,8 +12,20 @@ interface TaskDetailsModalProps {
 
 export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, task }) => {
     const dispatch = useAppDispatch();
+    const toggleStatusMutation = useToggleTaskStatus();
     const statusBadge = getStatusBadge(task?.status);
     const priorityBadge = getPriorityBadge(task?.priority);
+
+    const handleMarkAsCompleted = async () => {
+        if (!task?.id) return;
+
+        try {
+            await toggleStatusMutation.mutateAsync(task.id);
+            onClose();
+        } catch (error) {
+            console.error('Failed to mark task as completed:', error);
+        }
+    };
 
     const handleDeleteClick = () => {
         if (!task?.id) return;
@@ -180,11 +193,15 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, tas
                             </div>
                         </div>
 
-                        <button className="w-full py-3 bg-primary hover:bg-primary-hover hover:cursor-pointer text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 shadow-lg">
+                        <button
+                            onClick={handleMarkAsCompleted}
+                            disabled={toggleStatusMutation.isPending || task?.status === 'DONE'}
+                            className="w-full py-3 bg-primary hover:bg-primary-hover hover:cursor-pointer text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
                             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            Mark as Complete
+                            {toggleStatusMutation.isPending ? 'Updating...' : task?.status === 'DONE' ? 'Completed' : 'Mark as Complete'}
                         </button>
 
                     </div>

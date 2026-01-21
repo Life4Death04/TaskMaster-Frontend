@@ -1,6 +1,9 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { closeModal } from '@/features/ui/uiSlice';
+import { logout } from '@/features/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
 import { useCreateTask, useUpdateTask, useDeleteTask } from '@/api/mutations/tasks.mutations';
+import { useDeleteUser } from '@/api/mutations/users.mutations';
 import { CreateTaskModal } from './CreateTaskModal';
 import { EditTaskModal } from './EditTaskModal';
 import { CreateListModal } from './CreateListModal';
@@ -11,11 +14,13 @@ import type { CreateTaskFormData, EditTaskFormData } from '@/schemas/task.schema
 
 export const ModalManager = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const { isOpen, type, data } = useAppSelector((state) => state.ui.modal);
 
     const createTaskMutation = useCreateTask();
     const updateTaskMutation = useUpdateTask();
     const deleteTaskMutation = useDeleteTask();
+    const deleteUserMutation = useDeleteUser();
 
     const handleClose = () => {
         dispatch(closeModal());
@@ -52,6 +57,19 @@ export const ModalManager = () => {
             handleClose();
         } catch (error) {
             console.error('Failed to delete task:', error);
+        }
+    };
+
+    const handleDeleteAccount = async () => {
+        try {
+            await deleteUserMutation.mutateAsync();
+            // Clear auth state and redirect to auth page
+            dispatch(logout());
+            handleClose();
+            navigate('/auth');
+        } catch (error) {
+            console.error('Failed to delete account:', error);
+            alert('Failed to delete account. Please try again.');
         }
     };
 
@@ -93,10 +111,10 @@ export const ModalManager = () => {
                 <DeleteConfirmationModal
                     isOpen={isOpen}
                     onClose={handleClose}
-                    onConfirm={handleDeleteTask}
+                    onConfirm={data?.accountDelete ? handleDeleteAccount : handleDeleteTask}
                     itemName={data?.itemName || 'item'}
                     itemType={data?.itemType || 'item'}
-                    isLoading={deleteTaskMutation.isPending}
+                    isLoading={data?.accountDelete ? deleteUserMutation.isPending : deleteTaskMutation.isPending}
                 />
             );
 

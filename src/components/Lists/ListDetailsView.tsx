@@ -17,7 +17,6 @@ interface Task {
 
 interface ListDetailsViewProps {
     listName: string;
-    listColor: string;
     listDescription?: string;
     totalTasks: number;
     activeTasks: number;
@@ -45,7 +44,6 @@ interface ListDetailsViewProps {
  */
 export const ListDetailsView = ({
     listName,
-    listColor,
     listDescription,
     totalTasks,
     activeTasks,
@@ -117,15 +115,8 @@ export const ListDetailsView = ({
 
     return (
         <div className="min-h-screen bg-background-primary text-text-primary p-6">
-            {/* Page Header with List Icon */}
+            {/* Page Header*/}
             <div className="mb-6 flex items-center gap-4">
-                {/* List Icon */}
-                <div className={`w-12 h-12 rounded-full ${listColor} flex items-center justify-center flex-shrink-0`}>
-                    <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    </svg>
-                </div>
-
                 <div className="flex-1">
                     <PageHeader
                         title={listName}

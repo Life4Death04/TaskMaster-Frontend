@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { SettingsView } from '../components/Settings/SettingsView';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { logout } from '@/features/auth/authSlice';
+import { openModal } from '@/features/ui/uiSlice';
 import { useFetchSettings } from '@/api/queries/settings.queries';
 import { useUpdateSettings } from '@/api/mutations/settings.mutations';
 import { useUpdateUser } from '@/api/mutations/users.mutations';
@@ -159,8 +160,14 @@ export const SettingsContainer = () => {
     };
 
     const handleDeleteAccount = () => {
-        // TODO: Open confirmation modal
-        console.log('Delete account');
+        dispatch(openModal({
+            type: 'DELETE_CONFIRMATION',
+            data: {
+                accountDelete: true,
+                itemName: 'your account',
+                itemType: 'account',
+            },
+        }));
     };
 
     const handleDiscard = () => {

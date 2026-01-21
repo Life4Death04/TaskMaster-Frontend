@@ -5,6 +5,7 @@ import type { User } from '@/types';
 // API Endpoints
 const ENDPOINTS = {
   UPDATE_USER: '/users/me',
+  DELETE_USER: '/users/me',
 };
 
 interface BackendUserResponse {
@@ -38,6 +39,23 @@ export const updateUserAPI = async (data: UpdateUserData): Promise<User> => {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data?.message || error.message;
       console.error('Update user API error:', message);
+      throw new Error(message);
+    }
+    throw error;
+  }
+};
+
+/**
+ * API call to delete user account
+ * Permanently deletes the user's account and all associated data
+ */
+export const deleteUserAPI = async (): Promise<void> => {
+  try {
+    await api.delete(ENDPOINTS.DELETE_USER);
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message || error.message;
+      console.error('Delete user API error:', message);
       throw new Error(message);
     }
     throw error;

@@ -3,6 +3,7 @@ import { closeModal } from '@/features/ui/uiSlice';
 import { logout } from '@/features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { useCreateTask, useUpdateTask, useDeleteTask } from '@/api/mutations/tasks.mutations';
+import { useCreateList } from '@/api/mutations/lists.mutations';
 import { useDeleteUser } from '@/api/mutations/users.mutations';
 import { CreateTaskModal } from './CreateTaskModal';
 import { EditTaskModal } from './EditTaskModal';
@@ -11,6 +12,7 @@ import { EditListModal } from './EditListModal';
 import { TaskDetailsModal } from './TaskDetailsModal';
 import { DeleteConfirmationModal } from './DeleteConfirmationModal';
 import type { CreateTaskFormData, EditTaskFormData } from '@/schemas/task.schemas';
+import type { CreateListFormData } from '@/schemas/list.schemas';
 
 export const ModalManager = () => {
     const dispatch = useAppDispatch();
@@ -20,6 +22,7 @@ export const ModalManager = () => {
     const createTaskMutation = useCreateTask();
     const updateTaskMutation = useUpdateTask();
     const deleteTaskMutation = useDeleteTask();
+    const createListMutation = useCreateList();
     const deleteUserMutation = useDeleteUser();
 
     const handleClose = () => {
@@ -57,6 +60,15 @@ export const ModalManager = () => {
             handleClose();
         } catch (error) {
             console.error('Failed to delete task:', error);
+        }
+    };
+
+    const handleCreateList = async (formData: CreateListFormData) => {
+        try {
+            await createListMutation.mutateAsync(formData);
+            handleClose();
+        } catch (error) {
+            console.error('Failed to create list:', error);
         }
     };
 
@@ -98,7 +110,14 @@ export const ModalManager = () => {
             );
 
         case 'CREATE_LIST':
-            return <CreateListModal isOpen={isOpen} onClose={handleClose} />;
+            return (
+                <CreateListModal
+                    isOpen={isOpen}
+                    onClose={handleClose}
+                    onSubmit={handleCreateList}
+                    isLoading={createListMutation.isPending}
+                />
+            );
 
         case 'EDIT_LIST':
             return <EditListModal isOpen={isOpen} onClose={handleClose} list={data} />;

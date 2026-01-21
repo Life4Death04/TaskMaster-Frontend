@@ -41,6 +41,7 @@ export interface Task {
 export interface List {
   id: number;
   title: string;
+  description?: string | null;
   color: string;
   authorId: number;
   tasks?: Task[];
@@ -49,6 +50,7 @@ export interface List {
 
 export interface CreateListDto {
   title: string;
+  description?: string;
   color: string;
 }
 

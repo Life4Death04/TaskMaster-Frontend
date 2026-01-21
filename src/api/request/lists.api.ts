@@ -1,5 +1,5 @@
 import api from '@/lib/axios';
-import type { List, CreateListDto, UpdateListDto, ApiResponse } from '@/types';
+import type { List, CreateListDto, UpdateListDto } from '@/types';
 
 // API Endpoints
 const ENDPOINTS = {
@@ -11,41 +11,34 @@ const ENDPOINTS = {
  * Fetch all lists for authenticated user
  */
 export const fetchListsAPI = async (): Promise<List[]> => {
-  const response = await api.get<ApiResponse<{ lists: List[] }>>(
-    ENDPOINTS.LISTS
-  );
-  return response.data.data?.lists || [];
+  const response = await api.get<{ lists: List[] }>(ENDPOINTS.LISTS);
+  return response.data.lists || [];
 };
 
 /**
  * Get a single list by ID with tasks
  */
 export const getListByIdAPI = async (listId: number): Promise<List> => {
-  const response = await api.get<ApiResponse<{ list: List }>>(
-    ENDPOINTS.LIST_BY_ID(listId)
-  );
+  const response = await api.get<{ list: List }>(ENDPOINTS.LIST_BY_ID(listId));
 
-  if (!response.data.data?.list) {
+  if (!response.data.list) {
     throw new Error('List not found');
   }
 
-  return response.data.data.list;
+  return response.data.list;
 };
 
 /**
  * Create a new list
  */
 export const createListAPI = async (data: CreateListDto): Promise<List> => {
-  const response = await api.post<ApiResponse<{ list: List }>>(
-    ENDPOINTS.LISTS,
-    data
-  );
+  const response = await api.post<{ list: List }>(ENDPOINTS.LISTS, data);
 
-  if (!response.data.data?.list) {
+  if (!response.data.list) {
     throw new Error('Failed to create list');
   }
 
-  return response.data.data.list;
+  return response.data.list;
 };
 
 /**
@@ -56,16 +49,16 @@ export const updateListAPI = async (params: {
   data: UpdateListDto;
 }): Promise<List> => {
   const { id, data } = params;
-  const response = await api.put<ApiResponse<{ list: List }>>(
+  const response = await api.put<{ list: List }>(
     ENDPOINTS.LIST_BY_ID(id),
     data
   );
 
-  if (!response.data.data?.list) {
+  if (!response.data.list) {
     throw new Error('Failed to update list');
   }
 
-  return response.data.data.list;
+  return response.data.list;
 };
 
 /**

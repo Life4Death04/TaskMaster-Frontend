@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createTaskSchema, type CreateTaskFormData } from '@/schemas/task.schemas';
 import { useFetchSettings } from '@/api/queries/settings.queries';
+import { useFetchLists } from '@/api/queries/lists.queries';
 
 interface CreateTaskModalProps {
     isOpen: boolean;
@@ -18,6 +19,7 @@ export const CreateTaskModal = ({
 }: CreateTaskModalProps) => {
     // Fetch user settings for default values
     const { data: settings } = useFetchSettings();
+    const { data: lists = [] } = useFetchLists();
 
     // Determine default values from settings or fallback
     const defaultStatus = settings?.defaultStatus || 'TODO';
@@ -219,7 +221,11 @@ export const CreateTaskModal = ({
                                     }}
                                 >
                                     <option value="">No List</option>
-                                    {/* TODO: Populate with actual lists from Redux */}
+                                    {lists.map((list) => (
+                                        <option key={list.id} value={list.id}>
+                                            {list.title}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                         </div>

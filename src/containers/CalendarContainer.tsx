@@ -5,8 +5,6 @@ import { openModal } from '@/features/ui/uiSlice';
 import { useFetchTasks } from '@/api/queries/tasks.queries';
 import type { Task } from '@/types';
 
-type ViewMode = 'month' | 'week' | 'day';
-
 /**
  * Get priority-based color styling for calendar events
  */
@@ -30,7 +28,6 @@ const getPriorityColors = (priority: string): string => {
 export const CalendarContainer = () => {
     const dispatch = useAppDispatch();
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [viewMode, setViewMode] = useState<ViewMode>('month');
 
     // Fetch tasks from API
     const { data: tasks = [], isLoading, error } = useFetchTasks();
@@ -66,14 +63,6 @@ export const CalendarContainer = () => {
 
     const handleNextMonth = () => {
         setCurrentDate(new Date(currentYear, currentDate.getMonth() + 1, 1));
-    };
-
-    const handleViewModeChange = (mode: ViewMode) => {
-        setViewMode(mode);
-        // TODO: Implement week and day views
-        if (mode !== 'month') {
-            console.log(`${mode} view not implemented yet`);
-        }
     };
 
     const handleTaskClick = (taskId: string) => {
@@ -114,13 +103,11 @@ export const CalendarContainer = () => {
             currentMonth={currentMonth}
             currentMonthNumber={currentMonthNumber}
             currentYear={currentYear}
-            viewMode={viewMode}
             tasks={calendarTasks}
             daysInMonth={daysInMonth}
             firstDayOfMonth={firstDayOfMonth}
             onPreviousMonth={handlePreviousMonth}
             onNextMonth={handleNextMonth}
-            onViewModeChange={handleViewModeChange}
             onTaskClick={handleTaskClick}
             onAddTask={handleAddTask}
         />

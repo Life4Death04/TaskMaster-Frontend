@@ -3,9 +3,7 @@ interface ListCardProps {
     title: string;
     description: string;
     color: string;
-    icon: React.ReactNode;
     taskCount: number;
-    status?: string;
     isNewCard?: boolean;
     onClick?: () => void;
 }
@@ -18,9 +16,7 @@ export const ListCard = ({
     title,
     description,
     color,
-    icon,
     taskCount,
-    status,
     isNewCard = false,
     onClick,
 }: ListCardProps) => {
@@ -48,38 +44,25 @@ export const ListCard = ({
             className="group h-full bg-card-primary border border-border-default rounded-xl overflow-hidden hover:shadow-lg shadow-md hover:-translate-y-1 transition-all duration-300 text-left hover:cursor-pointer"
         >
             {/* Colored top border */}
-            <div className={`h-1.5 ${color}`}></div>
+            <div className={`h-1.5 bg-[${color}]`}></div>
 
             <div className="p-6">
-                {/* Icon and Title */}
-                <div className="flex items-start gap-4 mb-4">
-                    <div className={`w-12 h-12 rounded-lg ${color} bg-opacity-10 flex items-center justify-center flex-shrink-0`}>
-                        <div className="text-2xl">{icon}</div>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                        <h3 className="text-text-primary text-lg font-semibold mb-1 group-hover:text-primary transition-colors truncate">
-                            {title}
-                        </h3>
-                        <p className="text-text-secondary text-sm line-clamp-2">
-                            {description}
-                        </p>
-                    </div>
+                {/* Title and Description */}
+                <div className="mb-4">
+                    <h3 className="text-text-primary text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
+                        {title}
+                    </h3>
+                    <p className="text-text-secondary text-sm line-clamp-2">
+                        {description}
+                    </p>
                 </div>
 
-                {/* Task Count and Status */}
-                <div className="flex items-center justify-between mt-4">
-                    <div className="flex items-center gap-2 text-text-secondary">
-                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                        </svg>
-                        <span className="text-sm font-medium">{taskCount} tasks</span>
-                    </div>
-
-                    {status && (
-                        <span className="px-3 py-1 text-xs text-center font-semibold rounded-full bg-background-primary-hover text-text-primary border border-border-default">
-                            {status}
-                        </span>
-                    )}
+                {/* Task Count */}
+                <div className="flex items-center gap-2 border-t border-border-default pt-2 text-text-secondary">
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                    <span className={`text-sm font-medium text-[${color}]`}>{taskCount} tasks</span>
                 </div>
             </div>
         </button>

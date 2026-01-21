@@ -1,8 +1,6 @@
 import { PageHeader } from '../common/PageHeader';
 import { ActionButton } from '../common/ActionButton';
 
-type ViewMode = 'month' | 'week' | 'day';
-
 interface TaskEvent {
     id: string;
     title: string;
@@ -15,13 +13,11 @@ interface CalendarViewProps {
     currentMonth: string;
     currentMonthNumber: number;
     currentYear: number;
-    viewMode: ViewMode;
     tasks: TaskEvent[];
     daysInMonth: number;
     firstDayOfMonth: number;
     onPreviousMonth: () => void;
     onNextMonth: () => void;
-    onViewModeChange: (mode: ViewMode) => void;
     onTaskClick?: (taskId: string) => void;
     onAddTask: () => void;
 }
@@ -35,13 +31,11 @@ export const CalendarView = ({
     currentMonth,
     currentMonthNumber,
     currentYear,
-    viewMode,
     tasks,
     daysInMonth,
     firstDayOfMonth,
     onPreviousMonth,
     onNextMonth,
-    onViewModeChange,
     onTaskClick,
     onAddTask,
 }: CalendarViewProps) => {
@@ -122,37 +116,6 @@ export const CalendarView = ({
                 </div>
 
                 <div className='flex flex-wrap gap-4'>
-                    {/* View Mode Switcher */}
-                    <div className="flex flex-wrap items-center gap-2 bg-card-primary shadow-md border border-border-default rounded-lg p-2">
-                        <button
-                            onClick={() => onViewModeChange('month')}
-                            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors hover:cursor-pointer ${viewMode === 'month'
-                                ? 'bg-primary text-white'
-                                : 'text-text-secondary hover:text-text-primary hover:bg-background-primary-hover'
-                                }`}
-                        >
-                            MONTH
-                        </button>
-                        <button
-                            onClick={() => onViewModeChange('week')}
-                            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors hover:cursor-pointer ${viewMode === 'week'
-                                ? 'bg-primary text-white'
-                                : 'text-text-secondary hover:text-text-primary hover:bg-background-primary-hover'
-                                }`}
-                        >
-                            WEEK
-                        </button>
-                        <button
-                            onClick={() => onViewModeChange('day')}
-                            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors hover:cursor-pointer ${viewMode === 'day'
-                                ? 'bg-primary text-white'
-                                : 'text-text-secondary hover:text-text-primary hover:bg-background-primary-hover'
-                                }`}
-                        >
-                            DAY
-                        </button>
-                    </div>
-
                     {/* Create Task Button */}
                     <ActionButton
                         onClick={onAddTask}

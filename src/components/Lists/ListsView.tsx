@@ -1,5 +1,6 @@
 import { PageHeader } from '../common/PageHeader';
 import { ListCard } from './ListCard';
+import type { Task } from '@/types';
 
 type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
 
@@ -8,10 +9,8 @@ interface List {
     title: string;
     description: string;
     color: string;
-    icon: React.ReactNode;
     taskCount: number;
-    status?: string;
-    progressStatus?: 'TODO' | 'IN_PROGRESS' | 'DONE';
+    tasks: Task[];
 }
 
 interface ListsViewProps {
@@ -97,9 +96,7 @@ export const ListsView = ({
                         title={list.title}
                         description={list.description}
                         color={list.color}
-                        icon={list.icon}
                         taskCount={list.taskCount}
-                        status={list.status}
                         onClick={() => onListClick(list.id)}
                     />
                 ))}
@@ -110,7 +107,6 @@ export const ListsView = ({
                     title=""
                     description=""
                     color=""
-                    icon={null}
                     taskCount={0}
                     isNewCard={true}
                     onClick={onCreateList}

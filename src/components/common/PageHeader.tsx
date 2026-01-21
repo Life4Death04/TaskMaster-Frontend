@@ -51,7 +51,7 @@ export const PageHeader = ({
                     </div>
                 </div>
 
-                <div className="flex items-center gap-4">
+                <div className="flex flex-wrap items-center justify-center gap-4">
                     {/* Action Buttons (for List Details) */}
                     {actionButtons}
 

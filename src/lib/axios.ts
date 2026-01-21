@@ -35,9 +35,15 @@ api.interceptors.response.use(
   (error) => {
     // Handle 401 Unauthorized - token expired or invalid
     if (error.response?.status === 401) {
-      console.error('Unauthorized - logging out');
-      store.dispatch(logout());
-      window.location.href = '/login';
+      // Only logout and redirect if not already on auth page
+      // This prevents infinite loops when login fails or page refreshes
+      const isOnAuthPage = window.location.pathname.startsWith('/auth');
+
+      if (!isOnAuthPage) {
+        console.error('Unauthorized - logging out');
+        store.dispatch(logout());
+        window.location.href = '/auth';
+      }
     }
 
     return Promise.reject(error);

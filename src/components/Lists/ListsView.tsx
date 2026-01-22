@@ -1,26 +1,21 @@
 import { PageHeader } from '../common/PageHeader';
 import { ListCard } from './ListCard';
-
-type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
+import type { Task } from '@/types';
 
 interface List {
     id: string;
     title: string;
     description: string;
     color: string;
-    icon: React.ReactNode;
     taskCount: number;
-    status?: string;
-    progressStatus?: 'TODO' | 'IN_PROGRESS' | 'DONE';
+    tasks: Task[];
 }
 
 interface ListsViewProps {
     userName: string;
     lists: List[];
     searchQuery: string;
-    activeFilter: FilterTab;
     onSearchChange: (query: string) => void;
-    onFilterChange: (filter: FilterTab) => void;
     onListClick: (id: string) => void;
     onCreateList: () => void;
 }
@@ -33,18 +28,10 @@ export const ListsView = ({
     userName,
     lists,
     searchQuery,
-    activeFilter,
     onSearchChange,
-    onFilterChange,
     onListClick,
     onCreateList,
 }: ListsViewProps) => {
-    const filterTabs: { key: FilterTab; label: string }[] = [
-        { key: 'all', label: 'All' },
-        { key: 'todo', label: 'To Do' },
-        { key: 'in_progress', label: 'In Progress' },
-        { key: 'done', label: 'Done' },
-    ];
 
     return (
         <div className="min-h-screen bg-background-primary p-6">
@@ -58,24 +45,8 @@ export const ListsView = ({
                 showSearch={true}
             />
 
-            {/* Filter Tabs and Create Button */}
-            <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
-                {/* Filter Tabs */}
-                <div className="flex flex-wrap items-center gap-2 bg-card-primary border border-border-default rounded-lg p-1 shadow-md">
-                    {filterTabs.map((tab) => (
-                        <button
-                            key={tab.key}
-                            onClick={() => onFilterChange(tab.key)}
-                            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeFilter === tab.key
-                                ? 'bg-primary text-white'
-                                : 'text-text-secondary hover:text-text-primary hover:bg-background-primary-hover'
-                                }`}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
-                </div>
-
+            {/* Create Button */}
+            <div className="mb-8 flex justify-end">
                 {/* Create New List Button */}
                 <button
                     onClick={onCreateList}
@@ -97,9 +68,7 @@ export const ListsView = ({
                         title={list.title}
                         description={list.description}
                         color={list.color}
-                        icon={list.icon}
                         taskCount={list.taskCount}
-                        status={list.status}
                         onClick={() => onListClick(list.id)}
                     />
                 ))}
@@ -110,7 +79,6 @@ export const ListsView = ({
                     title=""
                     description=""
                     color=""
-                    icon={null}
                     taskCount={0}
                     isNewCard={true}
                     onClick={onCreateList}

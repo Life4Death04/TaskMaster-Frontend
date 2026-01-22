@@ -7,7 +7,8 @@ import { useGetListById } from '@/api/queries/lists.queries';
 import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
 import type { StatusTypes } from '@/types';
 
-type FilterTab = 'todo' | 'in_progress' | 'completed';
+type FilterTab = 'all' | 'todo' | 'in_progress' | 'completed';
+type SortOption = 'recent' | 'dueDate' | 'priority';
 
 /**
  * List Details Container
@@ -19,7 +20,8 @@ export const ListDetailsContainer = () => {
     const dispatch = useAppDispatch();
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [activeFilter, setActiveFilter] = useState<FilterTab>('todo');
+    const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
+    const [sortOption, setSortOption] = useState<SortOption>('recent');
 
     // Fetch list data from API
     const { data: listData, isLoading } = useGetListById(Number(listId));
@@ -33,13 +35,15 @@ export const ListDetailsContainer = () => {
 
         let filtered = listData.tasks;
 
-        // Apply status filter
-        const statusMap: Record<FilterTab, StatusTypes> = {
-            todo: 'TODO',
-            in_progress: 'IN_PROGRESS',
-            completed: 'DONE',
-        };
-        filtered = filtered.filter(task => task.status === statusMap[activeFilter]);
+        // Apply status filter (skip if 'all' is selected)
+        if (activeFilter !== 'all') {
+            const statusMap: Record<Exclude<FilterTab, 'all'>, StatusTypes> = {
+                todo: 'TODO',
+                in_progress: 'IN_PROGRESS',
+                completed: 'DONE',
+            };
+            filtered = filtered.filter(task => task.status === statusMap[activeFilter]);
+        }
 
         // Apply search filter
         if (searchQuery.trim()) {
@@ -49,8 +53,22 @@ export const ListDetailsContainer = () => {
             );
         }
 
-        return filtered;
-    }, [listData?.tasks, activeFilter, searchQuery]);
+        // Apply sorting
+        const sortedFiltered = [...filtered];
+        if (sortOption === 'priority') {
+            const priorityOrder = { HIGH: 0, MEDIUM: 1, LOW: 2 };
+            sortedFiltered.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+        } else if (sortOption === 'dueDate') {
+            sortedFiltered.sort((a, b) => {
+                if (!a.dueDate) return 1;
+                if (!b.dueDate) return -1;
+                return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+            });
+        }
+        // 'recent' keeps the original order (newest first from API)
+
+        return sortedFiltered;
+    }, [listData?.tasks, activeFilter, searchQuery, sortOption]);
 
     // Calculate statistics
     const totalTasks = listData?.tasks?.length || 0;
@@ -67,6 +85,10 @@ export const ListDetailsContainer = () => {
 
     const handleFilterChange = (filter: FilterTab) => {
         setActiveFilter(filter);
+    };
+
+    const handleSortChange = (sort: SortOption) => {
+        setSortOption(sort);
     };
 
     const handleToggleFavorite = () => {
@@ -219,10 +241,12 @@ export const ListDetailsContainer = () => {
             tasks={formattedTasks}
             activeFilter={activeFilter}
             searchQuery={searchQuery}
+            sortOption={sortOption}
             isFavorite={false}
             onBack={handleBack}
             onSearchChange={handleSearchChange}
             onFilterChange={handleFilterChange}
+            onSortChange={handleSortChange}
             onToggleFavorite={handleToggleFavorite}
             onEditList={handleEditList}
             onDeleteList={handleDeleteList}

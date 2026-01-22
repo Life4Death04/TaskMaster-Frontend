@@ -2,7 +2,8 @@ import { TaskCard } from '../Tasks/TaskCard';
 import { PageHeader } from '../common/PageHeader';
 import { TaskFilterBar } from '../common/TaskFilterBar';
 
-type FilterTab = 'todo' | 'in_progress' | 'completed';
+type FilterTab = 'all' | 'todo' | 'in_progress' | 'completed';
+type SortOption = 'recent' | 'dueDate' | 'priority';
 
 interface Task {
     id: string;
@@ -23,10 +24,12 @@ interface ListDetailsViewProps {
     tasks: Task[];
     activeFilter: FilterTab;
     searchQuery: string;
+    sortOption: SortOption;
     isFavorite?: boolean;
     onBack: () => void;
     onSearchChange: (query: string) => void;
     onFilterChange: (filter: FilterTab) => void;
+    onSortChange: (sort: SortOption) => void;
     onToggleFavorite?: () => void;
     onEditList?: () => void;
     onDeleteList?: () => void;
@@ -50,10 +53,12 @@ export const ListDetailsView = ({
     tasks,
     activeFilter,
     searchQuery,
+    sortOption,
     isFavorite = false,
     onBack,
     onSearchChange,
     onFilterChange,
+    onSortChange,
     onToggleFavorite,
     onEditList,
     onDeleteList,
@@ -65,9 +70,16 @@ export const ListDetailsView = ({
     onDeleteTask,
 }: ListDetailsViewProps) => {
     const filterTabs: { key: FilterTab; label: string }[] = [
+        { key: 'all', label: 'All Tasks' },
         { key: 'todo', label: 'To Do' },
         { key: 'in_progress', label: 'In Progress' },
         { key: 'completed', label: 'Completed' },
+    ];
+
+    const sortOptions: { key: SortOption; label: string }[] = [
+        { key: 'recent', label: 'Recent' },
+        { key: 'dueDate', label: 'Due Date' },
+        { key: 'priority', label: 'Priority' },
     ];
 
     // Action buttons for the header
@@ -137,7 +149,10 @@ export const ListDetailsView = ({
                 activeFilter={activeFilter}
                 onFilterChange={onFilterChange}
                 onCreateTask={onCreateTask}
-                showSort={false}
+                showSort={true}
+                sortOption={sortOption}
+                sortOptions={sortOptions}
+                onSortChange={onSortChange}
             />
 
             {/* Tasks List */}

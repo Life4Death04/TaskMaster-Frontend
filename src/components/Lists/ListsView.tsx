@@ -2,8 +2,6 @@ import { PageHeader } from '../common/PageHeader';
 import { ListCard } from './ListCard';
 import type { Task } from '@/types';
 
-type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
-
 interface List {
     id: string;
     title: string;
@@ -17,9 +15,7 @@ interface ListsViewProps {
     userName: string;
     lists: List[];
     searchQuery: string;
-    activeFilter: FilterTab;
     onSearchChange: (query: string) => void;
-    onFilterChange: (filter: FilterTab) => void;
     onListClick: (id: string) => void;
     onCreateList: () => void;
 }
@@ -32,18 +28,10 @@ export const ListsView = ({
     userName,
     lists,
     searchQuery,
-    activeFilter,
     onSearchChange,
-    onFilterChange,
     onListClick,
     onCreateList,
 }: ListsViewProps) => {
-    const filterTabs: { key: FilterTab; label: string }[] = [
-        { key: 'all', label: 'All' },
-        { key: 'todo', label: 'To Do' },
-        { key: 'in_progress', label: 'In Progress' },
-        { key: 'done', label: 'Done' },
-    ];
 
     return (
         <div className="min-h-screen bg-background-primary p-6">
@@ -57,24 +45,8 @@ export const ListsView = ({
                 showSearch={true}
             />
 
-            {/* Filter Tabs and Create Button */}
-            <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
-                {/* Filter Tabs */}
-                <div className="flex flex-wrap items-center gap-2 bg-card-primary border border-border-default rounded-lg p-1 shadow-md">
-                    {filterTabs.map((tab) => (
-                        <button
-                            key={tab.key}
-                            onClick={() => onFilterChange(tab.key)}
-                            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeFilter === tab.key
-                                ? 'bg-primary text-white'
-                                : 'text-text-secondary hover:text-text-primary hover:bg-background-primary-hover'
-                                }`}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
-                </div>
-
+            {/* Create Button */}
+            <div className="mb-8 flex justify-end">
                 {/* Create New List Button */}
                 <button
                     onClick={onCreateList}

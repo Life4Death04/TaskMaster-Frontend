@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ListDetailsView } from '@/components/Lists/ListDetailsView';
 import { useAppDispatch } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
+import { useGetListById } from '@/api/queries/lists.queries';
+import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
+import type { StatusTypes } from '@/types';
 
 type FilterTab = 'todo' | 'in_progress' | 'completed';
 
@@ -18,71 +21,40 @@ export const ListDetailsContainer = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [activeFilter, setActiveFilter] = useState<FilterTab>('todo');
 
-    // Mock data - will be replaced with Redux state/API call later
-    const listData = {
-        id: listId || '1',
-        name: 'Q3 Marketing',
-        color: 'bg-blue-500',
-        description: 'Campaign launch',
-        isFavorite: false,
-    };
+    // Fetch list data from API
+    const { data: listData, isLoading } = useGetListById(Number(listId));
 
-    const allTasks = [
-        {
-            id: '1',
-            title: 'Finalize Social Media Assets',
-            description: 'Create final versions of all social media graphics',
-            label: 'HIGH',
-            dueDate: 'Today',
-            priority: 'high' as const,
-            progressStatus: 'TODO' as const,
-        },
-        {
-            id: '2',
-            title: 'Draft Email Newsletter Copy',
-            description: 'Write compelling copy for the newsletter campaign',
-            label: 'MEDIUM',
-            dueDate: 'Tomorrow',
-            priority: 'medium' as const,
-            progressStatus: 'DONE' as const,
-        },
-        {
-            id: '3',
-            title: 'Set Up Ad Campaigns for Instagram',
-            description: 'Configure targeting and budget for Instagram ads',
-            label: 'MEDIUM',
-            dueDate: 'Oct 24',
-            priority: 'medium' as const,
-            progressStatus: 'IN_PROGRESS' as const,
-        },
-    ];
+    // Toggle task status mutation
+    const toggleTaskStatusMutation = useToggleTaskStatus();
 
-    // Filter tasks based on active filter
-    const getFilteredTasks = () => {
-        let filtered = allTasks;
+    // Filter and search tasks
+    const filteredTasks = useMemo(() => {
+        if (!listData?.tasks) return [];
 
-        // Apply filter
-        if (activeFilter === 'todo') {
-            filtered = filtered.filter(task => task.progressStatus === 'TODO');
-        } else if (activeFilter === 'in_progress') {
-            filtered = filtered.filter(task => task.progressStatus === 'IN_PROGRESS');
-        } else if (activeFilter === 'completed') {
-            filtered = filtered.filter(task => task.progressStatus === 'DONE');
-        }
+        let filtered = listData.tasks;
 
-        // Apply search
-        if (searchQuery) {
+        // Apply status filter
+        const statusMap: Record<FilterTab, StatusTypes> = {
+            todo: 'TODO',
+            in_progress: 'IN_PROGRESS',
+            completed: 'DONE',
+        };
+        filtered = filtered.filter(task => task.status === statusMap[activeFilter]);
+
+        // Apply search filter
+        if (searchQuery.trim()) {
             filtered = filtered.filter(task =>
-                task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                task.description.toLowerCase().includes(searchQuery.toLowerCase())
+                task.taskName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                task.description?.toLowerCase().includes(searchQuery.toLowerCase())
             );
         }
 
         return filtered;
-    };
+    }, [listData?.tasks, activeFilter, searchQuery]);
 
-    const filteredTasks = getFilteredTasks();
-    const activeTasks = allTasks.filter(task => task.progressStatus !== 'DONE').length;
+    // Calculate statistics
+    const totalTasks = listData?.tasks?.length || 0;
+    const completedTasks = listData?.tasks?.filter(task => task.status === 'DONE').length || 0;
 
     // Event handlers
     const handleBack = () => {
@@ -98,115 +70,156 @@ export const ListDetailsContainer = () => {
     };
 
     const handleToggleFavorite = () => {
-        // TODO: Toggle favorite status
+        // TODO: Implement favorite functionality when backend supports it
         console.log('Toggle favorite for list:', listId);
     };
 
-    const handleCreateTask = () => {
-        dispatch(openModal({ type: 'CREATE_TASK' }));
+    const handleEditList = () => {
+        if (listData) {
+            dispatch(openModal({
+                type: 'EDIT_LIST',
+                data: {
+                    id: listData.id,
+                    title: listData.title,
+                    description: listData.description,
+                    color: listData.color,
+                },
+            }));
+        }
     };
 
-    const handleTaskToggle = (id: string) => {
-        // TODO: Toggle task completion
-        console.log('Toggle task:', id);
+    const handleDeleteList = async () => {
+        if (!listId) return;
+
+        dispatch(openModal({
+            type: 'DELETE_CONFIRMATION',
+            data: {
+                itemName: listData?.title || 'this list',
+                itemType: 'list',
+                listId: Number(listId),
+            },
+        }));
+    };
+
+    const handleCreateTask = () => {
+        dispatch(openModal({
+            type: 'CREATE_TASK',
+            data: { defaultListId: Number(listId) },
+        }));
+    };
+
+    const handleTaskToggle = async (id: string) => {
+        try {
+            await toggleTaskStatusMutation.mutateAsync(Number(id));
+        } catch (error) {
+            console.error('Failed to toggle task status:', error);
+        }
     };
 
     const handleTaskClick = (id: string) => {
-        const task = allTasks.find(t => t.id === id);
+        const task = listData?.tasks?.find(t => String(t.id) === id);
         if (task) {
             dispatch(openModal({
                 type: 'TASK_DETAILS',
                 data: {
                     id: task.id,
-                    title: task.title,
+                    taskName: task.taskName,
                     description: task.description,
-                    status: task.progressStatus,
-                    priority: task.priority.toUpperCase(),
+                    status: task.status,
+                    priority: task.priority,
                     dueDate: task.dueDate,
-                    listName: listData.name,
+                    listId: task.listId,
                 },
             }));
         }
     };
 
     const handleEditTask = (id: string) => {
-        const task = allTasks.find(t => t.id === id);
+        const task = listData?.tasks?.find(t => String(t.id) === id);
         if (task) {
             dispatch(openModal({
                 type: 'EDIT_TASK',
                 data: {
                     id: task.id,
-                    title: task.title,
+                    taskName: task.taskName,
                     description: task.description,
-                    status: task.progressStatus,
-                    priority: task.priority.toUpperCase(),
+                    status: task.status,
+                    priority: task.priority,
                     dueDate: task.dueDate,
-                    listName: listData.name,
+                    listId: task.listId,
                 },
             }));
         }
     };
 
     const handleArchiveTask = (id: string) => {
-        // TODO: Archive task
+        // TODO: Archive task when backend supports it
         console.log('Archive task:', id);
     };
 
     const handleDeleteTask = (id: string) => {
-        const task = allTasks.find(t => t.id === id);
+        const task = listData?.tasks?.find(t => String(t.id) === id);
         if (task) {
             dispatch(openModal({
                 type: 'DELETE_CONFIRMATION',
                 data: {
-                    itemName: task.title,
+                    itemName: task.taskName,
                     itemType: 'task',
-                    onConfirm: () => {
-                        // TODO: Implement actual delete logic here
-                        console.log('Task deleted:', id);
-                    },
+                    taskId: Number(id),
                 },
             }));
         }
     };
 
-    const handleEditList = () => {
-        dispatch(openModal({
-            type: 'EDIT_LIST',
-            data: {
-                id: listData.id,
-                name: listData.name,
-                color: listData.color,
-                description: listData.description,
-            },
+    // Format tasks for view
+    const formattedTasks = useMemo(() => {
+        return filteredTasks.map(task => ({
+            id: String(task.id),
+            title: task.taskName,
+            description: task.description || '',
+            label: task.priority,
+            dueDate: task.dueDate || '',
+            priority: task.priority.toLowerCase() as 'high' | 'medium' | 'low',
+            progressStatus: task.status,
         }));
-    };
+    }, [filteredTasks]);
 
-    const handleDeleteList = () => {
-        dispatch(openModal({
-            type: 'DELETE_CONFIRMATION',
-            data: {
-                itemName: listData.name,
-                itemType: 'list',
-                onConfirm: () => {
-                    // TODO: Implement actual delete logic here
-                    console.log('List deleted:', listData.id);
-                    navigate('/lists'); // Navigate back to lists page after deletion
-                },
-            },
-        }));
-    };
+    // Show loading state
+    if (isLoading) {
+        return (
+            <div className="min-h-screen bg-background-primary flex items-center justify-center">
+                <div className="text-text-primary">Loading list...</div>
+            </div>
+        );
+    }
+
+    // Show error if list not found
+    if (!listData) {
+        return (
+            <div className="min-h-screen bg-background-primary flex items-center justify-center">
+                <div className="text-center">
+                    <h2 className="text-text-primary text-xl font-bold mb-2">List not found</h2>
+                    <button
+                        onClick={handleBack}
+                        className="text-primary hover:underline"
+                    >
+                        Go back to lists
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <ListDetailsView
-            listName={listData.name}
-            listColor={listData.color}
-            listDescription={listData.description}
-            totalTasks={allTasks.length}
-            activeTasks={activeTasks}
-            tasks={filteredTasks}
+            listName={listData.title}
+            listDescription={listData.description || undefined}
+            totalTasks={totalTasks}
+            activeTasks={completedTasks}
+            tasks={formattedTasks}
             activeFilter={activeFilter}
             searchQuery={searchQuery}
-            isFavorite={listData.isFavorite}
+            isFavorite={false}
             onBack={handleBack}
             onSearchChange={handleSearchChange}
             onFilterChange={handleFilterChange}

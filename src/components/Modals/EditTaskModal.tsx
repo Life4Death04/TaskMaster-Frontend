@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { editTaskSchema, type EditTaskFormData } from '@/schemas/task.schemas';
+import { useFetchLists } from '@/api/queries/lists.queries';
 
 interface EditTaskModalProps {
     isOpen: boolean;
@@ -26,6 +27,9 @@ export const EditTaskModal = ({
     isLoading = false,
     task
 }: EditTaskModalProps) => {
+    // Fetch all lists for the dropdown
+    const { data: listsData } = useFetchLists();
+
     const {
         register,
         handleSubmit,
@@ -169,8 +173,8 @@ export const EditTaskModal = ({
                                         type="button"
                                         onClick={() => setValue('priority', 'LOW')}
                                         className={`flex-1 px-2 py-2 rounded-lg text-xs font-medium transition-all hover:cursor-pointer ${priority === 'LOW'
-                                                ? 'bg-green-500/20 text-green-400 border-2 border-green-500'
-                                                : 'bg-background-input text-text-secondary border border-border-input hover:border-green-500/50'
+                                            ? 'bg-green-500/20 text-green-400 border-2 border-green-500'
+                                            : 'bg-background-input text-text-secondary border border-border-input hover:border-green-500/50'
                                             }`}
                                     >
                                         Low
@@ -179,8 +183,8 @@ export const EditTaskModal = ({
                                         type="button"
                                         onClick={() => setValue('priority', 'MEDIUM')}
                                         className={`flex-1 px-2 py-2 rounded-lg text-xs font-medium transition-all hover:cursor-pointer ${priority === 'MEDIUM'
-                                                ? 'bg-orange-500/20 text-orange-400 border-2 border-orange-500'
-                                                : 'bg-background-input text-text-secondary border border-border-input hover:border-orange-500/50'
+                                            ? 'bg-orange-500/20 text-orange-400 border-2 border-orange-500'
+                                            : 'bg-background-input text-text-secondary border border-border-input hover:border-orange-500/50'
                                             }`}
                                     >
                                         Med
@@ -189,8 +193,8 @@ export const EditTaskModal = ({
                                         type="button"
                                         onClick={() => setValue('priority', 'HIGH')}
                                         className={`flex-1 px-2 py-2 rounded-lg text-xs font-medium transition-all hover:cursor-pointer ${priority === 'HIGH'
-                                                ? 'bg-red-500/20 text-red-400 border-2 border-red-500'
-                                                : 'bg-background-input text-text-secondary border border-border-input hover:border-red-500/50'
+                                            ? 'bg-red-500/20 text-red-400 border-2 border-red-500'
+                                            : 'bg-background-input text-text-secondary border border-border-input hover:border-red-500/50'
                                             }`}
                                     >
                                         High
@@ -232,7 +236,11 @@ export const EditTaskModal = ({
                                     }}
                                 >
                                     <option value="">No List</option>
-                                    {/* TODO: Populate with actual lists from Redux */}
+                                    {listsData?.map((list) => (
+                                        <option key={list.id} value={list.id}>
+                                            {list.title}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                         </div>

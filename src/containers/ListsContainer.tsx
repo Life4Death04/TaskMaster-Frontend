@@ -4,9 +4,6 @@ import { ListsView } from '../components/Lists/ListsView';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
 import { useFetchLists } from '@/api/queries/lists.queries';
-import type { StatusTypes } from '@/types';
-
-type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
 
 /**
  * Lists Container
@@ -16,7 +13,6 @@ export const ListsContainer = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
-    const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
 
     // Fetch user from Redux
     const user = useAppSelector((state) => state.auth.user);
@@ -37,22 +33,8 @@ export const ListsContainer = () => {
             );
         }
 
-        // Apply status filter based on tasks
-        if (activeFilter !== 'all') {
-            const statusMap: Record<Exclude<FilterTab, 'all'>, StatusTypes> = {
-                todo: 'TODO',
-                in_progress: 'IN_PROGRESS',
-                done: 'DONE',
-            };
-            const targetStatus = statusMap[activeFilter as Exclude<FilterTab, 'all'>];
-
-            filtered = filtered.filter((list) =>
-                list.tasks?.some((task) => task.status === targetStatus)
-            );
-        }
-
         return filtered;
-    }, [lists, searchQuery, activeFilter]);
+    }, [lists, searchQuery]);
 
     // Format lists for view
     const formattedLists = useMemo(() => {
@@ -69,10 +51,6 @@ export const ListsContainer = () => {
     // Event handlers
     const handleSearchChange = (query: string) => {
         setSearchQuery(query);
-    };
-
-    const handleFilterChange = (filter: FilterTab) => {
-        setActiveFilter(filter);
     };
 
     const handleListClick = (id: string) => {
@@ -97,9 +75,7 @@ export const ListsContainer = () => {
             userName={userName}
             lists={formattedLists}
             searchQuery={searchQuery}
-            activeFilter={activeFilter}
             onSearchChange={handleSearchChange}
-            onFilterChange={handleFilterChange}
             onListClick={handleListClick}
             onCreateList={handleCreateList}
         />

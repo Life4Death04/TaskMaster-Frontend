@@ -3,7 +3,7 @@ import { closeModal } from '@/features/ui/uiSlice';
 import { logout } from '@/features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { useCreateTask, useUpdateTask, useDeleteTask } from '@/api/mutations/tasks.mutations';
-import { useCreateList } from '@/api/mutations/lists.mutations';
+import { useCreateList, useDeleteList, useUpdateList } from '@/api/mutations/lists.mutations';
 import { useDeleteUser } from '@/api/mutations/users.mutations';
 import { CreateTaskModal } from './CreateTaskModal';
 import { EditTaskModal } from './EditTaskModal';
@@ -12,7 +12,7 @@ import { EditListModal } from './EditListModal';
 import { TaskDetailsModal } from './TaskDetailsModal';
 import { DeleteConfirmationModal } from './DeleteConfirmationModal';
 import type { CreateTaskFormData, EditTaskFormData } from '@/schemas/task.schemas';
-import type { CreateListFormData } from '@/schemas/list.schemas';
+import type { CreateListFormData, UpdateListFormData } from '@/schemas/list.schemas';
 
 export const ModalManager = () => {
     const dispatch = useAppDispatch();
@@ -23,6 +23,8 @@ export const ModalManager = () => {
     const updateTaskMutation = useUpdateTask();
     const deleteTaskMutation = useDeleteTask();
     const createListMutation = useCreateList();
+    const updateListMutation = useUpdateList();
+    const deleteListMutation = useDeleteList();
     const deleteUserMutation = useDeleteUser();
 
     const handleClose = () => {
@@ -72,6 +74,33 @@ export const ModalManager = () => {
         }
     };
 
+    const handleUpdateList = async (formData: UpdateListFormData) => {
+        if (!data?.id) return;
+
+        try {
+            await updateListMutation.mutateAsync({
+                id: data.id,
+                data: formData,
+            });
+            handleClose();
+        } catch (error) {
+            console.error('Failed to update list:', error);
+        }
+    };
+
+    const handleDeleteList = async () => {
+        if (!data?.listId) return;
+
+        try {
+            await deleteListMutation.mutateAsync(data.listId);
+            handleClose();
+            // Navigate back to lists page after deletion
+            navigate('/lists');
+        } catch (error) {
+            console.error('Failed to delete list:', error);
+        }
+    };
+
     const handleDeleteAccount = async () => {
         try {
             await deleteUserMutation.mutateAsync();
@@ -95,6 +124,7 @@ export const ModalManager = () => {
                     onClose={handleClose}
                     onSubmit={handleCreateTask}
                     isLoading={createTaskMutation.isPending}
+                    defaultListId={data?.defaultListId}
                 />
             );
 
@@ -120,20 +150,40 @@ export const ModalManager = () => {
             );
 
         case 'EDIT_LIST':
-            return <EditListModal isOpen={isOpen} onClose={handleClose} list={data} />;
+            return (
+                <EditListModal
+                    isOpen={isOpen}
+                    onClose={handleClose}
+                    onSubmit={handleUpdateList}
+                    isLoading={updateListMutation.isPending}
+                    list={data}
+                />
+            );
 
         case 'TASK_DETAILS':
             return <TaskDetailsModal onClose={handleClose} task={data} />;
 
         case 'DELETE_CONFIRMATION':
+            const getConfirmHandler = () => {
+                if (data?.accountDelete) return handleDeleteAccount;
+                if (data?.listId) return handleDeleteList;
+                return handleDeleteTask;
+            };
+
+            const getLoadingState = () => {
+                if (data?.accountDelete) return deleteUserMutation.isPending;
+                if (data?.listId) return deleteListMutation.isPending;
+                return deleteTaskMutation.isPending;
+            };
+
             return (
                 <DeleteConfirmationModal
                     isOpen={isOpen}
                     onClose={handleClose}
-                    onConfirm={data?.accountDelete ? handleDeleteAccount : handleDeleteTask}
+                    onConfirm={getConfirmHandler()}
                     itemName={data?.itemName || 'item'}
                     itemType={data?.itemType || 'item'}
-                    isLoading={data?.accountDelete ? deleteUserMutation.isPending : deleteTaskMutation.isPending}
+                    isLoading={getLoadingState()}
                 />
             );
 

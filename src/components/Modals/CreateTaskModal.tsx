@@ -9,13 +9,15 @@ interface CreateTaskModalProps {
     onClose: () => void;
     onSubmit: (data: CreateTaskFormData) => void;
     isLoading?: boolean;
+    defaultListId?: number;
 }
 
 export const CreateTaskModal = ({
     isOpen,
     onClose,
     onSubmit,
-    isLoading = false
+    isLoading = false,
+    defaultListId
 }: CreateTaskModalProps) => {
     // Fetch user settings for default values
     const { data: settings } = useFetchSettings();
@@ -40,7 +42,7 @@ export const CreateTaskModal = ({
             status: defaultStatus,
             dueDate: '',
             priority: defaultPriority,
-            listId: undefined,
+            listId: defaultListId,
         },
     });
 

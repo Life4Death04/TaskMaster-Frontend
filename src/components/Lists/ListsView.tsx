@@ -73,16 +73,18 @@ export const ListsView = ({
                     />
                 ))}
 
-                {/* Create New List Card */}
-                <ListCard
-                    id="new"
-                    title=""
-                    description=""
-                    color=""
-                    taskCount={0}
-                    isNewCard={true}
-                    onClick={onCreateList}
-                />
+                {/* Create New List Card only when lists exist */}
+                {lists.length > 0 && (
+                    <ListCard
+                        id="new"
+                        title=""
+                        description=""
+                        color=""
+                        taskCount={0}
+                        isNewCard={true}
+                        onClick={onCreateList}
+                    />
+                )}
             </div>
 
             {/* Empty State */}

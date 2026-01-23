@@ -3,6 +3,7 @@ import {
   createListAPI,
   updateListAPI,
   deleteListAPI,
+  toggleListFavoriteAPI,
 } from '../request/lists.api';
 import type { UpdateListDto } from '@/types';
 
@@ -63,6 +64,26 @@ export const useDeleteList = () => {
     },
     onError: (error: Error) => {
       console.error('Error deleting list:', error);
+    },
+  });
+};
+
+/**
+ * Mutation hook to toggle favorite status of a list
+ * Automatically invalidates lists query on success
+ */
+export const useToggleListFavorite = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: toggleListFavoriteAPI,
+    onSuccess: (updatedList) => {
+      // Invalidate lists and specific list
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
+      queryClient.invalidateQueries({ queryKey: ['lists', updatedList.id] });
+    },
+    onError: (error: Error) => {
+      console.error('Error toggling favorite status:', error);
     },
   });
 };

@@ -5,6 +5,7 @@ import { useAppDispatch } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
 import { useGetListById } from '@/api/queries/lists.queries';
 import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
+import { useToggleListFavorite } from '@/api/mutations/lists.mutations';
 import type { StatusTypes } from '@/types';
 
 type FilterTab = 'all' | 'todo' | 'in_progress' | 'completed';
@@ -28,6 +29,9 @@ export const ListDetailsContainer = () => {
 
     // Toggle task status mutation
     const toggleTaskStatusMutation = useToggleTaskStatus();
+
+    // Toggle list favorite mutation
+    const toggleListFavoriteMutation = useToggleListFavorite();
 
     // Filter and search tasks
     const filteredTasks = useMemo(() => {
@@ -91,9 +95,14 @@ export const ListDetailsContainer = () => {
         setSortOption(sort);
     };
 
-    const handleToggleFavorite = () => {
-        // TODO: Implement favorite functionality when backend supports it
-        console.log('Toggle favorite for list:', listId);
+    const handleToggleFavorite = async () => {
+        if (!listId) return;
+
+        try {
+            await toggleListFavoriteMutation.mutateAsync(Number(listId));
+        } catch (error) {
+            console.error('Failed to toggle favorite status:', error);
+        }
     };
 
     const handleEditList = () => {
@@ -242,7 +251,7 @@ export const ListDetailsContainer = () => {
             activeFilter={activeFilter}
             searchQuery={searchQuery}
             sortOption={sortOption}
-            isFavorite={false}
+            isFavorite={listData.isFavorite}
             onBack={handleBack}
             onSearchChange={handleSearchChange}
             onFilterChange={handleFilterChange}

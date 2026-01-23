@@ -131,29 +131,38 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                 </nav>
 
                 {/* Lists Navigation Section */}
-                <div className="border-t border-border-default">
-                    <div className="space-y-2 p-4">
-                        {listItems.map((list) => (
-                            <Link
-                                key={list.id}
-                                to={`/lists/${list.id}`}
-                                onClick={onClose}
-                                className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors hover:cursor-pointer"
-                            >
-                                <svg
-                                    className="w-5 h-5 flex-shrink-0"
-                                    fill={list.color}
-                                    viewBox="0 0 24 24"
+                {listItems.length > 0 && (
+                    <div className="border-t border-border-default">
+                        {isOpen && (
+                            <div className="px-4 pt-4 pb-2">
+                                <h3 className="text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                                    Favorite Lists
+                                </h3>
+                            </div>
+                        )}
+                        <div className="space-y-2 p-4 pt-2">
+                            {listItems.map((list) => (
+                                <Link
+                                    key={list.id}
+                                    to={`/lists/${list.id}`}
+                                    onClick={onClose}
+                                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors hover:cursor-pointer"
                                 >
-                                    <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
-                                </svg>
-                                {isOpen && (
-                                    <span className="text-text-primary text-sm truncate">{list.name}</span>
-                                )}
-                            </Link>
-                        ))}
+                                    <svg
+                                        className="w-5 h-5 flex-shrink-0"
+                                        fill={list.color}
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+                                    </svg>
+                                    {isOpen && (
+                                        <span className="text-text-primary text-sm truncate">{list.name}</span>
+                                    )}
+                                </Link>
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
 
 
                 {/* Sidebar Footer */}

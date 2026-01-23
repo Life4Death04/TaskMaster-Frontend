@@ -2,8 +2,30 @@ import React from 'react';
 import { useAppDispatch } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
 import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
+import { useFetchSettings } from '@/api/queries/settings.queries';
+import { useFetchLists } from '@/api/queries/lists.queries';
 import { getStatusBadge, getPriorityBadge } from '@/utils/taskHelpers';
 import type { Task } from '@/types';
+
+// Helper function to format date based on user settings
+const formatDate = (dateString: string | null | undefined, format: string = 'MM_DD_YYYY'): string => {
+    if (!dateString) return 'No due date';
+
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+
+    switch (format) {
+        case 'DD_MM_YYYY':
+            return `${day}/${month}/${year}`;
+        case 'YYYY_MM_DD':
+            return `${year}/${month}/${day}`;
+        case 'MM_DD_YYYY':
+        default:
+            return `${month}/${day}/${year}`;
+    }
+};
 
 interface TaskDetailsModalProps {
     onClose: () => void;
@@ -13,8 +35,16 @@ interface TaskDetailsModalProps {
 export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, task }) => {
     const dispatch = useAppDispatch();
     const toggleStatusMutation = useToggleTaskStatus();
+    const { data: settings } = useFetchSettings();
+    const { data: allLists = [] } = useFetchLists();
     const statusBadge = getStatusBadge(task?.status);
     const priorityBadge = getPriorityBadge(task?.priority);
+
+    // Format the due date based on user settings
+    const formattedDueDate = formatDate(task?.dueDate, settings?.dateFormat);
+
+    // Find the list name for this task
+    const taskList = task?.listId ? allLists.find(list => list.id === task.listId) : null;
 
     const handleMarkAsCompleted = async () => {
         if (!task?.id) return;
@@ -167,7 +197,7 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, tas
                                     </svg>
                                 </div>
                                 <div>
-                                    <p className="text-text-primary font-semibold text-sm">{task?.dueDate || 'No due date'}</p>
+                                    <p className="text-text-primary font-semibold text-sm">{formattedDueDate}</p>
                                     <p className="text-text-secondary text-xs mt-0.5">Task deadline</p>
                                 </div>
                             </div>
@@ -186,7 +216,7 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, tas
                                 </div>
                                 <div>
                                     <p className="text-text-primary font-semibold text-sm">
-                                        {task?.listId ? `List #${task.listId}` : 'No List'}
+                                        {taskList ? taskList.title : 'No List'}
                                     </p>
                                     <p className="text-text-secondary text-xs mt-0.5">Task category</p>
                                 </div>

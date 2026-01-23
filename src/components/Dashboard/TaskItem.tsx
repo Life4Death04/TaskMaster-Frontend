@@ -48,17 +48,26 @@ export const TaskItem = ({
             </div>
 
             <div className="flex-1 min-w-0">
-                <div className="flex flex-wrap items-center gap-2 mb-1">
-                    <h3 className="text-text-primary font-semibold text-sm">{title}</h3>
-                    {status === 'overdue' && (
-                        <span className="px-2 py-0.5 text-xs font-bold bg-red-500/20 text-red-400 rounded uppercase">OVERDUE</span>
-                    )}
-                    {status === 'normal' && (
-                        <span className="px-2 py-0.5 text-xs font-bold bg-blue-500/20 text-blue-400 rounded uppercase">NORMAL</span>
-                    )}
+                <div className="flex items-start justify-between">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="text-text-primary font-semibold text-sm">{title}</h3>
+                        {status === 'overdue' && (
+                            <span className="px-2 py-0.5 text-xs font-bold bg-red-500/20 text-red-400 rounded uppercase">OVERDUE</span>
+                        )}
+                        {status === 'normal' && (
+                            <span className="px-2 py-0.5 text-xs font-bold bg-blue-500/20 text-blue-400 rounded uppercase">NORMAL</span>
+                        )}
+
+                    </div>
+                    <TaskOptionsMenu
+                        taskId={id}
+                        onEdit={onEdit}
+                        onArchive={onArchive}
+                        onDelete={onDelete}
+                    />
                 </div>
 
-                <p className="text-text-secondary text-sm my-3">{description}</p>
+                <p className="text-text-secondary text-sm mb-3">{description}</p>
 
                 <div className="flex flex-wrap items-center gap-2">
                     <div className="flex items-center gap-2 text-sm">
@@ -75,15 +84,6 @@ export const TaskItem = ({
                                 'bg-green-500'
                             }`}></span>
                         <span className="text-text-secondary text-xs capitalize">{priority}</span>
-                    </div>
-
-                    <div className="ml-auto" onClick={(e) => e.stopPropagation()}>
-                        <TaskOptionsMenu
-                            taskId={id}
-                            onEdit={onEdit}
-                            onArchive={onArchive}
-                            onDelete={onDelete}
-                        />
                     </div>
                 </div>
             </div>

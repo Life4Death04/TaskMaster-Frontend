@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Sidebar, type NavigationItem, type ListItem } from '@/components/Sidebar/Sidebar';
 import { logout } from '@/features/auth/authSlice';
 import { useAppDispatch } from '@/hooks/redux';
 import { useNavigate } from 'react-router-dom';
+import { useFetchLists } from '@/api/queries/lists.queries';
 
 /**
  * Container component for Sidebar
@@ -13,6 +14,20 @@ export const SidebarContainer = () => {
     const [isMobile, setIsMobile] = useState(false);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+
+    // Fetch lists from API
+    const { data: allLists = [] } = useFetchLists();
+
+    // Filter only favorite lists for sidebar
+    const listItems: ListItem[] = useMemo(() => {
+        return allLists
+            .filter(list => list.isFavorite)
+            .map(list => ({
+                id: String(list.id),
+                name: list.title,
+                color: list.color,
+            }));
+    }, [allLists]);
 
     // Navigation items configuration
     const navigationItems: NavigationItem[] = [
@@ -52,14 +67,6 @@ export const SidebarContainer = () => {
                 </span>
             ),
         }
-    ];
-
-    // Sample lists - in real app, this would come from API/Redux
-    const listItems: ListItem[] = [
-        { id: '1', name: 'Work Projects', color: '#3b82f6' },
-        { id: '2', name: 'Personal', color: '#10b981' },
-        { id: '3', name: 'Shopping', color: '#f59e0b' },
-        { id: '4', name: 'Ideas', color: '#8b5cf6' },
     ];
 
     // Detect screen size and set mobile state

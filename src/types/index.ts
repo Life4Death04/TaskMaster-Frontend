@@ -43,6 +43,7 @@ export interface List {
   title: string;
   description?: string | null;
   color: string;
+  isFavorite: boolean;
   authorId: number;
   tasks?: Task[];
   createdAt?: string;

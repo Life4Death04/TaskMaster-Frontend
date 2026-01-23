@@ -22,6 +22,8 @@ export const useCreateTask = () => {
     onSuccess: () => {
       // Invalidate and refetch tasks list
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      // Also invalidate lists since tasks are nested in lists
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
     },
     onError: (error: Error) => {
       console.error('Error creating task:', error);
@@ -44,6 +46,7 @@ export const useUpdateTask = () => {
       // Invalidate tasks list and specific task
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       queryClient.invalidateQueries({ queryKey: ['tasks', updatedTask.id] });
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
     },
     onError: (error: Error) => {
       console.error('Error updating task:', error);
@@ -63,6 +66,7 @@ export const useDeleteTask = () => {
     onSuccess: () => {
       // Invalidate tasks list
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
     },
     onError: (error: Error) => {
       console.error('Error deleting task:', error);
@@ -104,6 +108,8 @@ export const useToggleTaskStatus = () => {
       // Invalidate tasks list and specific task
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       queryClient.invalidateQueries({ queryKey: ['tasks', updatedTask.id] });
+      // Also invalidate lists since tasks are nested in lists
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
     },
     onError: (error: Error) => {
       console.error('Error toggling task status:', error);

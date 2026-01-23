@@ -41,6 +41,7 @@ interface DashboardViewProps {
     onTaskToggle: (id: string) => void;
     onTaskClick?: (id: string) => void;
     onViewAllTasks: () => void;
+    onCalendarClick: () => void;
     onAddReminder: () => void;
     onEditTask?: (id: string) => void;
     onArchiveTask?: (id: string) => void;
@@ -62,6 +63,7 @@ export const DashboardView = ({
     onTaskToggle,
     onTaskClick,
     onViewAllTasks,
+    onCalendarClick,
     onAddReminder,
     onEditTask,
     onArchiveTask,
@@ -76,7 +78,7 @@ export const DashboardView = ({
                 userName={userName}
                 searchQuery={searchQuery}
                 onSearchChange={onSearchChange}
-                showSearch={true}
+                showSearch={false}
             />
 
             {/* Stats Cards */}
@@ -161,7 +163,7 @@ export const DashboardView = ({
                     <div>
                         <div className="flex items-center justify-between py-6">
                             <h2 className="text-text-primary text-xl font-bold">Upcoming Due Dates</h2>
-                            <button className="px-2 hover:bg-background-primary-hover rounded-lg transition-colors text-text-secondary hover:text-text-primary hover:cursor-pointer" aria-label="Calendar">
+                            <button onClick={onCalendarClick} className="px-2 hover:bg-background-primary-hover rounded-lg transition-colors text-text-secondary hover:text-text-primary hover:cursor-pointer" aria-label="Calendar">
                                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth={2} />
                                     <line x1="16" y1="2" x2="16" y2="6" strokeWidth={2} strokeLinecap="round" />

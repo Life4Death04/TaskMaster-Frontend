@@ -48,6 +48,13 @@
     "taskId": "ID DE TAREA",
     "noDescription": "Sin descripción disponible.",
     "noDueDate": "Sin fecha de vencimiento",
+    "dueToday": "Vence: Hoy",
+    "dueLabel": "Vence:",
+    "today": "Hoy",
+    "tomorrow": "Mañana",
+    "yesterday": "Ayer",
+    "daysAgo": "hace {{count}} días",
+    "inDays": "En {{count}} días",
     "taskCategory": "Categoría de tarea",
     "taskDeadline": "Plazo de tarea",
     "allTasks": "Todas las Tareas",
@@ -76,7 +83,13 @@
     "statusLabels": {
       "overdue": "VENCIDA",
       "normal": "NORMAL"
-    }
+    },
+    "labels": {
+      "overdue": "VENCIDA"
+    },
+    "noTasksFound": "No se encontraron tareas",
+    "createFirstTask": "Crea tu primera tarea en esta lista",
+    "createTask": "Crear Tarea"
   },
   "lists": {
     "title": "Mis Listas",
@@ -91,7 +104,10 @@
     "totalTasks": "Tareas Totales",
     "completedTasks": "Tareas Completadas",
     "favoriteList": "Lista Favorita",
-    "favoriteLists": "Listas Favoritas"
+    "favoriteLists": "Listas Favoritas",
+    "createNewList": "Crear Nueva Lista",
+    "noListsFound": "No se encontraron listas",
+    "createFirstList": "Crea tu primera lista para comenzar"
   },
   "settings": {
     "title": "Configuración de Cuenta",
@@ -99,13 +115,28 @@
     "profile": {
       "title": "Configuración de Perfil",
       "edit": "Editar Perfil",
+      "editProfile": "Editar Perfil",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
       "save": "Guardar",
       "cancel": "Cancelar"
     },
     "appearance": {
       "title": "Apariencia",
       "darkMode": "Modo Oscuro",
-      "darkModeDesc": "Alterna entre temas claro y oscuro."
+      "darkModeDescription": "Ajusta el tema visual de la aplicación.",
+      "darkModeDesc": "Alterna entre temas claro y oscuro.",
+      "language": "Idioma",
+      "languageDescription": "Elige tu idioma preferido."
+    },
+    "preferences": {
+      "title": "Preferencias Generales",
+      "defaultPriority": "Prioridad Predeterminada",
+      "defaultPriorityDescription": "Prioridad para tareas recién creadas.",
+      "defaultStatus": "Estado Predeterminado",
+      "defaultStatusDescription": "Estado para tareas recién creadas.",
+      "dateFormat": "Formato de Fecha",
+      "dateFormatDescription": "Formato de visualización preferido para fechas."
     },
     "language": {
       "title": "Idioma",
@@ -122,6 +153,12 @@
       "title": "Formato de Fecha",
       "dateFormatDesc": "Formato de visualización preferido para fechas."
     },
+    "account": {
+      "title": "Gestión de Cuenta",
+      "logout": "Cerrar Sesión",
+      "deleteAccount": "Eliminar Cuenta",
+      "deleteWarning": "Advertencia: Eliminar tu cuenta es permanente y no se puede deshacer. Todos tus datos serán eliminados."
+    },
     "accountManagement": {
       "title": "Gestión de Cuenta",
       "logoutSession": "Cerrar Sesión",
@@ -137,9 +174,18 @@
     "createTask": {
       "title": "Crear Nueva Tarea",
       "subtitle": "Organiza tu trabajo y mantente productivo.",
+      "taskName": "Nombre de la Tarea",
       "taskNamePlaceholder": "ej., Revisar despliegue del sistema",
+      "description": "Descripción",
       "descriptionPlaceholder": "Proporciona más contexto sobre esta tarea...",
-      "optional": "(OPCIONAL)"
+      "status": "Estado",
+      "dueDate": "Fecha de Vencimiento",
+      "priority": "Prioridad",
+      "list": "Lista",
+      "noList": "Sin Lista",
+      "optional": "(OPCIONAL)",
+      "createButton": "Crear Tarea",
+      "creating": "Creando..."
     },
     "editTask": {
       "title": "Editar Tarea",
@@ -159,7 +205,7 @@
       "description": "DESCRIPCIÓN",
       "dueDate": "FECHA DE VENCIMIENTO",
       "projectList": "PROYECTO / LISTA",
-      "markAsComplete": "Marcar como Completada",
+      "markAsComplete": "Marcar Completada",
       "completed": "Completada",
       "updating": "Actualizando..."
     },
@@ -179,7 +225,30 @@
   },
   "calendar": {
     "title": "Calendario",
-    "subtitle": "Visualiza y gestiona tu programación de tareas"
+    "subtitle": "Visualiza y gestiona tu programación de tareas",
+    "days": {
+      "sun": "DOM",
+      "mon": "LUN",
+      "tue": "MAR",
+      "wed": "MIÉ",
+      "thu": "JUE",
+      "vie": "VIE",
+      "sat": "SÁB"
+    },
+    "months": {
+      "january": "Enero",
+      "february": "Febrero",
+      "march": "Marzo",
+      "april": "Abril",
+      "may": "Mayo",
+      "june": "Junio",
+      "july": "Julio",
+      "august": "Agosto",
+      "september": "Septiembre",
+      "october": "Octubre",
+      "november": "Noviembre",
+      "december": "Diciembre"
+    }
   },
   "common": {
     "save": "Guardar",
@@ -193,7 +262,30 @@
     "loading": "Cargando...",
     "saving": "Guardando...",
     "optional": "Opcional",
-    "close": "Cerrar"
+    "statusBadge": {
+      "inProgress": "EN PROGRESO",
+      "completed": "COMPLETADO",
+      "toDo": "POR HACER"
+    },
+    "priorityBadge": {
+      "highPriority": "PRIORIDAD ALTA",
+      "mediumPriority": "PRIORIDAD MEDIA",
+      "lowPriority": "PRIORIDAD BAJA",
+      "noPriority": "SIN PRIORIDAD"
+    },
+    "close": "Cerrar",
+    "discard": "Descartar",
+    "applyChanges": "Aplicar Cambios",
+    "priority": {
+      "low": "Baja",
+      "medium": "Media",
+      "high": "Alta"
+    },
+    "status": {
+      "todo": "Por Hacer",
+      "inProgress": "En Progreso",
+      "done": "Completada"
+    }
   },
   "menu": {
     "edit": "Editar",

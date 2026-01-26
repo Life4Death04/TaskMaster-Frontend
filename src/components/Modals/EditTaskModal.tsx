@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { editTaskSchema, type EditTaskFormData } from '@/schemas/task.schemas';
@@ -27,6 +28,7 @@ export const EditTaskModal = ({
     isLoading = false,
     task
 }: EditTaskModalProps) => {
+    const { t } = useTranslation();
     // Fetch all lists for the dropdown
     const { data: listsData } = useFetchLists();
 
@@ -92,7 +94,7 @@ export const EditTaskModal = ({
                         <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
-                        <h2 className="text-text-primary text-xl font-bold">Edit Task</h2>
+                        <h2 className="text-text-primary text-xl font-bold">{t('modals.editTask.title')}</h2>
                     </div>
                     <button
                         onClick={handleClose}
@@ -113,7 +115,7 @@ export const EditTaskModal = ({
                         {/* Task Name */}
                         <div>
                             <label className="block text-text-primary text-sm font-semibold mb-2">
-                                Task Name
+                                {t('modals.createTask.taskName')}
                             </label>
                             <input
                                 type="text"
@@ -128,7 +130,7 @@ export const EditTaskModal = ({
                         {/* Description */}
                         <div>
                             <label className="block text-text-primary text-sm font-semibold mb-2">
-                                Description
+                                {t('modals.createTask.description')}
                             </label>
                             <textarea
                                 {...register('description')}
@@ -145,7 +147,7 @@ export const EditTaskModal = ({
                             {/* Status */}
                             <div>
                                 <label className="block text-text-primary text-sm font-semibold mb-2">
-                                    Status
+                                    {t('modals.createTask.status')}
                                 </label>
                                 <select
                                     {...register('status')}
@@ -157,16 +159,16 @@ export const EditTaskModal = ({
                                         backgroundSize: '1.25rem',
                                     }}
                                 >
-                                    <option value="TODO">To Do</option>
-                                    <option value="IN_PROGRESS">In Progress</option>
-                                    <option value="DONE">Done</option>
+                                    <option value="TODO">{t('common.status.todo')}</option>
+                                    <option value="IN_PROGRESS">{t('common.status.inProgress')}</option>
+                                    <option value="DONE">{t('common.status.done')}</option>
                                 </select>
                             </div>
 
                             {/* Priority */}
                             <div>
                                 <label className="block text-text-primary text-sm font-semibold mb-2">
-                                    Priority
+                                    {t('modals.createTask.priority')}
                                 </label>
                                 <div className="flex gap-2">
                                     <button
@@ -177,7 +179,7 @@ export const EditTaskModal = ({
                                             : 'bg-background-input text-text-secondary border border-border-input hover:border-green-500/50'
                                             }`}
                                     >
-                                        Low
+                                        {t('common.priority.low')}
                                     </button>
                                     <button
                                         type="button"
@@ -187,7 +189,7 @@ export const EditTaskModal = ({
                                             : 'bg-background-input text-text-secondary border border-border-input hover:border-orange-500/50'
                                             }`}
                                     >
-                                        Med
+                                        {t('common.priority.medium')}
                                     </button>
                                     <button
                                         type="button"
@@ -197,7 +199,7 @@ export const EditTaskModal = ({
                                             : 'bg-background-input text-text-secondary border border-border-input hover:border-red-500/50'
                                             }`}
                                     >
-                                        High
+                                        {t('common.priority.high')}
                                     </button>
                                 </div>
                             </div>
@@ -208,8 +210,8 @@ export const EditTaskModal = ({
                             {/* Due Date */}
                             <div>
                                 <label className="block text-text-secondary text-sm mb-2 flex items-center gap-1">
-                                    <span className="font-semibold text-text-primary">Due Date</span>
-                                    <span className="text-xs">(Optional)</span>
+                                    <span className="font-semibold text-text-primary">{t('modals.createTask.dueDate')}</span>
+                                    <span className="text-xs">({t('common.optional')})</span>
                                 </label>
                                 <input
                                     type="date"
@@ -221,7 +223,7 @@ export const EditTaskModal = ({
                             {/* List */}
                             <div>
                                 <label className="block text-text-primary text-sm font-semibold mb-2">
-                                    List
+                                    {t('modals.createTask.list')}
                                 </label>
                                 <select
                                     {...register('listId', {
@@ -235,7 +237,7 @@ export const EditTaskModal = ({
                                         backgroundSize: '1.25rem',
                                     }}
                                 >
-                                    <option value="">No List</option>
+                                    <option value="">{t('modals.createTask.noList')}</option>
                                     {listsData?.map((list) => (
                                         <option key={list.id} value={list.id}>
                                             {list.title}
@@ -253,14 +255,14 @@ export const EditTaskModal = ({
                             onClick={handleClose}
                             className="px-6 py-2.5 bg-background-primary-hover hover:bg-border-dark hover:cursor-pointer text-text-primary rounded-lg font-medium transition-colors"
                         >
-                            Cancel
+                            {t('common.cancel')}
                         </button>
                         <button
                             type="submit"
                             disabled={isLoading}
                             className="px-6 py-2.5 bg-primary hover:bg-primary-hover hover:cursor-pointer text-white rounded-lg font-medium transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {isLoading ? 'Saving...' : 'Save Changes'}
+                            {isLoading ? t('common.saving') : t('common.saveChanges')}
                         </button>
                     </div>
                 </form>

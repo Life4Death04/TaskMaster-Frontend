@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CalendarView } from '@/components/Calendar/CalendarView';
 import { useAppDispatch } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
@@ -26,6 +27,7 @@ const getPriorityColors = (priority: string): string => {
  * Business logic for the Calendar page
  */
 export const CalendarContainer = () => {
+    const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -46,8 +48,18 @@ export const CalendarContainer = () => {
 
     // Get calendar data
     const monthNames = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
+        t('calendar.months.january'),
+        t('calendar.months.february'),
+        t('calendar.months.march'),
+        t('calendar.months.april'),
+        t('calendar.months.may'),
+        t('calendar.months.june'),
+        t('calendar.months.july'),
+        t('calendar.months.august'),
+        t('calendar.months.september'),
+        t('calendar.months.october'),
+        t('calendar.months.november'),
+        t('calendar.months.december')
     ];
 
     const currentMonth = monthNames[currentDate.getMonth()];

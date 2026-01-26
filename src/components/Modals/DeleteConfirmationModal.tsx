@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 interface DeleteConfirmationModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -19,6 +21,8 @@ export const DeleteConfirmationModal = ({
     itemType = 'item',
     isLoading = false,
 }: DeleteConfirmationModalProps) => {
+    const { t } = useTranslation();
+
     if (!isOpen) return null;
 
     const handleConfirm = () => {
@@ -60,14 +64,14 @@ export const DeleteConfirmationModal = ({
 
                     {/* Title */}
                     <h2 className="text-2xl font-bold text-text-primary mb-3">
-                        Delete this {itemType}?
+                        {t('modals.deleteConfirmation.title', { itemType: t(`modals.deleteConfirmation.${itemType}`) })}
                     </h2>
 
                     {/* Description */}
                     <p className="text-text-secondary text-sm leading-relaxed mb-8">
-                        You are about to permanently delete{' '}
-                        <span className="text-text-primary font-semibold">"{itemName}"</span>.
-                        This action cannot be undone.
+                        {t('modals.deleteConfirmation.message')}{' '}
+                        <span className="text-text-primary font-semibold">{t('modals.deleteConfirmation.quotedName', { itemName })}</span>.
+                        {t('modals.deleteConfirmation.warning')}
                     </p>
 
                     {/* Action Buttons */}
@@ -78,7 +82,7 @@ export const DeleteConfirmationModal = ({
                             disabled={isLoading}
                             className="flex-1 px-6 py-3 bg-background-primary-hover hover:bg-background-secondary border border-border-default text-text-primary rounded-lg font-medium transition-colors hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Cancel
+                            {t('modals.deleteConfirmation.cancel')}
                         </button>
 
                         {/* Delete Button */}
@@ -93,15 +97,16 @@ export const DeleteConfirmationModal = ({
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                    Deleting...
+                                    {t('modals.deleteConfirmation.deleting')}
                                 </>
                             ) : (
-                                'Delete'
+                                t('modals.deleteConfirmation.delete')
                             )}
                         </button>
                     </div>
                 </div>
             </div>
         </div>
+
     );
 };

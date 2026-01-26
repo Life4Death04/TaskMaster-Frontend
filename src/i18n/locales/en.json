@@ -10,10 +10,31 @@
     "email": "Email",
     "password": "Password",
     "firstName": "First Name",
-    "lastName": "Last Name"
+    "lastName": "Last Name",
+    "confirmPassword": "Confirm Password",
+    "emailPlaceholder": "name@example.com",
+    "passwordPlaceholder": "Enter your password",
+    "firstNamePlaceholder": "John",
+    "lastNamePlaceholder": "Doe"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Welcome back, {{userName}}. Here's your daily overview.",
+    "stats": {
+      "totalTasks": "TOTAL TASKS",
+      "completedToday": "COMPLETED TODAY",
+      "overdue": "OVERDUE",
+      "myLists": "MY LISTS"
+    },
+    "recentTasks": "Recent Tasks",
+    "active": "Active",
+    "viewAll": "View All",
+    "upcomingDueDates": "Upcoming Due Dates",
+    "addReminder": "Add Reminder"
   },
   "tasks": {
-    "title": "Tasks",
+    "title": "My Tasks",
+    "subtitle": "Review and manage your personal task list.",
     "create": "Create Task",
     "edit": "Edit Task",
     "delete": "Delete Task",
@@ -23,32 +44,160 @@
     "dueDate": "Due Date",
     "priority": "Priority",
     "status": "Status",
-    "archived": "Archived"
+    "archived": "Archived",
+    "taskId": "TASK ID",
+    "noDescription": "No description available.",
+    "noDueDate": "No due date",
+    "taskCategory": "Task category",
+    "taskDeadline": "Task deadline",
+    "allTasks": "All Tasks",
+    "filter": {
+      "all": "All Tasks",
+      "todo": "To Do",
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    },
+    "sort": {
+      "label": "Sort By",
+      "recent": "Recent",
+      "dueDate": "Due Date",
+      "priority": "Priority"
+    },
+    "statusOptions": {
+      "todo": "To Do",
+      "inProgress": "In Progress",
+      "done": "Done"
+    },
+    "priorityOptions": {
+      "low": "Low",
+      "medium": "Med",
+      "high": "High"
+    },
+    "statusLabels": {
+      "overdue": "OVERDUE",
+      "normal": "NORMAL"
+    }
   },
   "lists": {
-    "title": "Lists",
+    "title": "My Lists",
+    "subtitle": "Organize your tasks with custom lists.",
     "create": "Create List",
     "edit": "Edit List",
     "delete": "Delete List",
     "listName": "List Name",
-    "color": "Color"
+    "color": "Color",
+    "description": "Description",
+    "noList": "No List",
+    "totalTasks": "Total Tasks",
+    "completedTasks": "Completed Tasks",
+    "favoriteList": "Favorite List",
+    "favoriteLists": "Favorite Lists"
   },
   "settings": {
-    "title": "Settings",
-    "theme": "Theme",
-    "language": "Language",
-    "dateFormat": "Date Format",
-    "defaultPriority": "Default Priority",
-    "defaultStatus": "Default Status"
+    "title": "Account Settings",
+    "subtitle": "Manage your personal information and app preferences.",
+    "profile": {
+      "title": "Profile Settings",
+      "edit": "Edit Profile",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "appearance": {
+      "title": "Appearance",
+      "darkMode": "Dark Mode",
+      "darkModeDesc": "Toggle between light and dark themes."
+    },
+    "language": {
+      "title": "Language",
+      "languageDesc": "Choose your preferred language."
+    },
+    "taskDefaults": {
+      "title": "Task Defaults",
+      "priority": "Default Task Priority",
+      "priorityDesc": "Priority for newly created tasks.",
+      "status": "Default Task Status",
+      "statusDesc": "Status for newly created tasks."
+    },
+    "dateFormat": {
+      "title": "Date Format",
+      "dateFormatDesc": "Preferred display format for dates."
+    },
+    "accountManagement": {
+      "title": "Account Management",
+      "logoutSession": "Logout Session",
+      "deleteAccount": "Delete Account"
+    },
+    "changes": {
+      "unsavedChanges": "You have unsaved changes",
+      "discard": "Discard",
+      "apply": "Apply Changes"
+    }
+  },
+  "modals": {
+    "createTask": {
+      "title": "Create New Task",
+      "subtitle": "Organize your work and stay productive.",
+      "taskNamePlaceholder": "e.g., Deploy system review",
+      "descriptionPlaceholder": "Provide more context about this task...",
+      "optional": "(OPTIONAL)"
+    },
+    "editTask": {
+      "title": "Edit Task",
+      "dueDate": "Due Date"
+    },
+    "createList": {
+      "title": "Create New List",
+      "subtitle": "Organize tasks by project or category.",
+      "listNamePlaceholder": "e.g., Q3 Project Goals",
+      "descriptionPlaceholder": "Add details about this list..."
+    },
+    "editList": {
+      "title": "Edit List",
+      "subtitle": "Update list details and preferences."
+    },
+    "taskDetails": {
+      "description": "DESCRIPTION",
+      "dueDate": "DUE DATE",
+      "projectList": "PROJECT / LIST",
+      "markAsComplete": "Mark as Complete",
+      "completed": "Completed",
+      "updating": "Updating..."
+    },
+    "deleteConfirmation": {
+      "title": "Confirm Deletion",
+      "message": "Are you sure you want to delete {{itemName}}?",
+      "warning": "This action cannot be undone.",
+      "cancel": "Cancel",
+      "delete": "Delete"
+    }
+  },
+  "sidebar": {
+    "myTasks": "My Tasks",
+    "calendar": "Calendar",
+    "lists": "Lists",
+    "settings": "Settings"
+  },
+  "calendar": {
+    "title": "Calendar",
+    "subtitle": "View and manage your task schedule"
   },
   "common": {
     "save": "Save",
+    "saveChanges": "Save Changes",
     "cancel": "Cancel",
     "delete": "Delete",
     "edit": "Edit",
     "create": "Create",
-    "search": "Search",
+    "search": "Search...",
     "filter": "Filter",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "optional": "Optional",
+    "close": "Close"
+  },
+  "menu": {
+    "edit": "Edit",
+    "archive": "Archive",
+    "delete": "Delete"
   }
 }

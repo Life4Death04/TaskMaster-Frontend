@@ -10,10 +10,31 @@
     "email": "Correo Electrónico",
     "password": "Contraseña",
     "firstName": "Nombre",
-    "lastName": "Apellido"
+    "lastName": "Apellido",
+    "confirmPassword": "Confirmar Contraseña",
+    "emailPlaceholder": "nombre@ejemplo.com",
+    "passwordPlaceholder": "Ingrese su contraseña",
+    "firstNamePlaceholder": "Juan",
+    "lastNamePlaceholder": "Pérez"
+  },
+  "dashboard": {
+    "title": "Panel de Control",
+    "subtitle": "Bienvenido de nuevo, {{userName}}. Aquí está tu resumen diario.",
+    "stats": {
+      "totalTasks": "TAREAS TOTALES",
+      "completedToday": "COMPLETADAS HOY",
+      "overdue": "VENCIDAS",
+      "myLists": "MIS LISTAS"
+    },
+    "recentTasks": "Tareas Recientes",
+    "active": "Activas",
+    "viewAll": "Ver Todas",
+    "upcomingDueDates": "Próximas Fechas de Vencimiento",
+    "addReminder": "Agregar Recordatorio"
   },
   "tasks": {
-    "title": "Tareas",
+    "title": "Mis Tareas",
+    "subtitle": "Revisa y gestiona tu lista de tareas personales.",
     "create": "Crear Tarea",
     "edit": "Editar Tarea",
     "delete": "Eliminar Tarea",
@@ -23,32 +44,160 @@
     "dueDate": "Fecha de Vencimiento",
     "priority": "Prioridad",
     "status": "Estado",
-    "archived": "Archivado"
+    "archived": "Archivado",
+    "taskId": "ID DE TAREA",
+    "noDescription": "Sin descripción disponible.",
+    "noDueDate": "Sin fecha de vencimiento",
+    "taskCategory": "Categoría de tarea",
+    "taskDeadline": "Plazo de tarea",
+    "allTasks": "Todas las Tareas",
+    "filter": {
+      "all": "Todas las Tareas",
+      "todo": "Por Hacer",
+      "inProgress": "En Progreso",
+      "completed": "Completadas"
+    },
+    "sort": {
+      "label": "Ordenar Por",
+      "recent": "Recientes",
+      "dueDate": "Fecha de Vencimiento",
+      "priority": "Prioridad"
+    },
+    "statusOptions": {
+      "todo": "Por Hacer",
+      "inProgress": "En Progreso",
+      "done": "Completada"
+    },
+    "priorityOptions": {
+      "low": "Baja",
+      "medium": "Media",
+      "high": "Alta"
+    },
+    "statusLabels": {
+      "overdue": "VENCIDA",
+      "normal": "NORMAL"
+    }
   },
   "lists": {
-    "title": "Listas",
+    "title": "Mis Listas",
+    "subtitle": "Organiza tus tareas con listas personalizadas.",
     "create": "Crear Lista",
     "edit": "Editar Lista",
     "delete": "Eliminar Lista",
     "listName": "Nombre de la Lista",
-    "color": "Color"
+    "color": "Color",
+    "description": "Descripción",
+    "noList": "Sin Lista",
+    "totalTasks": "Tareas Totales",
+    "completedTasks": "Tareas Completadas",
+    "favoriteList": "Lista Favorita",
+    "favoriteLists": "Listas Favoritas"
   },
   "settings": {
-    "title": "Configuración",
-    "theme": "Tema",
-    "language": "Idioma",
-    "dateFormat": "Formato de Fecha",
-    "defaultPriority": "Prioridad Predeterminada",
-    "defaultStatus": "Estado Predeterminado"
+    "title": "Configuración de Cuenta",
+    "subtitle": "Gestiona tu información personal y preferencias de la aplicación.",
+    "profile": {
+      "title": "Configuración de Perfil",
+      "edit": "Editar Perfil",
+      "save": "Guardar",
+      "cancel": "Cancelar"
+    },
+    "appearance": {
+      "title": "Apariencia",
+      "darkMode": "Modo Oscuro",
+      "darkModeDesc": "Alterna entre temas claro y oscuro."
+    },
+    "language": {
+      "title": "Idioma",
+      "languageDesc": "Elige tu idioma preferido."
+    },
+    "taskDefaults": {
+      "title": "Valores Predeterminados de Tareas",
+      "priority": "Prioridad Predeterminada",
+      "priorityDesc": "Prioridad para tareas recién creadas.",
+      "status": "Estado Predeterminado",
+      "statusDesc": "Estado para tareas recién creadas."
+    },
+    "dateFormat": {
+      "title": "Formato de Fecha",
+      "dateFormatDesc": "Formato de visualización preferido para fechas."
+    },
+    "accountManagement": {
+      "title": "Gestión de Cuenta",
+      "logoutSession": "Cerrar Sesión",
+      "deleteAccount": "Eliminar Cuenta"
+    },
+    "changes": {
+      "unsavedChanges": "Tienes cambios sin guardar",
+      "discard": "Descartar",
+      "apply": "Aplicar Cambios"
+    }
+  },
+  "modals": {
+    "createTask": {
+      "title": "Crear Nueva Tarea",
+      "subtitle": "Organiza tu trabajo y mantente productivo.",
+      "taskNamePlaceholder": "ej., Revisar despliegue del sistema",
+      "descriptionPlaceholder": "Proporciona más contexto sobre esta tarea...",
+      "optional": "(OPCIONAL)"
+    },
+    "editTask": {
+      "title": "Editar Tarea",
+      "dueDate": "Fecha de Vencimiento"
+    },
+    "createList": {
+      "title": "Crear Nueva Lista",
+      "subtitle": "Organiza tareas por proyecto o categoría.",
+      "listNamePlaceholder": "ej., Objetivos del Tercer Trimestre",
+      "descriptionPlaceholder": "Agrega detalles sobre esta lista..."
+    },
+    "editList": {
+      "title": "Editar Lista",
+      "subtitle": "Actualiza los detalles y preferencias de la lista."
+    },
+    "taskDetails": {
+      "description": "DESCRIPCIÓN",
+      "dueDate": "FECHA DE VENCIMIENTO",
+      "projectList": "PROYECTO / LISTA",
+      "markAsComplete": "Marcar como Completada",
+      "completed": "Completada",
+      "updating": "Actualizando..."
+    },
+    "deleteConfirmation": {
+      "title": "Confirmar Eliminación",
+      "message": "¿Estás seguro de que deseas eliminar {{itemName}}?",
+      "warning": "Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "delete": "Eliminar"
+    }
+  },
+  "sidebar": {
+    "myTasks": "Mis Tareas",
+    "calendar": "Calendario",
+    "lists": "Listas",
+    "settings": "Configuración"
+  },
+  "calendar": {
+    "title": "Calendario",
+    "subtitle": "Visualiza y gestiona tu programación de tareas"
   },
   "common": {
     "save": "Guardar",
+    "saveChanges": "Guardar Cambios",
     "cancel": "Cancelar",
     "delete": "Eliminar",
     "edit": "Editar",
     "create": "Crear",
-    "search": "Buscar",
+    "search": "Buscar...",
     "filter": "Filtrar",
-    "loading": "Cargando..."
+    "loading": "Cargando...",
+    "saving": "Guardando...",
+    "optional": "Opcional",
+    "close": "Cerrar"
+  },
+  "menu": {
+    "edit": "Editar",
+    "archive": "Archivar",
+    "delete": "Eliminar"
   }
 }

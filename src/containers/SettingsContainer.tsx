@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { SettingsView } from '../components/Settings/SettingsView';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { logout } from '@/features/auth/authSlice';
@@ -18,6 +19,7 @@ export const SettingsContainer = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { setTheme } = useTheme();
+    const { i18n } = useTranslation();
 
     // Get user from Redux
     const user = useAppSelector((state) => state.auth.user);
@@ -61,6 +63,11 @@ export const SettingsContainer = () => {
             setDefaultStatus(settings.defaultStatus);
             setDateFormat(settings.dateFormat);
 
+            // Sync language with i18n
+            i18n.changeLanguage(lang).then(() => {
+                console.log('✅ Initial i18n language set to:', i18n.language);
+            });
+
             setOriginalSettings({
                 darkMode: isDarkMode,
                 language: lang,
@@ -69,7 +76,7 @@ export const SettingsContainer = () => {
                 dateFormat: settings.dateFormat,
             });
         }
-    }, [settings]);
+    }, [settings]); // Remove i18n from dependencies to avoid infinite loop
 
     // Check if settings have changed
     useEffect(() => {
@@ -138,6 +145,9 @@ export const SettingsContainer = () => {
 
     const handleLanguageChange = (lang: 'en' | 'es') => {
         setLanguage(lang);
+
+        // Immediately update i18n language
+        i18n.changeLanguage(lang);
     };
 
     const handleDefaultPriorityChange = (priority: 'LOW' | 'MEDIUM' | 'HIGH') => {

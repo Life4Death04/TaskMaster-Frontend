@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Sidebar, type NavigationItem, type ListItem } from '@/components/Sidebar/Sidebar';
 import { logout } from '@/features/auth/authSlice';
 import { useAppDispatch } from '@/hooks/redux';
@@ -14,6 +15,9 @@ export const SidebarContainer = () => {
     const [isMobile, setIsMobile] = useState(false);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { t, i18n } = useTranslation();
+
+    console.log('🔄 Sidebar rendering, current language:', i18n.language);
 
     // Fetch lists from API
     const { data: allLists = [] } = useFetchLists();
@@ -29,11 +33,11 @@ export const SidebarContainer = () => {
             }));
     }, [allLists]);
 
-    // Navigation items configuration
-    const navigationItems: NavigationItem[] = [
+    // Navigation items configuration - recreate when language changes
+    const navigationItems: NavigationItem[] = useMemo(() => [
         {
             path: '/home',
-            label: 'Dashboard',
+            label: t('dashboard.title'),
             icon: (
                 <span className="material-symbols-outlined fill-1" style={{ fontSize: '20px' }}>
                     dashboard
@@ -42,7 +46,7 @@ export const SidebarContainer = () => {
         },
         {
             path: '/tasks',
-            label: 'My Tasks',
+            label: t('sidebar.myTasks'),
             icon: (
                 <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
                     task_alt
@@ -51,7 +55,7 @@ export const SidebarContainer = () => {
         },
         {
             path: '/lists',
-            label: 'My Lists',
+            label: t('sidebar.lists'),
             icon: (
                 <span className="material-symbols-outlined text-[20px] fill-1">
                     view_list
@@ -60,14 +64,14 @@ export const SidebarContainer = () => {
         },
         {
             path: '/calendar',
-            label: 'Calendar',
+            label: t('sidebar.calendar'),
             icon: (
                 <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
                     calendar_month
                 </span>
             ),
         }
-    ];
+    ], [t]);
 
     // Detect screen size and set mobile state
     useEffect(() => {

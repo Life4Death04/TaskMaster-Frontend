@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { FilterTabs } from './FilterTabs';
 import { SortDropdown } from './SortDropdown';
 import { ActionButton } from './ActionButton';
@@ -33,6 +34,8 @@ export const TaskFilterBar = <T extends string = string, S extends string = stri
     sortOptions,
     onSortChange,
 }: TaskFilterBarProps<T, S>) => {
+    const { t } = useTranslation();
+
     return (
         <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
             {/* Filter Tabs */}
@@ -57,7 +60,7 @@ export const TaskFilterBar = <T extends string = string, S extends string = stri
                 {/* Create Task Button */}
                 <ActionButton
                     onClick={onCreateTask}
-                    label="Create Task"
+                    label={t('tasks.create')}
                     icon={
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

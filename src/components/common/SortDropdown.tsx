@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 interface SortOption<T = string> {
     key: T;
     label: string;
@@ -20,6 +22,8 @@ export const SortDropdown = <T extends string = string>({
     onChange,
     label = 'Sort',
 }: SortDropdownProps<T>) => {
+    const { t } = useTranslation();
+
     return (
         <div className="relative">
             <select
@@ -29,7 +33,7 @@ export const SortDropdown = <T extends string = string>({
             >
                 {options.map((option) => (
                     <option key={option.key} value={option.key}>
-                        {label}: {option.label}
+                        {t('tasks.sort.label')}: {option.label}
                     </option>
                 ))}
             </select>

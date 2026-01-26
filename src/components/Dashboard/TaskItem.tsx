@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { TaskOptionsMenu } from '../common/TaskOptionsMenu';
 
 interface TaskItemProps {
@@ -33,6 +34,8 @@ export const TaskItem = ({
     onArchive,
     onDelete,
 }: TaskItemProps) => {
+    const { t } = useTranslation();
+
     return (
         <div
             className="flex gap-3 p-4 rounded-lg bg-card-primary hover:bg-background-primary-hover transition-colors border border-border-default hover:border-border-dark hover:cursor-pointer shadow-md"
@@ -52,10 +55,10 @@ export const TaskItem = ({
                     <div className="flex flex-wrap items-center gap-2">
                         <h3 className="text-text-primary font-semibold text-sm">{title}</h3>
                         {status === 'overdue' && (
-                            <span className="px-2 py-0.5 text-xs font-bold bg-red-500/20 text-red-400 rounded uppercase">OVERDUE</span>
+                            <span className="px-2 py-0.5 text-xs font-bold bg-red-500/20 text-red-400 rounded uppercase">{t('tasks.statusLabels.overdue')}</span>
                         )}
                         {status === 'normal' && (
-                            <span className="px-2 py-0.5 text-xs font-bold bg-blue-500/20 text-blue-400 rounded uppercase">NORMAL</span>
+                            <span className="px-2 py-0.5 text-xs font-bold bg-blue-500/20 text-blue-400 rounded uppercase">{t('tasks.statusLabels.normal')}</span>
                         )}
 
                     </div>
@@ -83,7 +86,11 @@ export const TaskItem = ({
                             priority === 'medium' ? 'bg-orange-500' :
                                 'bg-green-500'
                             }`}></span>
-                        <span className="text-text-secondary text-xs capitalize">{priority}</span>
+                        <span className="text-text-secondary text-xs capitalize">
+                            {priority === 'high' ? t('common.priority.high') :
+                                priority === 'medium' ? t('common.priority.medium') :
+                                    t('common.priority.low')}
+                        </span>
                     </div>
                 </div>
             </div>

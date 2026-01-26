@@ -17,7 +17,10 @@ type TranslationFunction = (key: string) => string;
  * @param t - Translation function from useTranslation hook
  * @returns Badge styling object with background, text color, and label
  */
-export const getStatusBadge = (status?: string, t?: TranslationFunction): BadgeStyle => {
+export const getStatusBadge = (
+  status?: string,
+  t?: TranslationFunction
+): BadgeStyle => {
   switch (status) {
     case 'IN_PROGRESS':
       return {
@@ -47,7 +50,10 @@ export const getStatusBadge = (status?: string, t?: TranslationFunction): BadgeS
  * @param t - Translation function from useTranslation hook
  * @returns Badge styling object with background, text color, and label
  */
-export const getPriorityBadge = (priority?: string, t?: TranslationFunction): BadgeStyle => {
+export const getPriorityBadge = (
+  priority?: string,
+  t?: TranslationFunction
+): BadgeStyle => {
   switch (priority?.toUpperCase()) {
     case 'HIGH':
       return {

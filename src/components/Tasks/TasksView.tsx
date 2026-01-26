@@ -1,6 +1,7 @@
 import { PageHeader } from '../common/PageHeader';
 import { TaskCard } from './TaskCard';
 import { TaskFilterBar } from '../common/TaskFilterBar';
+import { useTranslation } from 'react-i18next';
 
 type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
 type SortOption = 'recent' | 'dueDate' | 'priority';
@@ -53,25 +54,27 @@ export const TasksView = ({
     onArchiveTask,
     onDeleteTask,
 }: TasksViewProps) => {
+    const { t } = useTranslation();
+
     const filterTabs: { key: FilterTab; label: string }[] = [
-        { key: 'all', label: 'All Tasks' },
-        { key: 'todo', label: 'To Do' },
-        { key: 'in_progress', label: 'In Progress' },
-        { key: 'done', label: 'Done' },
+        { key: 'all', label: t('tasks.filter.all') },
+        { key: 'todo', label: t('tasks.filter.todo') },
+        { key: 'in_progress', label: t('tasks.filter.inProgress') },
+        { key: 'done', label: t('tasks.filter.completed') },
     ];
 
     const sortOptions: { key: SortOption; label: string }[] = [
-        { key: 'recent', label: 'Recent' },
-        { key: 'dueDate', label: 'Due Date' },
-        { key: 'priority', label: 'Priority' },
+        { key: 'recent', label: t('tasks.sort.recent') },
+        { key: 'dueDate', label: t('tasks.sort.dueDate') },
+        { key: 'priority', label: t('tasks.sort.priority') },
     ];
 
     return (
         <div className="min-h-screen bg-background-primary p-6">
             {/* Page Header */}
             <PageHeader
-                title="My Tasks"
-                subtitle="Review and manage your personal task list."
+                title={t('tasks.title')}
+                subtitle={t('tasks.subtitle')}
                 userName={userName}
                 searchQuery={searchQuery}
                 onSearchChange={onSearchChange}

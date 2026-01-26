@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { PageHeader } from '../common/PageHeader';
 import { ListCard } from './ListCard';
 import type { Task } from '@/types';
@@ -32,13 +33,14 @@ export const ListsView = ({
     onListClick,
     onCreateList,
 }: ListsViewProps) => {
+    const { t } = useTranslation();
 
     return (
         <div className="min-h-screen bg-background-primary p-6">
             {/* Page Header */}
             <PageHeader
-                title="My Lists"
-                subtitle="Organize your tasks with custom lists."
+                title={t('lists.title')}
+                subtitle={t('lists.subtitle')}
                 userName={userName}
                 searchQuery={searchQuery}
                 onSearchChange={onSearchChange}
@@ -55,7 +57,7 @@ export const ListsView = ({
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                     </svg>
-                    Create New List
+                    {t('lists.createNewList')}
                 </button>
             </div>
 
@@ -95,8 +97,8 @@ export const ListsView = ({
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                         </svg>
                     </div>
-                    <h3 className="text-text-primary text-xl font-semibold mb-2">No lists found</h3>
-                    <p className="text-text-secondary text-sm mb-6">Create your first list to get started</p>
+                    <h3 className="text-text-primary text-xl font-semibold mb-2">{t('lists.noListsFound')}</h3>
+                    <p className="text-text-secondary text-sm mb-6">{t('lists.createFirstList')}</p>
                     <button
                         onClick={onCreateList}
                         className="px-6 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg font-medium transition-colors flex items-center gap-2 hover:cursor-pointer"
@@ -104,7 +106,7 @@ export const ListsView = ({
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                         </svg>
-                        Create New List
+                        {t('lists.createNewList')}
                     </button>
                 </div>
             )}

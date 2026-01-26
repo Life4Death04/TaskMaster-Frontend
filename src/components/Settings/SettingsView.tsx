@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { SettingSelector } from './SettingSelector';
 
 interface SettingsViewProps {
@@ -59,12 +60,14 @@ export const SettingsView = ({
     onDiscard,
     onApplyChanges,
 }: SettingsViewProps) => {
+    const { t } = useTranslation();
+
     return (
         <div className="min-h-screen bg-background-primary p-6">
             {/* Header */}
             <div className="mb-8">
-                <h1 className="text-text-primary text-3xl font-bold mb-2">Account Settings</h1>
-                <p className="text-text-secondary text-sm">Manage your profile information and account preferences.</p>
+                <h1 className="text-text-primary text-3xl font-bold mb-2">{t('settings.title')}</h1>
+                <p className="text-text-secondary text-sm">{t('settings.subtitle')}</p>
             </div>
 
             {/* Profile Card */}
@@ -87,7 +90,7 @@ export const SettingsView = ({
                                             type="text"
                                             value={editedFirstName}
                                             onChange={(e) => onFirstNameChange(e.target.value)}
-                                            placeholder="First Name"
+                                            placeholder={t('settings.profile.firstName')}
                                             className="w-full sm:w-fit px-3 py-1.5 bg-background-input border border-border-input rounded-lg text-text-primary font-semibold focus:outline-none focus:ring-2 focus:ring-primary"
                                             autoFocus
                                         />
@@ -95,7 +98,7 @@ export const SettingsView = ({
                                             type="text"
                                             value={editedLastName}
                                             onChange={(e) => onLastNameChange(e.target.value)}
-                                            placeholder="Last Name"
+                                            placeholder={t('settings.profile.lastName')}
                                             className="w-full sm:w-fit px-3 py-1.5 bg-background-input border border-border-input rounded-lg text-text-primary font-semibold focus:outline-none focus:ring-2 focus:ring-primary"
                                         />
                                     </div>
@@ -130,14 +133,14 @@ export const SettingsView = ({
                         onClick={onEditProfile}
                         className="px-6 py-2.5 bg-background-primary hover:cursor-pointer hover:bg-background-primary-hover text-text-primary rounded-lg font-medium transition-colors border border-border-default hover:border-white w-full md:w-auto"
                     >
-                        Edit Profile
+                        {t('settings.profile.edit')}
                     </button>
                 </div>
             </div>
 
             {/* General Preferences */}
             <div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6 shadow-md">
-                <h3 className="text-text-primary text-lg font-bold mb-6">General Preferences</h3>
+                <h3 className="text-text-primary text-lg font-bold mb-6">{t('settings.preferences.title')}</h3>
 
                 <div className="space-y-6">
                     {/* Dark Mode */}
@@ -161,8 +164,8 @@ export const SettingsView = ({
                                 ></span>
                             </button>
                             <div>
-                                <p className="text-text-primary font-semibold">Dark Mode</p>
-                                <p className="text-text-secondary text-sm">Adjust the visual theme of the app.</p>
+                                <p className="text-text-primary font-semibold">{t('settings.appearance.darkMode')}</p>
+                                <p className="text-text-secondary text-sm">{t('settings.appearance.darkModeDescription')}</p>
                             </div>
                         </div>
                         <button
@@ -208,8 +211,8 @@ export const SettingsView = ({
                                 </button>
                             </div>
                             <div>
-                                <p className="text-text-primary font-semibold">Language</p>
-                                <p className="text-text-secondary text-sm">Choose your preferred language.</p>
+                                <p className="text-text-primary font-semibold">{t('settings.appearance.language')}</p>
+                                <p className="text-text-secondary text-sm">{t('settings.appearance.languageDescription')}</p>
                             </div>
                         </div>
                         {/* Here should be language switcher for screens >= 640px */}
@@ -242,13 +245,13 @@ export const SettingsView = ({
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                             </svg>
                         }
-                        title="Default Task Priority"
-                        description="Priority for newly created tasks."
+                        title={t('settings.preferences.defaultPriority')}
+                        description={t('settings.preferences.defaultPriorityDescription')}
                         value={defaultPriority}
                         options={[
-                            { value: 'LOW', label: 'Low' },
-                            { value: 'MEDIUM', label: 'Medium' },
-                            { value: 'HIGH', label: 'High' },
+                            { value: 'LOW', label: t('common.priority.low') },
+                            { value: 'MEDIUM', label: t('common.priority.medium') },
+                            { value: 'HIGH', label: t('common.priority.high') },
                         ]}
                         onChange={onDefaultPriorityChange}
                     />
@@ -260,13 +263,13 @@ export const SettingsView = ({
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                             </svg>
                         }
-                        title="Default Task Status"
-                        description="Status for newly created tasks."
+                        title={t('settings.preferences.defaultStatus')}
+                        description={t('settings.preferences.defaultStatusDescription')}
                         value={defaultStatus}
                         options={[
-                            { value: 'TODO', label: 'To Do' },
-                            { value: 'IN_PROGRESS', label: 'In Progress' },
-                            { value: 'DONE', label: 'Done' },
+                            { value: 'TODO', label: t('common.status.todo') },
+                            { value: 'IN_PROGRESS', label: t('common.status.inProgress') },
+                            { value: 'DONE', label: t('common.status.done') },
                         ]}
                         onChange={onDefaultStatusChange}
                     />
@@ -281,8 +284,8 @@ export const SettingsView = ({
                                 <line x1="3" y1="10" x2="21" y2="10" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         }
-                        title="Date Format"
-                        description="Preferred display format for dates."
+                        title={t('settings.preferences.dateFormat')}
+                        description={t('settings.preferences.dateFormatDescription')}
                         value={dateFormat}
                         options={[
                             { value: 'DD_MM_YYYY', label: 'DD/MM/YYYY' },
@@ -295,7 +298,7 @@ export const SettingsView = ({
             </div>
             {/* Account Management */}
             <div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6 shadow-md">
-                <h3 className="text-text-primary text-lg font-bold mb-6">Account Management</h3>
+                <h3 className="text-text-primary text-lg font-bold mb-6">{t('settings.account.title')}</h3>
 
                 <div className="flex flex-wrap items-center gap-4 mb-4">
                     {/* Logout Button */}
@@ -306,7 +309,7 @@ export const SettingsView = ({
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                         </svg>
-                        Logout Session
+                        {t('settings.account.logout')}
                     </button>
 
                     {/* Delete Account Button */}
@@ -317,12 +320,12 @@ export const SettingsView = ({
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
-                        Delete Account
+                        {t('settings.account.deleteAccount')}
                     </button>
                 </div>
 
                 <p className="text-text-secondary text-xs text-center">
-                    Warning: Deleting your account is permanent and cannot be undone. All your data will be wiped.
+                    {t('settings.account.deleteWarning')}
                 </p>
             </div>
 
@@ -333,7 +336,7 @@ export const SettingsView = ({
                         onClick={onDiscard}
                         className="px-6 py-2.5 bg-background-primary-hover hover:bg-border-dark text-text-primary rounded-lg font-medium transition-colors w-full md:w-auto hover:cursor-pointer"
                     >
-                        Discard
+                        {t('common.discard')}
                     </button>
                     <button
                         onClick={onApplyChanges}
@@ -342,7 +345,7 @@ export const SettingsView = ({
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
-                        Apply Changes
+                        {t('common.applyChanges')}
                     </button>
                 </div>
             )}

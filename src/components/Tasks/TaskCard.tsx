@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { TaskOptionsMenu } from '../common/TaskOptionsMenu';
 
 interface TaskCardProps {
@@ -35,6 +36,7 @@ export const TaskCard = ({
     onArchive,
     onDelete,
 }: TaskCardProps) => {
+    const { t } = useTranslation();
     const isCompleted = progressStatus === 'DONE';
 
     const getPriorityColor = () => {
@@ -83,7 +85,7 @@ export const TaskCard = ({
                     </h3>
                     {label && (
                         <span className={`px-2.5 py-1 text-xs font-bold rounded uppercase ${getLabelColor()}`}>
-                            {label}
+                            {label === 'OVERDUE' ? t('tasks.labels.overdue') : label}
                         </span>
                     )}
                 </div>
@@ -107,7 +109,11 @@ export const TaskCard = ({
                     {/* Priority */}
                     <div className="flex items-center gap-2">
                         <span className={`w-2.5 h-2.5 rounded-full ${getPriorityColor()}`}></span>
-                        <span className="text-text-secondary text-sm capitalize">{priority}</span>
+                        <span className="text-text-secondary text-sm capitalize">
+                            {priority === 'high' ? t('common.priority.high') :
+                                priority === 'medium' ? t('common.priority.medium') :
+                                    t('common.priority.low')}
+                        </span>
                     </div>
                 </div>
             </div>

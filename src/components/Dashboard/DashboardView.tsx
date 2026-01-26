@@ -2,6 +2,7 @@ import { StatsCard } from './StatsCard';
 import { TaskItem } from './TaskItem';
 import { UpcomingDueDateItem } from './UpcomingDueDateItem';
 import { PageHeader } from '../common/PageHeader';
+import { useTranslation } from 'react-i18next';
 
 interface Task {
     id: string;
@@ -69,12 +70,14 @@ export const DashboardView = ({
     onArchiveTask,
     onDeleteTask,
 }: DashboardViewProps) => {
+    const { t } = useTranslation();
+
     return (
         <div className="min-h-screen bg-background-primary p-6">
             {/* Dashboard Header */}
             <PageHeader
-                title="Dashboard"
-                subtitle="Welcome back, {userName}. Here's your daily overview."
+                title={t('dashboard.title')}
+                subtitle={t('dashboard.subtitle', { userName })}
                 userName={userName}
                 searchQuery={searchQuery}
                 onSearchChange={onSearchChange}
@@ -84,7 +87,7 @@ export const DashboardView = ({
             {/* Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <StatsCard
-                    title="TOTAL TASKS"
+                    title={t('dashboard.stats.totalTasks')}
                     value={stats.totalTasks}
                     icon={
                         <svg viewBox="0 0 24 24" fill="currentColor">
@@ -94,7 +97,7 @@ export const DashboardView = ({
                 />
 
                 <StatsCard
-                    title="COMPLETED TODAY"
+                    title={t('dashboard.stats.completedToday')}
                     value={stats.completedToday}
                     icon={
                         <svg viewBox="0 0 24 24" fill="currentColor">
@@ -104,7 +107,7 @@ export const DashboardView = ({
                 />
 
                 <StatsCard
-                    title="OVERDUE"
+                    title={t('dashboard.stats.overdue')}
                     value={stats.overdue}
                     icon={
                         <svg viewBox="0 0 24 24" fill="currentColor">
@@ -114,7 +117,7 @@ export const DashboardView = ({
                 />
 
                 <StatsCard
-                    title="MY LISTS"
+                    title={t('dashboard.stats.myLists')}
                     value={stats.totalLists}
                     icon={
                         <svg viewBox="0 0 24 24" fill="currentColor">
@@ -132,13 +135,13 @@ export const DashboardView = ({
                     <div className="bg-card-dark rounded-xl">
                         <div className="flex items-center justify-between py-6">
                             <div className="flex items-center gap-3">
-                                <h2 className="text-text-primary text-xl font-bold">Recent Tasks</h2>
+                                <h2 className="text-text-primary text-xl font-bold">{t('dashboard.recentTasks')}</h2>
                                 <span className="px-2 py-1 text-xs font-semibold bg-primary/20 text-primary rounded">
-                                    {activeTasksCount} Active
+                                    {activeTasksCount} {t('dashboard.active')}
                                 </span>
                             </div>
                             <button onClick={onViewAllTasks} className="text-primary hover:text-primary-hover text-sm font-medium transition-colors hover:cursor-pointer">
-                                View All
+                                {t('dashboard.viewAll')}
                             </button>
                         </div>
 
@@ -162,7 +165,7 @@ export const DashboardView = ({
                 <div className="lg:col-span-1">
                     <div>
                         <div className="flex items-center justify-between py-6">
-                            <h2 className="text-text-primary text-xl font-bold">Upcoming Due Dates</h2>
+                            <h2 className="text-text-primary text-xl font-bold">{t('dashboard.upcomingDueDates')}</h2>
                             <button onClick={onCalendarClick} className="px-2 hover:bg-background-primary-hover rounded-lg transition-colors text-text-secondary hover:text-text-primary hover:cursor-pointer" aria-label="Calendar">
                                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth={2} />
@@ -186,7 +189,7 @@ export const DashboardView = ({
                                     <line x1="12" y1="8" x2="12" y2="16" strokeWidth={2} strokeLinecap="round" />
                                     <line x1="8" y1="12" x2="16" y2="12" strokeWidth={2} strokeLinecap="round" />
                                 </svg>
-                                Add Reminder
+                                {t('dashboard.addReminder')}
                             </button>
                         </div>
                     </div>

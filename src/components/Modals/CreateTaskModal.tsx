@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createTaskSchema, type CreateTaskFormData } from '@/schemas/task.schemas';
@@ -19,6 +20,8 @@ export const CreateTaskModal = ({
     isLoading = false,
     defaultListId
 }: CreateTaskModalProps) => {
+    const { t } = useTranslation();
+
     // Fetch user settings for default values
     const { data: settings } = useFetchSettings();
     const { data: lists = [] } = useFetchLists();
@@ -75,8 +78,8 @@ export const CreateTaskModal = ({
                 {/* Header */}
                 <div className="flex items-start justify-between p-6 pb-4 border-b border-border-default">
                     <div>
-                        <h2 className="text-text-primary text-xl font-bold mb-1">Create New Task</h2>
-                        <p className="text-text-secondary text-sm">Organize your work and stay productive.</p>
+                        <h2 className="text-text-primary text-xl font-bold mb-1">{t('modals.createTask.title')}</h2>
+                        <p className="text-text-secondary text-sm">{t('modals.createTask.subtitle')}</p>
                     </div>
                     <button
                         onClick={handleClose}
@@ -97,11 +100,11 @@ export const CreateTaskModal = ({
                         {/* Task Name */}
                         <div>
                             <label className="block text-text-primary text-sm font-semibold mb-2">
-                                Task Name
+                                {t('modals.createTask.taskName')}
                             </label>
                             <input
                                 type="text"
-                                placeholder="e.g., Deploy system review"
+                                placeholder={t('modals.createTask.taskNamePlaceholder')}
                                 {...register('taskName')}
                                 className="w-full px-4 py-2.5 bg-background-input border border-border-input rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                             />
@@ -113,10 +116,10 @@ export const CreateTaskModal = ({
                         {/* Description */}
                         <div>
                             <label className="block text-text-primary text-sm font-semibold mb-2">
-                                Description
+                                {t('modals.createTask.description')}
                             </label>
                             <textarea
-                                placeholder="Provide more context about this task..."
+                                placeholder={t('modals.createTask.descriptionPlaceholder')}
                                 {...register('description')}
                                 rows={3}
                                 className="w-full px-4 py-2.5 bg-background-input border border-border-input rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
@@ -131,7 +134,7 @@ export const CreateTaskModal = ({
                             {/* Status */}
                             <div>
                                 <label className="block text-text-primary text-sm font-semibold mb-2">
-                                    Status
+                                    {t('modals.createTask.status')}
                                 </label>
                                 <select
                                     {...register('status')}
@@ -143,17 +146,17 @@ export const CreateTaskModal = ({
                                         backgroundSize: '1.25rem',
                                     }}
                                 >
-                                    <option value="TODO">To Do</option>
-                                    <option value="IN_PROGRESS">In Progress</option>
-                                    <option value="DONE">Done</option>
+                                    <option value="TODO">{t('common.status.todo')}</option>
+                                    <option value="IN_PROGRESS">{t('common.status.inProgress')}</option>
+                                    <option value="DONE">{t('common.status.done')}</option>
                                 </select>
                             </div>
 
                             {/* Due Date */}
                             <div>
                                 <label className="block text-text-secondary text-sm mb-2 flex items-center gap-1">
-                                    <span className="font-semibold text-text-primary">Due Date</span>
-                                    <span className="text-xs">(OPTIONAL)</span>
+                                    <span className="font-semibold text-text-primary">{t('modals.createTask.dueDate')}</span>
+                                    <span className="text-xs">({t('common.optional')})</span>
                                 </label>
                                 <input
                                     type="date"
@@ -168,7 +171,7 @@ export const CreateTaskModal = ({
                             {/* Priority */}
                             <div>
                                 <label className="block text-text-primary text-sm font-semibold mb-2">
-                                    Priority
+                                    {t('modals.createTask.priority')}
                                 </label>
                                 <div className="flex gap-2">
                                     <button
@@ -179,7 +182,7 @@ export const CreateTaskModal = ({
                                             : 'bg-background-input text-text-secondary border border-border-input hover:border-green-500/50'
                                             }`}
                                     >
-                                        Low
+                                        {t('common.priority.low')}
                                     </button>
                                     <button
                                         type="button"
@@ -189,7 +192,7 @@ export const CreateTaskModal = ({
                                             : 'bg-background-input text-text-secondary border border-border-input hover:border-orange-500/50'
                                             }`}
                                     >
-                                        Med
+                                        {t('common.priority.medium')}
                                     </button>
                                     <button
                                         type="button"
@@ -199,7 +202,7 @@ export const CreateTaskModal = ({
                                             : 'bg-background-input text-text-secondary border border-border-input hover:border-red-500/50'
                                             }`}
                                     >
-                                        High
+                                        {t('common.priority.high')}
                                     </button>
                                 </div>
                             </div>
@@ -207,8 +210,8 @@ export const CreateTaskModal = ({
                             {/* List - Hidden for now, will be implemented later */}
                             <div>
                                 <label className="block text-text-secondary text-sm mb-2 flex items-center gap-1">
-                                    <span className="font-semibold text-text-primary">List</span>
-                                    <span className="text-xs">(OPTIONAL)</span>
+                                    <span className="font-semibold text-text-primary">{t('modals.createTask.list')}</span>
+                                    <span className="text-xs">({t('common.optional')})</span>
                                 </label>
                                 <select
                                     {...register('listId', {
@@ -222,7 +225,7 @@ export const CreateTaskModal = ({
                                         backgroundSize: '1.25rem',
                                     }}
                                 >
-                                    <option value="">No List</option>
+                                    <option value="">{t('modals.createTask.noList')}</option>
                                     {lists.map((list) => (
                                         <option key={list.id} value={list.id}>
                                             {list.title}
@@ -240,14 +243,14 @@ export const CreateTaskModal = ({
                             onClick={handleClose}
                             className="px-6 py-2.5 bg-background-primary-hover hover:bg-border-dark hover:cursor-pointer text-text-primary rounded-lg font-medium transition-colors"
                         >
-                            Cancel
+                            {t('common.cancel')}
                         </button>
                         <button
                             type="submit"
                             disabled={isLoading}
                             className="px-6 py-2.5 bg-gradient-blueToPurple hover:bg-primary-hover hover:cursor-pointer text-white rounded-lg font-medium transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {isLoading ? 'Creating...' : 'Create Task'}
+                            {isLoading ? t('modals.createTask.creating') : t('modals.createTask.createButton')}
                         </button>
                     </div>
                 </form>

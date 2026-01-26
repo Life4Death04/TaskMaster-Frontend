@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateListSchema, type UpdateListFormData } from '@/schemas/list.schemas';
@@ -28,6 +29,7 @@ const COLORS = [
 ];
 
 export const EditListModal = ({ isOpen, onClose, onSubmit, isLoading = false, list }: EditListModalProps) => {
+    const { t } = useTranslation();
     const {
         register,
         handleSubmit,
@@ -86,9 +88,9 @@ export const EditListModal = ({ isOpen, onClose, onSubmit, isLoading = false, li
                             <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                             </svg>
-                            <h2 className="text-text-primary text-xl font-bold">Edit List</h2>
+                            <h2 className="text-text-primary text-xl font-bold">{t('modals.editList.title')}</h2>
                         </div>
-                        <p className="text-text-secondary text-sm">Update list details and preferences.</p>
+                        <p className="text-text-secondary text-sm">{t('modals.editList.subtitle')}</p>
                     </div>
                     <button
                         onClick={handleClose}
@@ -109,7 +111,7 @@ export const EditListModal = ({ isOpen, onClose, onSubmit, isLoading = false, li
                         {/* List Name */}
                         <div>
                             <label className="block text-text-primary text-sm font-semibold mb-2">
-                                List Name
+                                {t('lists.listName')}
                             </label>
                             <input
                                 type="text"
@@ -124,7 +126,7 @@ export const EditListModal = ({ isOpen, onClose, onSubmit, isLoading = false, li
                         {/* Description */}
                         <div>
                             <label className="block text-text-primary text-sm font-semibold mb-2">
-                                Description
+                                {t('lists.description')}
                             </label>
                             <textarea
                                 {...register('description')}
@@ -139,7 +141,7 @@ export const EditListModal = ({ isOpen, onClose, onSubmit, isLoading = false, li
                         {/* List Color */}
                         <div>
                             <label className="block text-text-primary text-sm font-semibold mb-3">
-                                List Color
+                                {t('lists.color')}
                             </label>
                             <div className="flex gap-3 flex-wrap">
                                 {COLORS.map((color) => (
@@ -148,8 +150,8 @@ export const EditListModal = ({ isOpen, onClose, onSubmit, isLoading = false, li
                                         type="button"
                                         onClick={() => setValue('color', color.value)}
                                         className={`w-10 h-10 rounded-full ${color.class} transition-transform hover:scale-110 hover:cursor-pointer ${selectedColor === color.value
-                                                ? 'ring-4 ring-white/30 scale-110'
-                                                : ''
+                                            ? 'ring-4 ring-white/30 scale-110'
+                                            : ''
                                             }`}
                                         aria-label={`Select ${color.name}`}
                                     />
@@ -169,14 +171,14 @@ export const EditListModal = ({ isOpen, onClose, onSubmit, isLoading = false, li
                                 onClick={handleClose}
                                 className="px-6 py-2.5 bg-background-primary-hover hover:bg-border-dark hover:cursor-pointer text-text-primary rounded-lg font-medium transition-colors"
                             >
-                                Cancel
+                                {t('common.cancel')}
                             </button>
                             <button
                                 type="submit"
                                 disabled={isLoading}
                                 className="px-6 py-2.5 bg-primary hover:bg-primary-hover hover:cursor-pointer text-white rounded-lg font-medium transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                {isLoading ? 'Saving...' : 'Save Changes'}
+                                {isLoading ? t('common.saving') : t('common.saveChanges')}
                             </button>
                         </div>
                     </div>

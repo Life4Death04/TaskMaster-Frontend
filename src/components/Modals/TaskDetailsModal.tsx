@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
 import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
@@ -8,8 +9,8 @@ import { getStatusBadge, getPriorityBadge } from '@/utils/taskHelpers';
 import type { Task } from '@/types';
 
 // Helper function to format date based on user settings
-const formatDate = (dateString: string | null | undefined, format: string = 'MM_DD_YYYY'): string => {
-    if (!dateString) return 'No due date';
+const formatDate = (dateString: string | null | undefined, format: string = 'MM_DD_YYYY', t: any): string => {
+    if (!dateString) return t('tasks.noDueDate');
 
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, '0');
@@ -33,15 +34,16 @@ interface TaskDetailsModalProps {
 }
 
 export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, task }) => {
+    const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const toggleStatusMutation = useToggleTaskStatus();
     const { data: settings } = useFetchSettings();
     const { data: allLists = [] } = useFetchLists();
-    const statusBadge = getStatusBadge(task?.status);
-    const priorityBadge = getPriorityBadge(task?.priority);
+    const statusBadge = getStatusBadge(task?.status, t);
+    const priorityBadge = getPriorityBadge(task?.priority, t);
 
     // Format the due date based on user settings
-    const formattedDueDate = formatDate(task?.dueDate, settings?.dateFormat);
+    const formattedDueDate = formatDate(task?.dueDate, settings?.dateFormat, t);
 
     // Find the list name for this task
     const taskList = task?.listId ? allLists.find(list => list.id === task.listId) : null;
@@ -172,10 +174,10 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, tas
                                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" />
                                 </svg>
-                                DESCRIPTION
+                                {t('modals.taskDetails.description')}
                             </h3>
                             <p className="text-text-primary leading-relaxed text-sm">
-                                {task?.description || 'No description available.'}
+                                {task?.description || t('tasks.noDescription')}
                             </p>
                         </div>
                     </div>
@@ -185,7 +187,7 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, tas
                         {/* Due Date */}
                         <div>
                             <h3 className="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-3">
-                                DUE DATE
+                                {t('modals.taskDetails.dueDate')}
                             </h3>
                             <div className="flex items-start gap-3 p-3 rounded-lg bg-background-primary">
                                 <div className="p-2 bg-primary/20 rounded-lg">
@@ -198,7 +200,7 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, tas
                                 </div>
                                 <div>
                                     <p className="text-text-primary font-semibold text-sm">{formattedDueDate}</p>
-                                    <p className="text-text-secondary text-xs mt-0.5">Task deadline</p>
+                                    <p className="text-text-secondary text-xs mt-0.5">{t('tasks.taskDeadline')}</p>
                                 </div>
                             </div>
                         </div>
@@ -206,7 +208,7 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, tas
                         {/* Project / List */}
                         <div>
                             <h3 className="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-3">
-                                PROJECT / LIST
+                                {t('modals.taskDetails.projectList')}
                             </h3>
                             <div className="flex items-start gap-3 p-3 rounded-lg">
                                 <div className="p-2 bg-purple-500/20 rounded-lg">
@@ -216,9 +218,9 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, tas
                                 </div>
                                 <div>
                                     <p className="text-text-primary font-semibold text-sm">
-                                        {taskList ? taskList.title : 'No List'}
+                                        {taskList ? taskList.title : t('lists.noList')}
                                     </p>
-                                    <p className="text-text-secondary text-xs mt-0.5">Task category</p>
+                                    <p className="text-text-secondary text-xs mt-0.5">{t('tasks.taskCategory')}</p>
                                 </div>
                             </div>
                         </div>
@@ -231,7 +233,7 @@ export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, tas
                             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            {toggleStatusMutation.isPending ? 'Updating...' : task?.status === 'DONE' ? 'Completed' : 'Mark as Complete'}
+                            {toggleStatusMutation.isPending ? t('modals.taskDetails.updating') : task?.status === 'DONE' ? t('modals.taskDetails.completed') : t('modals.taskDetails.markAsComplete')}
                         </button>
 
                     </div>

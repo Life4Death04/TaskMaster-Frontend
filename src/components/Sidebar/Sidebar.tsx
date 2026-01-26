@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export interface NavigationItem {
     path: string;
@@ -28,6 +29,8 @@ interface SidebarProps {
  * Renders the sidebar UI without handling any logic
  */
 export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, listItems, onLogout }: SidebarProps) => {
+    const { t } = useTranslation();
+
     return (
         <>
             {/* Overlay for mobile when sidebar is open */}
@@ -136,7 +139,7 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                         {isOpen && (
                             <div className="px-4 pt-4 pb-2">
                                 <h3 className="text-xs font-semibold text-text-secondary uppercase tracking-wider">
-                                    Favorite Lists
+                                    {t('lists.favoriteLists')}
                                 </h3>
                             </div>
                         )}

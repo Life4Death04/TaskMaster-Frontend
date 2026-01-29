@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { TaskOptionsMenu } from '../common/TaskOptionsMenu';
+import { getPriorityColor, getLabelColor } from '@/utils/taskHelpers';
 
 interface TaskCardProps {
     id: string;
@@ -38,28 +39,6 @@ export const TaskCard = ({
 }: TaskCardProps) => {
     const { t } = useTranslation();
     const isCompleted = progressStatus === 'DONE';
-
-    const getPriorityColor = () => {
-        switch (priority) {
-            case 'high':
-                return 'bg-red-500';
-            case 'medium':
-                return 'bg-orange-500';
-            case 'low':
-                return 'bg-green-500';
-            default:
-                return 'bg-gray-500';
-        }
-    };
-
-    const getLabelColor = () => {
-        if (!label) return '';
-        const lowerLabel = label.toLowerCase();
-        if (lowerLabel.includes('overdue')) return 'bg-red-500/20 text-red-400';
-        if (lowerLabel.includes('dev') || lowerLabel.includes('in dev')) return 'bg-blue-500/20 text-blue-400';
-        if (lowerLabel.includes('marketing')) return 'bg-purple-500/20 text-purple-400';
-        return 'bg-gray-500/20 text-gray-400';
-    };
 
     return (
         <div

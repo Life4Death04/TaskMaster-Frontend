@@ -4,6 +4,7 @@ import { ListDetailsView } from '@/components/Lists/ListDetailsView';
 import { useAppDispatch } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
 import { useGetListById } from '@/api/queries/lists.queries';
+import { useFetchSettings } from '@/api/queries/settings.queries';
 import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
 import { useToggleListFavorite } from '@/api/mutations/lists.mutations';
 import type { StatusTypes } from '@/types';
@@ -26,6 +27,10 @@ export const ListDetailsContainer = () => {
 
     // Fetch list data from API
     const { data: listData, isLoading } = useGetListById(Number(listId));
+
+    // Fetch user settings for date format
+    const { data: settings } = useFetchSettings();
+    const dateFormat = settings?.dateFormat || 'MM_DD_YYYY';
 
     // Toggle task status mutation
     const toggleTaskStatusMutation = useToggleTaskStatus();
@@ -204,16 +209,36 @@ export const ListDetailsContainer = () => {
 
     // Format tasks for view
     const formattedTasks = useMemo(() => {
-        return filteredTasks.map(task => ({
-            id: String(task.id),
-            title: task.taskName,
-            description: task.description || '',
-            label: task.priority,
-            dueDate: task.dueDate || '',
-            priority: task.priority.toLowerCase() as 'high' | 'medium' | 'low',
-            progressStatus: task.status,
-        }));
-    }, [filteredTasks]);
+        return filteredTasks.map(task => {
+            // Format due date based on user settings
+            let formattedDueDate = '';
+            if (task.dueDate) {
+                const date = new Date(task.dueDate);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+
+                if (dateFormat === 'DD_MM_YYYY') {
+                    formattedDueDate = `${day}/${month}/${year}`;
+                } else if (dateFormat === 'YYYY_MM_DD') {
+                    formattedDueDate = `${year}/${month}/${day}`;
+                } else {
+                    // Default: MM_DD_YYYY
+                    formattedDueDate = `${month}/${day}/${year}`;
+                }
+            }
+
+            return {
+                id: String(task.id),
+                title: task.taskName,
+                description: task.description || '',
+                label: task.priority,
+                dueDate: formattedDueDate,
+                priority: task.priority.toLowerCase() as 'high' | 'medium' | 'low',
+                progressStatus: task.status,
+            };
+        });
+    }, [filteredTasks, dateFormat]);
 
     // Show loading state
     if (isLoading) {

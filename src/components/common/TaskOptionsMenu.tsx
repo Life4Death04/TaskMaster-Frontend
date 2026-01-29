@@ -23,7 +23,8 @@ export const TaskOptionsMenu = ({
     // Close menu when clicking outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+            // Type guard to check if target is a Node
+            if (menuRef.current && event.target instanceof Node && !menuRef.current.contains(event.target)) {
                 setIsMenuOpen(false);
             }
         };

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { TaskCard } from '../Tasks/TaskCard';
 import { PageHeader } from '../common/PageHeader';
 import { TaskFilterBar } from '../common/TaskFilterBar';
@@ -69,17 +70,19 @@ export const ListDetailsView = ({
     onArchiveTask,
     onDeleteTask,
 }: ListDetailsViewProps) => {
+    const { t } = useTranslation();
+
     const filterTabs: { key: FilterTab; label: string }[] = [
-        { key: 'all', label: 'All Tasks' },
-        { key: 'todo', label: 'To Do' },
-        { key: 'in_progress', label: 'In Progress' },
-        { key: 'completed', label: 'Completed' },
+        { key: 'all', label: t('tasks.filter.all') },
+        { key: 'todo', label: t('tasks.filter.todo') },
+        { key: 'in_progress', label: t('tasks.filter.inProgress') },
+        { key: 'completed', label: t('tasks.filter.completed') },
     ];
 
     const sortOptions: { key: SortOption; label: string }[] = [
-        { key: 'recent', label: 'Recent' },
-        { key: 'dueDate', label: 'Due Date' },
-        { key: 'priority', label: 'Priority' },
+        { key: 'recent', label: t('tasks.sort.recent') },
+        { key: 'dueDate', label: t('tasks.sort.dueDate') },
+        { key: 'priority', label: t('tasks.sort.priority') },
     ];
 
     // Action buttons for the header
@@ -132,7 +135,7 @@ export const ListDetailsView = ({
                 <div className="flex-1">
                     <PageHeader
                         title={listName}
-                        subtitle={`${listDescription ? listDescription + ' | ' : ''}Total Tasks: ${totalTasks} | Completed Tasks: ${activeTasks}`}
+                        subtitle={`${listDescription ? listDescription + ' | ' : ''}${t('lists.totalTasks')}: ${totalTasks} | ${t('lists.completedTasks')}: ${activeTasks}`}
                         searchQuery={searchQuery}
                         onSearchChange={onSearchChange}
                         showSearch={true}
@@ -185,8 +188,8 @@ export const ListDetailsView = ({
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                         </svg>
                     </div>
-                    <h3 className="text-text-primary text-xl font-semibold mb-2">No tasks found</h3>
-                    <p className="text-text-secondary text-sm mb-6">Create your first task in this list</p>
+                    <h3 className="text-text-primary text-xl font-semibold mb-2">{t('tasks.noTasksFound')}</h3>
+                    <p className="text-text-secondary text-sm mb-6">{t('tasks.createFirstTask')}</p>
                     <button
                         onClick={onCreateTask}
                         className="px-6 py-2.5 bg-primary hover:bg-primary-hover hover:cursor-pointer text-white rounded-lg font-medium transition-colors flex items-center gap-2"
@@ -194,7 +197,7 @@ export const ListDetailsView = ({
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                         </svg>
-                        Create Task
+                        {t('tasks.createTask')}
                     </button>
                 </div>
             )}

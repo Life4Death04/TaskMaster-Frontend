@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 interface ListCardProps {
     id: string;
     title: string;
@@ -20,6 +22,8 @@ export const ListCard = ({
     isNewCard = false,
     onClick,
 }: ListCardProps) => {
+    const { t } = useTranslation();
+
     if (isNewCard) {
         return (
             <button
@@ -32,7 +36,7 @@ export const ListCard = ({
                     </svg>
                 </div>
                 <p className="text-text-secondary group-hover:text-text-primary font-medium transition-colors">
-                    Create New List
+                    {t('lists.createNewList')}
                 </p>
             </button>
         );
@@ -53,7 +57,7 @@ export const ListCard = ({
                         {title}
                     </h3>
                     <p className="text-text-secondary text-sm line-clamp-2">
-                        {description}
+                        {description || t('tasks.noDescription')}
                     </p>
                 </div>
 

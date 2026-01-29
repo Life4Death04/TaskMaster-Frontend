@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { DashboardView } from '@/components/Dashboard/DashboardView';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
@@ -12,6 +13,7 @@ import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
  * Handles all business logic for the dashboard
  */
 export const DashboardContainer = () => {
+    const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
@@ -62,7 +64,7 @@ export const DashboardContainer = () => {
 
         return nonArchivedTasks.slice(0, 5).map(task => {
             const dueDate = task.dueDate ? new Date(task.dueDate) : null;
-            let dueDateText = 'No due date';
+            let dueDateText = t('tasks.noDueDate');
             let status: 'overdue' | 'normal' | 'completed' = 'normal';
 
             if (task.status === 'DONE') {
@@ -72,27 +74,27 @@ export const DashboardContainer = () => {
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
                 if (diffDays < 0) {
-                    dueDateText = diffDays === -1 ? 'Yesterday' : `${Math.abs(diffDays)} days ago`;
+                    dueDateText = diffDays === -1 ? t('tasks.yesterday') : t('tasks.daysAgo', { count: Math.abs(diffDays) });
                     status = 'overdue';
                 } else if (diffDays === 0) {
-                    dueDateText = 'Today';
+                    dueDateText = t('tasks.today');
                 } else if (diffDays === 1) {
-                    dueDateText = 'Tomorrow';
+                    dueDateText = t('tasks.tomorrow');
                 } else {
-                    dueDateText = `In ${diffDays} days`;
+                    dueDateText = t('tasks.inDays', { count: diffDays });
                 }
             }
 
             return {
                 id: String(task.id),
                 title: task.taskName,
-                description: task.description || 'No description',
+                description: task.description || t('tasks.noDescription'),
                 status,
                 dueDate: dueDateText,
                 priority: task.priority.toLowerCase() as 'high' | 'medium' | 'low',
             };
         });
-    }, [allTasks]);
+    }, [allTasks, t]);
 
     // Get upcoming tasks (next 5 tasks with due dates)
     const upcomingTasks = useMemo(() => {
@@ -116,7 +118,7 @@ export const DashboardContainer = () => {
                     date: dueDate.getDate().toString(),
                     month: monthNames[dueDate.getMonth()],
                     title: task.taskName,
-                    description: task.description || 'No description',
+                    description: task.description || t('tasks.noDescription'),
                     priority: task.priority.toLowerCase() as 'high' | 'medium' | 'low',
                 };
             });

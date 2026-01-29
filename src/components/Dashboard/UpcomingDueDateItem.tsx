@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 interface UpcomingDueDateItemProps {
     id: string;
     date: string;
@@ -20,6 +22,8 @@ export const UpcomingDueDateItem = ({
     time,
     priority,
 }: UpcomingDueDateItemProps) => {
+    const { t } = useTranslation();
+
     return (
         <div className="flex gap-3 p-3 bg-card-primary hover:bg-background-primary-hover transition-colors hover:rounded-lg hover:cursor-pointer">
             <div className="flex items-center justify-center">
@@ -34,10 +38,12 @@ export const UpcomingDueDateItem = ({
                     <h4 className="text-text-primary font-semibold text-sm">{title}</h4>
                     {priority && (
                         <span className={`px-2 py-0.5 text-xs font-bold rounded uppercase ${priority === 'high' ? 'bg-red-500/20 text-red-400' :
-                            priority === 'medium' ? 'bg-orange-500/20 text-orange-400' :
-                                'bg-green-500/20 text-green-400'
+                                priority === 'medium' ? 'bg-orange-500/20 text-orange-400' :
+                                    'bg-green-500/20 text-green-400'
                             }`}>
-                            {priority}
+                            {priority === 'high' ? t('common.priority.high') :
+                                priority === 'medium' ? t('common.priority.medium') :
+                                    t('common.priority.low')}
                         </span>
                     )}
                 </div>

@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TasksView } from '../components/Tasks/TasksView';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
@@ -14,6 +15,7 @@ type SortOption = 'recent' | 'dueDate' | 'priority';
  * Business logic container for the Tasks page
  */
 export const TasksContainer = () => {
+    const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const user = useAppSelector((state) => state.auth.user);
     const [searchQuery, setSearchQuery] = useState('');
@@ -88,7 +90,7 @@ export const TasksContainer = () => {
                         date.getFullYear() === today.getFullYear();
 
                     if (isToday) {
-                        dueDate = `Due: Today`;
+                        dueDate = t('tasks.dueToday');
                         dueTime = date.toLocaleTimeString('en-US', {
                             hour: 'numeric',
                             minute: '2-digit',
@@ -110,7 +112,7 @@ export const TasksContainer = () => {
                             formattedDate = `${month}/${day}/${year}`;
                         }
 
-                        dueDate = `Due: ${formattedDate}`;
+                        dueDate = `${t('tasks.dueLabel')} ${formattedDate}`;
                     }
                 }
 
@@ -131,7 +133,7 @@ export const TasksContainer = () => {
                     progressStatus: task.status,
                 };
             }),
-        [processedTasks, dateFormat]
+        [processedTasks, dateFormat, t]
     );
 
     // Event handlers

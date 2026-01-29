@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { PageHeader } from '../common/PageHeader';
 import { ActionButton } from '../common/ActionButton';
 
@@ -39,7 +40,17 @@ export const CalendarView = ({
     onTaskClick,
     onAddTask,
 }: CalendarViewProps) => {
-    const weekDays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    const { t } = useTranslation();
+
+    const weekDays = [
+        t('calendar.days.sun'),
+        t('calendar.days.mon'),
+        t('calendar.days.tue'),
+        t('calendar.days.wed'),
+        t('calendar.days.thu'),
+        t('calendar.days.fri'),
+        t('calendar.days.sat')
+    ];
 
     // Generate calendar grid
     const generateCalendarDays = () => {
@@ -78,8 +89,8 @@ export const CalendarView = ({
         <div className="min-h-screen bg-background-primary p-6">
             {/* Page Header */}
             <PageHeader
-                title="Calendar"
-                subtitle="View and manage your task schedule"
+                title={t('calendar.title')}
+                subtitle={t('calendar.subtitle')}
                 userName={userName}
                 showSearch={false}
                 searchQuery="Sexo"
@@ -119,7 +130,7 @@ export const CalendarView = ({
                     {/* Create Task Button */}
                     <ActionButton
                         onClick={onAddTask}
-                        label="Create Task"
+                        label={t('tasks.create')}
                         icon={
                             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

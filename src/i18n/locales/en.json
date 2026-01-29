@@ -10,10 +10,31 @@
     "email": "Email",
     "password": "Password",
     "firstName": "First Name",
-    "lastName": "Last Name"
+    "lastName": "Last Name",
+    "confirmPassword": "Confirm Password",
+    "emailPlaceholder": "name@example.com",
+    "passwordPlaceholder": "Enter your password",
+    "firstNamePlaceholder": "John",
+    "lastNamePlaceholder": "Doe"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Welcome back, {{userName}}. Here's your daily overview.",
+    "stats": {
+      "totalTasks": "TOTAL TASKS",
+      "completedToday": "COMPLETED TODAY",
+      "overdue": "OVERDUE",
+      "myLists": "MY LISTS"
+    },
+    "recentTasks": "Recent Tasks",
+    "active": "Active",
+    "viewAll": "View All",
+    "upcomingDueDates": "Upcoming Due Dates",
+    "addReminder": "Add Reminder"
   },
   "tasks": {
-    "title": "Tasks",
+    "title": "My Tasks",
+    "subtitle": "Review and manage your personal task list.",
     "create": "Create Task",
     "edit": "Edit Task",
     "delete": "Delete Task",
@@ -23,32 +44,257 @@
     "dueDate": "Due Date",
     "priority": "Priority",
     "status": "Status",
-    "archived": "Archived"
+    "archived": "Archived",
+    "taskId": "TASK ID",
+    "noDescription": "No description available.",
+    "noDueDate": "No due date",
+    "dueToday": "Due: Today",
+    "dueLabel": "Due:",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "yesterday": "Yesterday",
+    "daysAgo": "{{count}} days ago",
+    "inDays": "In {{count}} days",
+    "taskCategory": "Task category",
+    "taskDeadline": "Task deadline",
+    "allTasks": "All Tasks",
+    "filter": {
+      "all": "All Tasks",
+      "todo": "To Do",
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    },
+    "sort": {
+      "label": "Sort By",
+      "recent": "Recent",
+      "dueDate": "Due Date",
+      "priority": "Priority"
+    },
+    "statusOptions": {
+      "todo": "To Do",
+      "inProgress": "In Progress",
+      "done": "Done"
+    },
+    "priorityOptions": {
+      "low": "Low",
+      "medium": "Med",
+      "high": "High"
+    },
+    "statusLabels": {
+      "overdue": "OVERDUE",
+      "normal": "NORMAL"
+    },
+    "labels": {
+      "overdue": "OVERDUE"
+    },
+    "noTasksFound": "No tasks found",
+    "createFirstTask": "Create your first task in this list",
+    "createTask": "Create Task"
   },
   "lists": {
-    "title": "Lists",
+    "title": "My Lists",
+    "subtitle": "Organize your tasks with custom lists.",
     "create": "Create List",
     "edit": "Edit List",
     "delete": "Delete List",
     "listName": "List Name",
-    "color": "Color"
+    "color": "Color",
+    "description": "Description",
+    "noList": "No List",
+    "totalTasks": "Total Tasks",
+    "completedTasks": "Completed Tasks",
+    "favoriteList": "Favorite List",
+    "favoriteLists": "Favorite Lists",
+    "createNewList": "Create New List",
+    "noListsFound": "No lists found",
+    "createFirstList": "Create your first list to get started"
   },
   "settings": {
-    "title": "Settings",
-    "theme": "Theme",
-    "language": "Language",
-    "dateFormat": "Date Format",
-    "defaultPriority": "Default Priority",
-    "defaultStatus": "Default Status"
+    "title": "Account Settings",
+    "subtitle": "Manage your personal information and app preferences.",
+    "profile": {
+      "title": "Profile Settings",
+      "edit": "Edit Profile",
+      "editProfile": "Edit Profile",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "appearance": {
+      "title": "Appearance",
+      "darkMode": "Dark Mode",
+      "darkModeDescription": "Adjust the visual theme of the app.",
+      "darkModeDesc": "Toggle between light and dark themes.",
+      "language": "Language",
+      "languageDescription": "Choose your preferred language."
+    },
+    "preferences": {
+      "title": "General Preferences",
+      "defaultPriority": "Default Task Priority",
+      "defaultPriorityDescription": "Priority for newly created tasks.",
+      "defaultStatus": "Default Task Status",
+      "defaultStatusDescription": "Status for newly created tasks.",
+      "dateFormat": "Date Format",
+      "dateFormatDescription": "Preferred display format for dates."
+    },
+    "language": {
+      "title": "Language",
+      "languageDesc": "Choose your preferred language."
+    },
+    "taskDefaults": {
+      "title": "Task Defaults",
+      "priority": "Default Task Priority",
+      "priorityDesc": "Priority for newly created tasks.",
+      "status": "Default Task Status",
+      "statusDesc": "Status for newly created tasks."
+    },
+    "dateFormat": {
+      "title": "Date Format",
+      "dateFormatDesc": "Preferred display format for dates."
+    },
+    "account": {
+      "title": "Account Management",
+      "logout": "Logout Session",
+      "deleteAccount": "Delete Account",
+      "deleteWarning": "Warning: Deleting your account is permanent and cannot be undone. All your data will be wiped."
+    },
+    "accountManagement": {
+      "title": "Account Management",
+      "logoutSession": "Logout Session",
+      "deleteAccount": "Delete Account"
+    },
+    "changes": {
+      "unsavedChanges": "You have unsaved changes",
+      "discard": "Discard",
+      "apply": "Apply Changes"
+    }
+  },
+  "modals": {
+    "createTask": {
+      "title": "Create New Task",
+      "subtitle": "Organize your work and stay productive.",
+      "taskName": "Task Name",
+      "taskNamePlaceholder": "e.g., Deploy system review",
+      "description": "Description",
+      "descriptionPlaceholder": "Provide more context about this task...",
+      "status": "Status",
+      "dueDate": "Due Date",
+      "priority": "Priority",
+      "list": "List",
+      "noList": "No List",
+      "optional": "(OPTIONAL)",
+      "createButton": "Create Task",
+      "creating": "Creating..."
+    },
+    "editTask": {
+      "title": "Edit Task",
+      "dueDate": "Due Date"
+    },
+    "createList": {
+      "title": "Create New List",
+      "subtitle": "Organize tasks by project or category.",
+      "listNamePlaceholder": "e.g., Q3 Project Goals",
+      "descriptionPlaceholder": "Add details about this list..."
+    },
+    "editList": {
+      "title": "Edit List",
+      "subtitle": "Update list details and preferences."
+    },
+    "taskDetails": {
+      "description": "DESCRIPTION",
+      "dueDate": "DUE DATE",
+      "projectList": "PROJECT / LIST",
+      "markAsComplete": "Mark as Complete",
+      "completed": "Completed",
+      "updating": "Updating..."
+    },
+    "deleteConfirmation": {
+      "title": "Delete this {{itemType}}?",
+      "message": "You are about to permanently delete",
+      "quotedName": "\"{{itemName}}\"",
+      "warning": "This action cannot be undone.",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "deleting": "Deleting...",
+      "task": "task",
+      "list": "list",
+      "item": "item"
+    }
+  },
+  "sidebar": {
+    "myTasks": "My Tasks",
+    "calendar": "Calendar",
+    "lists": "Lists",
+    "settings": "Settings"
+  },
+  "calendar": {
+    "title": "Calendar",
+    "subtitle": "View and manage your task schedule",
+    "days": {
+      "sun": "SUN",
+      "mon": "MON",
+      "tue": "TUE",
+      "wed": "WED",
+      "thu": "THU",
+      "fri": "FRI",
+      "sat": "SAT"
+    },
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    }
   },
   "common": {
     "save": "Save",
+    "saveChanges": "Save Changes",
     "cancel": "Cancel",
     "delete": "Delete",
     "edit": "Edit",
     "create": "Create",
-    "search": "Search",
+    "search": "Search...",
     "filter": "Filter",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "optional": "Optional",
+    "statusBadge": {
+      "inProgress": "IN PROGRESS",
+      "completed": "COMPLETED",
+      "toDo": "TO DO"
+    },
+    "priorityBadge": {
+      "highPriority": "HIGH PRIORITY",
+      "mediumPriority": "MEDIUM PRIORITY",
+      "lowPriority": "LOW PRIORITY",
+      "noPriority": "NO PRIORITY"
+    },
+    "close": "Close",
+    "discard": "Discard",
+    "applyChanges": "Apply Changes",
+    "priority": {
+      "low": "Low",
+      "medium": "Med",
+      "high": "High"
+    },
+    "status": {
+      "todo": "To Do",
+      "inProgress": "In Progress",
+      "done": "Done"
+    }
+  },
+  "menu": {
+    "edit": "Edit",
+    "archive": "Archive",
+    "delete": "Delete"
   }
 }

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createListSchema, type CreateListFormData } from '@/schemas/list.schemas';
@@ -21,6 +22,7 @@ const COLORS = [
 ];
 
 export const CreateListModal = ({ isOpen, onClose, onSubmit, isLoading = false }: CreateListModalProps) => {
+    const { t } = useTranslation();
     const {
         register,
         handleSubmit,
@@ -63,7 +65,7 @@ export const CreateListModal = ({ isOpen, onClose, onSubmit, isLoading = false }
             <div className="relative w-full max-w-md mx-4 bg-background-primary border border-border-default rounded-2xl shadow-2xl">
                 {/* Header */}
                 <div className="flex items-center justify-between p-6 pb-4 border-b border-border-default">
-                    <h2 className="text-text-primary text-xl font-bold">Create New List</h2>
+                    <h2 className="text-text-primary text-xl font-bold">{t('modals.createList.title')}</h2>
                     <button
                         onClick={handleClose}
                         type="button"
@@ -83,11 +85,11 @@ export const CreateListModal = ({ isOpen, onClose, onSubmit, isLoading = false }
                         {/* List Name */}
                         <div>
                             <label className="block text-text-primary text-sm font-semibold mb-2">
-                                List Name
+                                {t('lists.listName')}
                             </label>
                             <input
                                 type="text"
-                                placeholder="e.g., Q3 Project Goals"
+                                placeholder={t('modals.createList.listNamePlaceholder')}
                                 {...register('title')}
                                 className="w-full px-4 py-2.5 bg-background-input border border-border-input rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                             />
@@ -99,11 +101,11 @@ export const CreateListModal = ({ isOpen, onClose, onSubmit, isLoading = false }
                         {/* Description */}
                         <div>
                             <label className="block text-text-secondary text-sm mb-2 flex items-center gap-1">
-                                <span className="font-semibold text-text-primary">Description</span>
-                                <span className="text-xs">(Optional)</span>
+                                <span className="font-semibold text-text-primary">{t('lists.description')}</span>
+                                <span className="text-xs">({t('common.optional')})</span>
                             </label>
                             <textarea
-                                placeholder="Add details about this list..."
+                                placeholder={t('modals.createList.descriptionPlaceholder')}
                                 {...register('description')}
                                 rows={3}
                                 className="w-full px-4 py-2.5 bg-background-input border border-border-input rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
@@ -116,7 +118,7 @@ export const CreateListModal = ({ isOpen, onClose, onSubmit, isLoading = false }
                         {/* List Color */}
                         <div>
                             <label className="block text-text-primary text-sm font-semibold mb-3">
-                                List Color
+                                {t('lists.color')}
                             </label>
                             <div className="flex gap-3 flex-wrap">
                                 {COLORS.map((color) => (
@@ -145,14 +147,14 @@ export const CreateListModal = ({ isOpen, onClose, onSubmit, isLoading = false }
                             onClick={handleClose}
                             className="px-6 py-2.5 bg-background-primary-hover hover:bg-background-primary hover:cursor-pointer text-text-primary rounded-lg font-medium transition-colors border border-border-default"
                         >
-                            Cancel
+                            {t('common.cancel')}
                         </button>
                         <button
                             type="submit"
                             disabled={isLoading}
                             className="px-6 py-2.5 bg-gradient-blueToPurple hover:bg-primary-hover hover:cursor-pointer text-white rounded-lg font-medium transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {isLoading ? 'Creating...' : 'Create List'}
+                            {isLoading ? t('common.saving') : t('lists.create')}
                         </button>
                     </div>
                 </form>

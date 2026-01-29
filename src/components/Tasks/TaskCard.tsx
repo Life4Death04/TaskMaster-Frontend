@@ -87,7 +87,7 @@ export const TaskCard = ({
 
                     {/* Priority */}
                     <div className="flex items-center gap-2">
-                        <span className={`w-2.5 h-2.5 rounded-full ${getPriorityColor()}`}></span>
+                        <span className={`w-2.5 h-2.5 rounded-full ${getPriorityColor(priority)}`}></span>
                         <span className="text-text-secondary text-sm capitalize">
                             {priority === 'high' ? t('common.priority.high') :
                                 priority === 'medium' ? t('common.priority.medium') :

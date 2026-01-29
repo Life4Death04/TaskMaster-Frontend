@@ -103,6 +103,26 @@ export const getPriorityColor = (
 };
 
 /**
+ * Map uppercase priority to lowercase
+ * @param priority - The task priority (HIGH, MEDIUM, LOW)
+ * @returns Lowercase priority type
+ */
+export const mapPriorityToLowercase = (
+  priority: 'HIGH' | 'MEDIUM' | 'LOW'
+): 'high' | 'medium' | 'low' => {
+  switch (priority) {
+    case 'HIGH':
+      return 'high';
+    case 'MEDIUM':
+      return 'medium';
+    case 'LOW':
+      return 'low';
+    default:
+      return 'low';
+  }
+};
+
+/**
  * Get label color styling based on label text
  * @param label - The task label text
  * @returns Tailwind CSS color classes
@@ -111,7 +131,9 @@ export const getLabelColor = (label?: string): string => {
   if (!label) return '';
   const lowerLabel = label.toLowerCase();
   if (lowerLabel.includes('overdue')) return 'bg-red-500/20 text-red-400';
-  if (lowerLabel.includes('dev') || lowerLabel.includes('in dev')) return 'bg-blue-500/20 text-blue-400';
-  if (lowerLabel.includes('marketing')) return 'bg-purple-500/20 text-purple-400';
+  if (lowerLabel.includes('dev') || lowerLabel.includes('in dev'))
+    return 'bg-blue-500/20 text-blue-400';
+  if (lowerLabel.includes('marketing'))
+    return 'bg-purple-500/20 text-purple-400';
   return 'bg-gray-500/20 text-gray-400';
 };

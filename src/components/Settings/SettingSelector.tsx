@@ -1,5 +1,7 @@
-interface SettingSelectorOption {
-    value: string;
+import { createSelectChangeHandler } from '@/utils/selectHelpers';
+
+interface SettingSelectorOption<T extends string = string> {
+    value: T;
     label: string;
 }
 
@@ -8,7 +10,7 @@ interface SettingSelectorProps<T extends string> {
     title: string;
     description: string;
     value: T;
-    options: SettingSelectorOption[];
+    options: SettingSelectorOption<T>[];
     onChange: (value: T) => void;
 }
 
@@ -24,6 +26,8 @@ export const SettingSelector = <T extends string>({
     options,
     onChange,
 }: SettingSelectorProps<T>) => {
+    const handleChange = createSelectChangeHandler(options, onChange, 'value');
+
     return (
         <div className="relative flex items-center justify-between gap-4">
             <div className="flex flex-wrap items-center gap-4">
@@ -33,7 +37,7 @@ export const SettingSelector = <T extends string>({
                 {/* Selector for small screens */}
                 <select
                     value={value}
-                    onChange={(e) => onChange(e.target.value as T)}
+                    onChange={(e) => handleChange(e.target.value)}
                     className="min-[510px]:hidden px-4 py-2 bg-background-primary-hover border border-border-default rounded-lg text-text-primary font-medium transition-colors hover:cursor-pointer focus:outline-none focus:border-primary"
                 >
                     {options.map((option) => (
@@ -50,7 +54,7 @@ export const SettingSelector = <T extends string>({
             {/* Selector for large screens */}
             <select
                 value={value}
-                onChange={(e) => onChange(e.target.value as T)}
+                onChange={(e) => handleChange(e.target.value)}
                 className="hidden min-[510px]:block px-4 py-2 bg-background-primary-hover border border-border-default rounded-lg text-text-primary font-medium transition-colors hover:cursor-pointer focus:outline-none focus:border-primary"
             >
                 {options.map((option) => (

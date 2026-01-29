@@ -6,6 +6,7 @@ import { openModal } from '@/features/ui/uiSlice';
 import { useFetchTasks } from '@/api/queries/tasks.queries';
 import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
 import { useFetchSettings } from '@/api/queries/settings.queries';
+import { mapPriorityToLowercase } from '@/utils/taskHelpers';
 
 type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
 type SortOption = 'recent' | 'dueDate' | 'priority';
@@ -129,7 +130,7 @@ export const TasksContainer = () => {
                     label: isOverdue ? 'OVERDUE' : undefined,
                     dueDate,
                     dueTime,
-                    priority: task.priority.toLowerCase() as 'low' | 'medium' | 'high',
+                    priority: mapPriorityToLowercase(task.priority),
                     progressStatus: task.status,
                 };
             }),

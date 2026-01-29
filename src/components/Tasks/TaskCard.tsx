@@ -1,4 +1,5 @@
 import { TaskOptionsMenu } from '../common/TaskOptionsMenu';
+import { getPriorityColor, getLabelColor } from '@/utils/taskHelpers';
 
 interface TaskCardProps {
     id: string;
@@ -37,28 +38,6 @@ export const TaskCard = ({
 }: TaskCardProps) => {
     const isCompleted = progressStatus === 'DONE';
 
-    const getPriorityColor = () => {
-        switch (priority) {
-            case 'high':
-                return 'bg-red-500';
-            case 'medium':
-                return 'bg-orange-500';
-            case 'low':
-                return 'bg-green-500';
-            default:
-                return 'bg-gray-500';
-        }
-    };
-
-    const getLabelColor = () => {
-        if (!label) return '';
-        const lowerLabel = label.toLowerCase();
-        if (lowerLabel.includes('overdue')) return 'bg-red-500/20 text-red-400';
-        if (lowerLabel.includes('dev') || lowerLabel.includes('in dev')) return 'bg-blue-500/20 text-blue-400';
-        if (lowerLabel.includes('marketing')) return 'bg-purple-500/20 text-purple-400';
-        return 'bg-gray-500/20 text-gray-400';
-    };
-
     return (
         <div
             className="flex gap-4 p-4 bg-card-primary border border-border-default rounded-xl hover:border-border-input hover:shadow-lg shadow-md transition-all hover:cursor-pointer"
@@ -82,7 +61,7 @@ export const TaskCard = ({
                         {title}
                     </h3>
                     {label && (
-                        <span className={`px-2.5 py-1 text-xs font-bold rounded uppercase ${getLabelColor()}`}>
+                        <span className={`px-2.5 py-1 text-xs font-bold rounded uppercase ${getLabelColor(label)}`}>
                             {label}
                         </span>
                     )}
@@ -106,7 +85,7 @@ export const TaskCard = ({
 
                     {/* Priority */}
                     <div className="flex items-center gap-2">
-                        <span className={`w-2.5 h-2.5 rounded-full ${getPriorityColor()}`}></span>
+                        <span className={`w-2.5 h-2.5 rounded-full ${getPriorityColor(priority)}`}></span>
                         <span className="text-text-secondary text-sm capitalize">{priority}</span>
                     </div>
                 </div>

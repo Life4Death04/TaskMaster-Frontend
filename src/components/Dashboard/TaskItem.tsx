@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { TaskOptionsMenu } from '../common/TaskOptionsMenu';
 
 interface TaskItemProps {
@@ -9,6 +10,7 @@ interface TaskItemProps {
     dueTime?: string;
     priority: 'high' | 'medium' | 'low';
     onToggleComplete: (id: string) => void;
+    onClick?: (id: string) => void;
     onEdit?: (id: string) => void;
     onArchive?: (id: string) => void;
     onDelete?: (id: string) => void;
@@ -27,13 +29,19 @@ export const TaskItem = ({
     dueTime,
     priority,
     onToggleComplete,
+    onClick,
     onEdit,
     onArchive,
     onDelete,
 }: TaskItemProps) => {
+    const { t } = useTranslation();
+
     return (
-        <div className="flex gap-3 p-4 rounded-lg hover:bg-background-primary-hover transition-colors border border-border-default hover:border-border-dark">
-            <div className="pt-1">
+        <div
+            className="flex gap-3 p-4 rounded-lg bg-card-primary hover:bg-background-primary-hover transition-colors border border-border-default hover:border-border-dark hover:cursor-pointer shadow-md"
+            onClick={() => onClick?.(id)}
+        >
+            <div className="pt-1" onClick={(e) => e.stopPropagation()}>
                 <input
                     type="checkbox"
                     checked={status === 'completed'}
@@ -43,17 +51,26 @@ export const TaskItem = ({
             </div>
 
             <div className="flex-1 min-w-0">
-                <div className="flex flex-wrap items-center gap-2 mb-1">
-                    <h3 className="text-text-primary font-semibold text-sm">{title}</h3>
-                    {status === 'overdue' && (
-                        <span className="px-2 py-0.5 text-xs font-bold bg-red-500/20 text-red-400 rounded uppercase">OVERDUE</span>
-                    )}
-                    {status === 'normal' && (
-                        <span className="px-2 py-0.5 text-xs font-bold bg-blue-500/20 text-blue-400 rounded uppercase">NORMAL</span>
-                    )}
+                <div className="flex items-start justify-between">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="text-text-primary font-semibold text-sm">{title}</h3>
+                        {status === 'overdue' && (
+                            <span className="px-2 py-0.5 text-xs font-bold bg-red-500/20 text-red-400 rounded uppercase">{t('tasks.statusLabels.overdue')}</span>
+                        )}
+                        {status === 'normal' && (
+                            <span className="px-2 py-0.5 text-xs font-bold bg-blue-500/20 text-blue-400 rounded uppercase">{t('tasks.statusLabels.normal')}</span>
+                        )}
+
+                    </div>
+                    <TaskOptionsMenu
+                        taskId={id}
+                        onEdit={onEdit}
+                        onArchive={onArchive}
+                        onDelete={onDelete}
+                    />
                 </div>
 
-                <p className="text-text-secondary text-sm my-3">{description}</p>
+                <p className="text-text-secondary text-sm mb-3">{description}</p>
 
                 <div className="flex flex-wrap items-center gap-2">
                     <div className="flex items-center gap-2 text-sm">
@@ -69,16 +86,11 @@ export const TaskItem = ({
                             priority === 'medium' ? 'bg-orange-500' :
                                 'bg-green-500'
                             }`}></span>
-                        <span className="text-text-secondary text-xs capitalize">{priority}</span>
-                    </div>
-
-                    <div className="ml-auto">
-                        <TaskOptionsMenu
-                            taskId={id}
-                            onEdit={onEdit}
-                            onArchive={onArchive}
-                            onDelete={onDelete}
-                        />
+                        <span className="text-text-secondary text-xs capitalize">
+                            {priority === 'high' ? t('common.priority.high') :
+                                priority === 'medium' ? t('common.priority.medium') :
+                                    t('common.priority.low')}
+                        </span>
                     </div>
                 </div>
             </div>

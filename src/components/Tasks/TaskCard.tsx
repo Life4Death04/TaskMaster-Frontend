@@ -1,4 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import { TaskOptionsMenu } from '../common/TaskOptionsMenu';
+import { getPriorityColor, getLabelColor } from '@/utils/taskHelpers';
 
 interface TaskCardProps {
     id: string;
@@ -10,6 +12,7 @@ interface TaskCardProps {
     priority: 'high' | 'medium' | 'low';
     progressStatus: 'TODO' | 'IN_PROGRESS' | 'DONE';
     onToggleComplete: (id: string) => void;
+    onClick?: (id: string) => void;
     onEdit?: (id: string) => void;
     onArchive?: (id: string) => void;
     onDelete?: (id: string) => void;
@@ -29,38 +32,21 @@ export const TaskCard = ({
     priority,
     progressStatus,
     onToggleComplete,
+    onClick,
     onEdit,
     onArchive,
     onDelete,
 }: TaskCardProps) => {
+    const { t } = useTranslation();
     const isCompleted = progressStatus === 'DONE';
 
-    const getPriorityColor = () => {
-        switch (priority) {
-            case 'high':
-                return 'bg-red-500';
-            case 'medium':
-                return 'bg-orange-500';
-            case 'low':
-                return 'bg-green-500';
-            default:
-                return 'bg-gray-500';
-        }
-    };
-
-    const getLabelColor = () => {
-        if (!label) return '';
-        const lowerLabel = label.toLowerCase();
-        if (lowerLabel.includes('overdue')) return 'bg-red-500/20 text-red-400';
-        if (lowerLabel.includes('dev') || lowerLabel.includes('in dev')) return 'bg-blue-500/20 text-blue-400';
-        if (lowerLabel.includes('marketing')) return 'bg-purple-500/20 text-purple-400';
-        return 'bg-gray-500/20 text-gray-400';
-    };
-
     return (
-        <div className="flex gap-4 p-4 bg-card-dark border border-border-default rounded-xl hover:border-border-input hover:shadow-md transition-all">
+        <div
+            className="flex gap-4 p-4 bg-card-primary border border-border-default rounded-xl hover:border-border-input hover:shadow-lg shadow-md transition-all hover:cursor-pointer"
+            onClick={() => onClick?.(id)}
+        >
             {/* Checkbox */}
-            <div className="pt-1">
+            <div className="pt-1" onClick={(e) => e.stopPropagation()}>
                 <input
                     type="checkbox"
                     checked={isCompleted}
@@ -78,7 +64,7 @@ export const TaskCard = ({
                     </h3>
                     {label && (
                         <span className={`px-2.5 py-1 text-xs font-bold rounded uppercase ${getLabelColor()}`}>
-                            {label}
+                            {label === 'OVERDUE' ? t('tasks.labels.overdue') : label}
                         </span>
                     )}
                 </div>
@@ -89,29 +75,37 @@ export const TaskCard = ({
                 {/* Metadata */}
                 <div className="flex flex-wrap items-center gap-4">
                     {/* Due Date */}
-                    <div className="flex items-center gap-2 text-sm">
-                        <svg className="w-4 h-4 text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <span className="text-text-secondary">{dueDate}</span>
-                        {dueTime && <span className="text-primary font-medium">{dueTime}</span>}
-                    </div>
+                    {dueDate && (
+                        <div className="flex items-center gap-2 text-sm">
+                            <svg className="w-4 h-4 text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span className="text-text-secondary">{dueDate}</span>
+                            {dueTime && <span className="text-primary font-medium">{dueTime}</span>}
+                        </div>
+                    )}
 
                     {/* Priority */}
                     <div className="flex items-center gap-2">
-                        <span className={`w-2.5 h-2.5 rounded-full ${getPriorityColor()}`}></span>
-                        <span className="text-text-secondary text-sm capitalize">{priority}</span>
+                        <span className={`w-2.5 h-2.5 rounded-full ${getPriorityColor(priority)}`}></span>
+                        <span className="text-text-secondary text-sm capitalize">
+                            {priority === 'high' ? t('common.priority.high') :
+                                priority === 'medium' ? t('common.priority.medium') :
+                                    t('common.priority.low')}
+                        </span>
                     </div>
                 </div>
             </div>
 
             {/* Menu Button */}
-            <TaskOptionsMenu
-                taskId={id}
-                onEdit={onEdit}
-                onArchive={onArchive}
-                onDelete={onDelete}
-            />
+            <div onClick={(e) => e.stopPropagation()}>
+                <TaskOptionsMenu
+                    taskId={id}
+                    onEdit={onEdit}
+                    onArchive={onArchive}
+                    onDelete={onDelete}
+                />
+            </div>
         </div>
     );
 };

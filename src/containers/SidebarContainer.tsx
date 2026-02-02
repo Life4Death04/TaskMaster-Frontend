@@ -1,5 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Sidebar, type NavigationItem, type ListItem } from '@/components/Sidebar/Sidebar';
+import { logout } from '@/features/auth/authSlice';
+import { useAppDispatch } from '@/hooks/redux';
+import { useNavigate } from 'react-router-dom';
+import { useFetchLists } from '@/api/queries/lists.queries';
 
 /**
  * Container component for Sidebar
@@ -8,75 +13,65 @@ import { Sidebar, type NavigationItem, type ListItem } from '@/components/Sideba
 export const SidebarContainer = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const { t, i18n } = useTranslation();
 
-    // Navigation items configuration
-    const navigationItems: NavigationItem[] = [
+    console.log('🔄 Sidebar rendering, current language:', i18n.language);
+
+    // Fetch lists from API
+    const { data: allLists = [] } = useFetchLists();
+
+    // Filter only favorite lists for sidebar
+    const listItems: ListItem[] = useMemo(() => {
+        return allLists
+            .filter(list => list.isFavorite)
+            .map(list => ({
+                id: String(list.id),
+                name: list.title,
+                color: list.color,
+            }));
+    }, [allLists]);
+
+    // Navigation items configuration - recreate when language changes
+    const navigationItems: NavigationItem[] = useMemo(() => [
         {
             path: '/home',
-            label: 'Dashboard',
+            label: t('dashboard.title'),
             icon: (
-                <svg
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    className="w-5 h-5"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                    />
-                </svg>
+                <span className="material-symbols-outlined fill-1" style={{ fontSize: '20px' }}>
+                    dashboard
+                </span>
             ),
         },
         {
             path: '/tasks',
-            label: 'My Tasks',
+            label: t('sidebar.myTasks'),
             icon: (
-                <svg
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    className="w-5 h-5"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
-                    />
-                </svg>
+                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
+                    task_alt
+                </span>
             ),
         },
         {
             path: '/lists',
-            label: 'My Lists',
+            label: t('sidebar.lists'),
             icon: (
-                <svg
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    className="w-5 h-5"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 6h16M4 10h16M4 14h16M4 18h16"
-                    />
-                </svg>
+                <span className="material-symbols-outlined text-[20px] fill-1">
+                    view_list
+                </span>
+            ),
+        },
+        {
+            path: '/calendar',
+            label: t('sidebar.calendar'),
+            icon: (
+                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
+                    calendar_month
+                </span>
             ),
         }
-    ];
-
-    // Sample lists - in real app, this would come from API/Redux
-    const listItems: ListItem[] = [
-        { id: '1', name: 'Work Projects', color: '#3b82f6' },
-        { id: '2', name: 'Personal', color: '#10b981' },
-        { id: '3', name: 'Shopping', color: '#f59e0b' },
-        { id: '4', name: 'Ideas', color: '#8b5cf6' },
-    ];
+    ], [t]);
 
     // Detect screen size and set mobile state
     useEffect(() => {
@@ -112,6 +107,11 @@ export const SidebarContainer = () => {
         }
     };
 
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate('/auth');
+    }
+
     return (
         <Sidebar
             isOpen={isOpen}
@@ -120,6 +120,7 @@ export const SidebarContainer = () => {
             onClose={handleClose}
             navigationItems={navigationItems}
             listItems={listItems}
+            onLogout={handleLogout}
         />
     );
 };

@@ -6,7 +6,8 @@ import {
   toggleTaskArchivedAPI,
   toggleTaskStatusAPI,
 } from '../request/tasks.api';
-import type { Task, UpdateTaskDto } from '@/types';
+import type { Task } from '@/types';
+import type { EditTaskFormData } from '@/schemas/task.schemas';
 
 /**
  * Mutation hook to create a new task
@@ -17,9 +18,12 @@ export const useCreateTask = () => {
 
   return useMutation({
     mutationFn: createTaskAPI,
+    retry: false, // Disable retry to prevent duplicate creation
     onSuccess: () => {
       // Invalidate and refetch tasks list
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      // Also invalidate lists since tasks are nested in lists
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
     },
     onError: (error: Error) => {
       console.error('Error creating task:', error);
@@ -35,12 +39,14 @@ export const useUpdateTask = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (params: { id: number; data: UpdateTaskDto }) =>
+    mutationFn: (params: { id: number; data: EditTaskFormData }) =>
       updateTaskAPI(params),
+    retry: false, // Disable retry to prevent duplicate updates
     onSuccess: (updatedTask) => {
       // Invalidate tasks list and specific task
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       queryClient.invalidateQueries({ queryKey: ['tasks', updatedTask.id] });
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
     },
     onError: (error: Error) => {
       console.error('Error updating task:', error);
@@ -60,6 +66,7 @@ export const useDeleteTask = () => {
     onSuccess: () => {
       // Invalidate tasks list
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
     },
     onError: (error: Error) => {
       console.error('Error deleting task:', error);
@@ -96,10 +103,13 @@ export const useToggleTaskStatus = () => {
 
   return useMutation({
     mutationFn: toggleTaskStatusAPI,
+    retry: false, // Disable retry to prevent duplicate toggles
     onSuccess: (updatedTask: Task) => {
       // Invalidate tasks list and specific task
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       queryClient.invalidateQueries({ queryKey: ['tasks', updatedTask.id] });
+      // Also invalidate lists since tasks are nested in lists
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
     },
     onError: (error: Error) => {
       console.error('Error toggling task status:', error);

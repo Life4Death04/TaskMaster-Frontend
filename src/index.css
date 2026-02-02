@@ -5,14 +5,18 @@
   /* Custom Colors */
   --color-primary: #2b3bee;
   --color-primary-hover: #1e2ab8;
-  --color-background-primary: #ffffff;
+  --color-background-primary: #f6f6f8;
   --color-background-primary-hover: #e5e7eb;
-  --color-background-input: #f9fafb;
+  --color-background-input: #ffffff;
   --color-background-surface: #1a1d33;
   --color-card-primary: #ffffff;
-  --color-border-default: #edf2f7;
+  --color-border-default: color-mix(
+    in srgb,
+    var(--color-slate-300) 50%,
+    transparent
+  );
   --color-border-input: #e2e8f0;
-  --color-text-primary: #1e1e2f;
+  --color-text-primary: #000000;
   --color-text-secondary: #718096;
   --color-text-secondary-hover: #4a55680;
   --color-svg-fill-primary: #000000;
@@ -59,10 +63,14 @@
     --color-background-primary-hover: #3b3d54;
     --color-background-input: #111319;
     --color-background-surface: #1a1d33;
-    --color-card-primary: #1c1c27;
+    --color-card-primary: #1a1d33;
     --color-text-primary: #ffffff;
     --color-text-secondary: #9d9fb9;
-    --color-border-default: #3b3d54;
+    --color-border-default: color-mix(
+      in srgb,
+      var(--color-slate-700) 50%,
+      transparent
+    );
     --color-border-input: #4a4c6a;
     --color-svg-fill-primary: #ffffff;
 

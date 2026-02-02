@@ -12,6 +12,8 @@ import { AuthPage } from './pages/AuthPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { TasksPage } from './pages/TasksPage';
 import { ListsPage } from './pages/ListsPage';
+import { ListDetailsPage } from './pages/ListDetailsPage';
+import { CalendarPage } from './pages/CalendarPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { ErrorPage } from './pages/ErrorPage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
@@ -56,6 +58,28 @@ function AppContent() {
             <ProtectedRoute>
               <MainLayout>
                 <ListsPage />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+          errorElement={<ErrorPage />}
+        />
+        <Route
+          path="/lists/:listId"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <ListDetailsPage />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+          errorElement={<ErrorPage />}
+        />
+        <Route
+          path="/calendar"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <CalendarPage />
               </MainLayout>
             </ProtectedRoute>
           }

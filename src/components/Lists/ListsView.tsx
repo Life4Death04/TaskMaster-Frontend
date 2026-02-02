@@ -1,26 +1,22 @@
+import { useTranslation } from 'react-i18next';
 import { PageHeader } from '../common/PageHeader';
 import { ListCard } from './ListCard';
-
-type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
+import type { Task } from '@/types';
 
 interface List {
     id: string;
     title: string;
     description: string;
     color: string;
-    icon: React.ReactNode;
     taskCount: number;
-    status?: string;
-    progressStatus?: 'TODO' | 'IN_PROGRESS' | 'DONE';
+    tasks: Task[];
 }
 
 interface ListsViewProps {
     userName: string;
     lists: List[];
     searchQuery: string;
-    activeFilter: FilterTab;
     onSearchChange: (query: string) => void;
-    onFilterChange: (filter: FilterTab) => void;
     onListClick: (id: string) => void;
     onCreateList: () => void;
 }
@@ -33,58 +29,35 @@ export const ListsView = ({
     userName,
     lists,
     searchQuery,
-    activeFilter,
     onSearchChange,
-    onFilterChange,
     onListClick,
     onCreateList,
 }: ListsViewProps) => {
-    const filterTabs: { key: FilterTab; label: string }[] = [
-        { key: 'all', label: 'All' },
-        { key: 'todo', label: 'To Do' },
-        { key: 'in_progress', label: 'In Progress' },
-        { key: 'done', label: 'Done' },
-    ];
+    const { t } = useTranslation();
 
     return (
-        <div className="min-h-screen bg-background-dark p-6">
+        <div className="min-h-screen bg-background-primary p-6">
             {/* Page Header */}
             <PageHeader
-                title="My Lists"
-                subtitle="Organize your tasks with custom lists."
+                title={t('lists.title')}
+                subtitle={t('lists.subtitle')}
                 userName={userName}
                 searchQuery={searchQuery}
                 onSearchChange={onSearchChange}
                 showSearch={true}
             />
 
-            {/* Filter Tabs and Create Button */}
-            <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
-                {/* Filter Tabs */}
-                <div className="flex flex-wrap items-center gap-2 bg-card-dark border border-border-default rounded-lg p-1">
-                    {filterTabs.map((tab) => (
-                        <button
-                            key={tab.key}
-                            onClick={() => onFilterChange(tab.key)}
-                            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeFilter === tab.key
-                                ? 'bg-primary text-white'
-                                : 'text-text-secondary hover:text-text-primary hover:bg-background-primary-hover'
-                                }`}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
-                </div>
-
+            {/* Create Button */}
+            <div className="mb-8 flex justify-end">
                 {/* Create New List Button */}
                 <button
                     onClick={onCreateList}
-                    className="px-6 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg font-medium transition-colors flex items-center gap-2 shadow-md hover:shadow-lg"
+                    className="px-6 py-2.5 bg-gradient-blueToPurple hover:bg-primary-hover text-white rounded-lg font-medium transition-colors flex items-center gap-2 shadow-md hover:shadow-lg hover:cursor-pointer"
                 >
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                     </svg>
-                    Create New List
+                    {t('lists.createNewList')}
                 </button>
             </div>
 
@@ -97,24 +70,23 @@ export const ListsView = ({
                         title={list.title}
                         description={list.description}
                         color={list.color}
-                        icon={list.icon}
                         taskCount={list.taskCount}
-                        status={list.status}
                         onClick={() => onListClick(list.id)}
                     />
                 ))}
 
-                {/* Create New List Card */}
-                <ListCard
-                    id="new"
-                    title=""
-                    description=""
-                    color=""
-                    icon={null}
-                    taskCount={0}
-                    isNewCard={true}
-                    onClick={onCreateList}
-                />
+                {/* Create New List Card only when lists exist */}
+                {lists.length > 0 && (
+                    <ListCard
+                        id="new"
+                        title=""
+                        description=""
+                        color=""
+                        taskCount={0}
+                        isNewCard={true}
+                        onClick={onCreateList}
+                    />
+                )}
             </div>
 
             {/* Empty State */}
@@ -125,16 +97,16 @@ export const ListsView = ({
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                         </svg>
                     </div>
-                    <h3 className="text-text-primary text-xl font-semibold mb-2">No lists found</h3>
-                    <p className="text-text-secondary text-sm mb-6">Create your first list to get started</p>
+                    <h3 className="text-text-primary text-xl font-semibold mb-2">{t('lists.noListsFound')}</h3>
+                    <p className="text-text-secondary text-sm mb-6">{t('lists.createFirstList')}</p>
                     <button
                         onClick={onCreateList}
-                        className="px-6 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+                        className="px-6 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg font-medium transition-colors flex items-center gap-2 hover:cursor-pointer"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                         </svg>
-                        Create New List
+                        {t('lists.createNewList')}
                     </button>
                 </div>
             )}

@@ -1,7 +1,12 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TasksView } from '../components/Tasks/TasksView';
-import { useAppDispatch } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
+import { useFetchTasks } from '@/api/queries/tasks.queries';
+import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
+import { useFetchSettings } from '@/api/queries/settings.queries';
+import { mapPriorityToLowercase } from '@/utils/taskHelpers';
 
 type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
 type SortOption = 'recent' | 'dueDate' | 'priority';
@@ -11,130 +16,126 @@ type SortOption = 'recent' | 'dueDate' | 'priority';
  * Business logic container for the Tasks page
  */
 export const TasksContainer = () => {
+    const { t } = useTranslation();
     const dispatch = useAppDispatch();
+    const user = useAppSelector((state) => state.auth.user);
     const [searchQuery, setSearchQuery] = useState('');
     const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
     const [sortOption, setSortOption] = useState<SortOption>('recent');
 
-    // Mock data - will be replaced with Redux state later
-    const userName = 'John';
+    // Fetch tasks from API
+    const { data: tasks = [], isLoading, error } = useFetchTasks();
+    const toggleStatusMutation = useToggleTaskStatus();
 
-    const allTasks = [
-        {
-            id: '1',
-            title: 'Finalize Q3 Financial Report',
-            description: 'Add missing expense data from Marketing department',
-            label: 'OVERDUE',
-            dueDate: 'Due: Oct 12, 2023',
-            priority: 'high' as const,
-            progressStatus: 'IN_PROGRESS' as const,
-        },
-        {
-            id: '2',
-            title: 'Review App Redesign Mockups',
-            description: 'Check mobile responsiveness on new dashboard',
-            label: 'IN DEV',
-            dueDate: 'Due: Today, 5:00 PM',
-            dueTime: '5:00 PM',
-            priority: 'medium' as const,
-            progressStatus: 'IN_PROGRESS' as const,
-        },
-        {
-            id: '3',
-            title: 'Update Software Licenses',
-            description: 'Renew Figma and Adobe CC subscriptions',
-            dueDate: 'Due: Oct 28, 2023',
-            priority: 'low' as const,
-            progressStatus: 'TODO' as const,
-        },
-        {
-            id: '4',
-            title: 'Brainstorm Q4 Marketing Campaign',
-            description: 'Initial ideation session with the creative team',
-            label: 'MARKETING',
-            dueDate: 'Due: Nov 05, 2023',
-            priority: 'medium' as const,
-            progressStatus: 'TODO' as const,
-        },
-        {
-            id: '5',
-            title: 'Design Homepage UI',
-            description: 'Create mockups for new homepage layout',
-            label: 'IN DEV',
-            dueDate: 'Due: Oct 24, 2023',
-            dueTime: '11:00 AM',
-            priority: 'high' as const,
-            progressStatus: 'IN_PROGRESS' as const,
-        },
-        {
-            id: '6',
-            title: 'Client Presentation',
-            description: 'Marketing Strategy Review with stakeholders',
-            label: 'OVERDUE',
-            dueDate: 'Due: Oct 10, 2023',
-            priority: 'high' as const,
-            progressStatus: 'TODO' as const,
-        },
-        {
-            id: '7',
-            title: 'Team Sync Meeting',
-            description: 'Weekly progress update with development team',
-            dueDate: 'Due: Oct 25, 2023',
-            dueTime: '10:00 AM',
-            priority: 'medium' as const,
-            progressStatus: 'DONE' as const,
-        },
-        {
-            id: '8',
-            title: 'Code Review - Auth Module',
-            description: 'Review pull request for authentication updates',
-            label: 'IN DEV',
-            dueDate: 'Due: Oct 23, 2023',
-            priority: 'medium' as const,
-            progressStatus: 'DONE' as const,
-        },
-    ];
+    // Fetch user settings for date format
+    const { data: settings } = useFetchSettings();
+    const dateFormat = settings?.dateFormat || 'MM_DD_YYYY';
 
-    // Filter and sort tasks
-    const getProcessedTasks = () => {
-        let filtered = allTasks;
+    const userName = user?.firstName || 'User';
 
-        // Apply filter
+    // Filter, search, and sort tasks
+    const processedTasks = useMemo(() => {
+        let filtered = [...tasks].filter((task) => !task.archived);
+
+        // Apply status filter
         if (activeFilter === 'todo') {
-            filtered = filtered.filter((task) => task.progressStatus === 'TODO');
+            filtered = filtered.filter((task) => task.status === 'TODO');
         } else if (activeFilter === 'in_progress') {
-            filtered = filtered.filter((task) => task.progressStatus === 'IN_PROGRESS');
+            filtered = filtered.filter((task) => task.status === 'IN_PROGRESS');
         } else if (activeFilter === 'done') {
-            filtered = filtered.filter((task) => task.progressStatus === 'DONE');
+            filtered = filtered.filter((task) => task.status === 'DONE');
         }
-        // 'all' filter shows everything, no filtering needed
 
         // Apply search
         if (searchQuery.trim()) {
             const query = searchQuery.toLowerCase();
             filtered = filtered.filter(
                 (task) =>
-                    task.title.toLowerCase().includes(query) ||
-                    task.description.toLowerCase().includes(query) ||
-                    task.label?.toLowerCase().includes(query)
+                    task.taskName.toLowerCase().includes(query) ||
+                    task.description?.toLowerCase().includes(query)
             );
         }
 
         // Apply sorting
-        const sorted = [...filtered];
         if (sortOption === 'priority') {
-            const priorityOrder = { high: 0, medium: 1, low: 2 };
-            sorted.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+            const priorityOrder = { HIGH: 0, MEDIUM: 1, LOW: 2 };
+            filtered.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
         } else if (sortOption === 'dueDate') {
-            // Simple alphabetical sort for demo (in real app, would parse dates)
-            sorted.sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+            filtered.sort((a, b) => {
+                if (!a.dueDate) return 1;
+                if (!b.dueDate) return -1;
+                return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+            });
         }
-        // 'recent' keeps the original order
+        // 'recent' keeps the original order (newest first from API)
 
-        return sorted;
-    };
+        return filtered;
+    }, [tasks, activeFilter, searchQuery, sortOption]);
 
-    const processedTasks = getProcessedTasks();
+    // Map API tasks to UI format
+    /**
+     * The code iterates through each task in processedTasks and transforms it into a new shape suitable for your UI components. This transformation handles several important aspects of task display.
+     */
+    const mappedTasks = useMemo(
+        () =>
+            processedTasks.map((task) => {
+                // Format due date
+                let dueDate = '';
+                let dueTime: string | undefined;
+                if (task.dueDate) {
+                    const date = new Date(task.dueDate);
+                    const today = new Date();
+                    const isToday =
+                        date.getDate() === today.getDate() &&
+                        date.getMonth() === today.getMonth() &&
+                        date.getFullYear() === today.getFullYear();
+
+                    if (isToday) {
+                        dueDate = t('tasks.dueToday');
+                        dueTime = date.toLocaleTimeString('en-US', {
+                            hour: 'numeric',
+                            minute: '2-digit',
+                            hour12: true,
+                        });
+                    } else {
+                        // Format date based on user's date format preference
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const year = date.getFullYear();
+
+                        let formattedDate = ''
+                        if (dateFormat === 'DD_MM_YYYY') {
+                            formattedDate = `${day}/${month}/${year}`;
+                        } else if (dateFormat === 'YYYY_MM_DD') {
+                            formattedDate = `${year}/${month}/${day}`;
+                        } else {
+                            // Default: MM_DD_YYYY
+                            formattedDate = `${month}/${day}/${year}`;
+                        }
+
+                        dueDate = `${t('tasks.dueLabel')} ${formattedDate}`;
+                    }
+                }
+
+                // Determine if task is overdue
+                const isOverdue =
+                    task.dueDate &&
+                    task.status !== 'DONE' &&
+                    new Date(task.dueDate) < new Date();
+
+                return {
+                    id: String(task.id),
+                    title: task.taskName,
+                    description: task.description || '',
+                    label: isOverdue ? 'OVERDUE' : undefined,
+                    dueDate,
+                    dueTime,
+                    priority: mapPriorityToLowercase(task.priority),
+                    progressStatus: task.status,
+                };
+            }),
+        [processedTasks, dateFormat, t]
+    );
 
     // Event handlers
     const handleSearchChange = (query: string) => {
@@ -149,47 +150,100 @@ export const TasksContainer = () => {
         setSortOption(sort);
     };
 
-    const handleTaskToggle = (id: string) => {
-        // TODO: Toggle task completion status
-        console.log('Toggle task:', id);
+    const handleTaskToggle = async (id: string) => {
+        try {
+            await toggleStatusMutation.mutateAsync(Number(id));
+        } catch (error) {
+            console.error('Failed to toggle task status:', error);
+        }
+    };
+
+    const handleTaskClick = (id: string) => {
+        const task = tasks.find((t) => t.id === Number(id));
+        if (task) {
+            dispatch(
+                openModal({
+                    type: 'TASK_DETAILS',
+                    data: {
+                        id: task.id,
+                        taskName: task.taskName,
+                        description: task.description,
+                        status: task.status,
+                        priority: task.priority,
+                        dueDate: task.dueDate,
+                        listId: task.listId,
+                    },
+                })
+            );
+        }
     };
 
     const handleEditTask = (id: string) => {
-        const task = allTasks.find(t => t.id === id);
+        const task = tasks.find((t) => t.id === Number(id));
         if (task) {
-            dispatch(openModal({
-                type: 'EDIT_TASK',
-                data: {
-                    id: task.id,
-                    title: task.title,
-                    description: task.description,
-                    status: task.progressStatus,
-                    priority: task.priority.toUpperCase(),
-                    dueDate: task.dueDate.replace('Due: ', ''),
-                    listName: task.label || undefined,
-                },
-            }));
+            dispatch(
+                openModal({
+                    type: 'EDIT_TASK',
+                    data: {
+                        id: task.id,
+                        taskName: task.taskName,
+                        description: task.description,
+                        status: task.status,
+                        priority: task.priority,
+                        dueDate: task.dueDate,
+                        listId: task.listId,
+                    },
+                })
+            );
         }
     };
 
     const handleArchiveTask = (id: string) => {
-        // TODO: Archive task
+        // TODO: Implement archive task
         console.log('Archive task:', id);
     };
 
     const handleDeleteTask = (id: string) => {
-        // TODO: Delete task with confirmation
-        console.log('Delete task:', id);
+        const task = tasks.find((t) => t.id === Number(id));
+        if (task) {
+            // Open delete confirmation with task data (no functions in Redux!)
+            dispatch(openModal({
+                type: 'DELETE_CONFIRMATION',
+                data: {
+                    taskId: task.id,
+                    itemName: task.taskName || 'this task',
+                    itemType: 'task',
+                },
+            }));
+        }
     };
 
     const handleCreateTask = () => {
         dispatch(openModal({ type: 'CREATE_TASK' }));
     };
 
+    // Show loading state
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center h-screen">
+                <div className="text-text-secondary">Loading tasks...</div>
+            </div>
+        );
+    }
+
+    // Show error state
+    if (error) {
+        return (
+            <div className="flex items-center justify-center h-screen">
+                <div className="text-red-400">Failed to load tasks. Please try again.</div>
+            </div>
+        );
+    }
+
     return (
         <TasksView
             userName={userName}
-            tasks={processedTasks}
+            tasks={mappedTasks}
             searchQuery={searchQuery}
             activeFilter={activeFilter}
             sortOption={sortOption}
@@ -197,6 +251,7 @@ export const TasksContainer = () => {
             onFilterChange={handleFilterChange}
             onSortChange={handleSortChange}
             onTaskToggle={handleTaskToggle}
+            onTaskClick={handleTaskClick}
             onCreateTask={handleCreateTask}
             onEditTask={handleEditTask}
             onArchiveTask={handleArchiveTask}

@@ -33,7 +33,6 @@ export interface Task {
   status: StatusTypes;
   authorId: number;
   listId?: number | null;
-  archived: boolean;
 }
 
 // ============================================
@@ -104,7 +103,7 @@ export interface DashboardUpcomingTaskViewModel {
 
 /**
  * Subset of Task properties needed for modals (Edit/Details)
- * Excludes authorId and archived which are managed by the backend
+ * Excludes authorId which is managed by the backend
  */
 export type TaskModalData = Pick<
   Task,
@@ -158,6 +157,53 @@ export interface ApiError {
     path: string;
     message: string;
   }>;
+}
+
+// ============================================
+// Auth API Types
+// ============================================
+export interface AuthUserResponse {
+  success: boolean;
+  data: {
+    user: User;
+  };
+  message?: string;
+}
+
+export interface RegisterData {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface LoginData {
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  user: User;
+  token: string;
+}
+
+export interface RegisterResponse {
+  user: User;
+  token: string;
+}
+
+// ============================================
+// User API Types
+// ============================================
+export interface UserResponse {
+  success: boolean;
+  user: User;
+  message?: string;
+}
+
+export interface UpdateUserData {
+  firstName?: string;
+  lastName?: string;
 }
 
 // ============================================

@@ -1,6 +1,13 @@
 import api from '@/lib/axios';
 import axios from 'axios';
-import type { User } from '@/types';
+import type {
+  User,
+  AuthUserResponse,
+  RegisterData,
+  LoginData,
+  AuthResponse,
+  RegisterResponse,
+} from '@/types';
 import type { User as Auth0User } from '@auth0/auth0-react';
 
 // API Endpoints
@@ -10,36 +17,6 @@ const ENDPOINTS = {
   AUTH0_USER: (auth0Id: string) => `/users/auth0/${auth0Id}`,
   ME: '/users/me',
 };
-
-interface BackendUserResponse {
-  success: boolean;
-  data: {
-    user: User;
-  };
-  message?: string;
-}
-
-interface RegisterData {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-}
-
-interface LoginData {
-  email: string;
-  password: string;
-}
-
-interface AuthResponse {
-  user: User;
-  token: string;
-}
-
-interface RegisterResponse {
-  user: User;
-  token: string;
-}
 
 /**
  * API call to register a new user
@@ -103,7 +80,7 @@ export const syncUserWithBackendAPI = async (
 ): Promise<User> => {
   try {
     // Check if user exists in backend (doesn't create, just checks)
-    const response = await api.get<BackendUserResponse>(
+    const response = await api.get<AuthUserResponse>(
       ENDPOINTS.AUTH0_USER(auth0User.sub || ''),
       {
         headers: {

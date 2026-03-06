@@ -32,37 +32,34 @@ export const DashboardContainer = () => {
         const now = new Date();
         const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-        const nonArchivedTasks = allTasks.filter(task => !task.archived);
-
         // Completed today (status is DONE and has no due date or due date is today or in the past)
-        const completedToday = nonArchivedTasks.filter(task => {
+        const completedToday = allTasks.filter(task => {
             if (task.status !== 'DONE') return false;
             // For simplicity, count all completed tasks
             return true;
         }).length;
 
         // Overdue tasks (not done and due date is in the past)
-        const overdue = nonArchivedTasks.filter(task => {
+        const overdue = allTasks.filter(task => {
             if (task.status === 'DONE' || !task.dueDate) return false;
             const dueDate = new Date(task.dueDate);
             return dueDate < today;
         }).length;
 
         return {
-            totalTasks: nonArchivedTasks.length,
+            totalTasks: allTasks.length,
             completedToday,
             overdue,
             totalLists: allLists.length,
         };
     }, [allTasks, allLists]);
 
-    // Get recent tasks (last 5 non-archived tasks)
+    // Get recent tasks (last 5 tasks)
     const recentTasks = useMemo(() => {
-        const nonArchivedTasks = allTasks.filter(task => !task.archived);
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        return nonArchivedTasks.slice(0, 5).map(task => {
+        return allTasks.slice(0, 5).map(task => {
             const dueDate = task.dueDate ? new Date(task.dueDate) : null;
             let dueDateText = t('tasks.noDueDate');
             let status: 'overdue' | 'normal' | 'completed' = 'normal';
@@ -102,7 +99,7 @@ export const DashboardContainer = () => {
         today.setHours(0, 0, 0, 0);
 
         return allTasks
-            .filter(task => !task.archived && task.status !== 'DONE' && task.dueDate)
+            .filter(task => task.status !== 'DONE' && task.dueDate)
             .sort((a, b) => {
                 const dateA = new Date(a.dueDate!).getTime();
                 const dateB = new Date(b.dueDate!).getTime();
@@ -124,9 +121,9 @@ export const DashboardContainer = () => {
             });
     }, [allTasks]);
 
-    // Active tasks count (non-archived, not completed)
+    // Active tasks count (not completed)
     const activeTasksCount = useMemo(() => {
-        return allTasks.filter(task => !task.archived && task.status !== 'DONE').length;
+        return allTasks.filter(task => task.status !== 'DONE').length;
     }, [allTasks]);
 
     // Event handlers
@@ -178,10 +175,6 @@ export const DashboardContainer = () => {
         }
     };
 
-    const handleArchiveTask = (id: string) => {
-        // TODO: Implement archive functionality
-        console.log('Archive task:', id);
-    };
 
     const handleDeleteTask = (id: string) => {
         const task = allTasks.find(t => String(t.id) === id);
@@ -224,7 +217,6 @@ export const DashboardContainer = () => {
             onCalendarClick={handleCalendarClick}
             onAddReminder={handleAddReminder}
             onEditTask={handleEditTask}
-            onArchiveTask={handleArchiveTask}
             onDeleteTask={handleDeleteTask}
         />
     );

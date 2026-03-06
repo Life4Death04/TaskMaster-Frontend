@@ -7,7 +7,14 @@ import { useGetListById } from '@/api/queries/lists.queries';
 import { useFetchSettings } from '@/api/queries/settings.queries';
 import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
 import { useToggleListFavorite } from '@/api/mutations/lists.mutations';
-import type { ListTaskFilterTab, StatusTypes, TaskSortOption } from '@/types';
+import {
+    sortTasksByPriority,
+    sortTasksByDueDate,
+    filterTasksBySearch,
+    filterTasksByStatus,
+    formatTaskDate,
+} from '@/utils/taskHelpers';
+import type { ListTaskFilterTab, TaskSortOption } from '@/types';
 
 /**
  * List Details Container
@@ -41,39 +48,21 @@ export const ListDetailsContainer = () => {
 
         let filtered = listData.tasks;
 
-        // Apply status filter (skip if 'all' is selected)
-        if (activeFilter !== 'all') {
-            const statusMap: Record<Exclude<ListTaskFilterTab, 'all'>, StatusTypes> = {
-                todo: 'TODO',
-                in_progress: 'IN_PROGRESS',
-                completed: 'DONE',
-            };
-            filtered = filtered.filter(task => task.status === statusMap[activeFilter]);
-        }
+        // Apply status filter using utility function
+        filtered = filterTasksByStatus(filtered, activeFilter);
 
-        // Apply search filter
-        if (searchQuery.trim()) {
-            filtered = filtered.filter(task =>
-                task.taskName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                task.description?.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-        }
+        // Apply search filter using utility function
+        filtered = filterTasksBySearch(filtered, searchQuery);
 
-        // Apply sorting
-        const sortedFiltered = [...filtered];
+        // Apply sorting using utility functions
         if (sortOption === 'priority') {
-            const priorityOrder = { HIGH: 0, MEDIUM: 1, LOW: 2 };
-            sortedFiltered.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+            filtered = sortTasksByPriority(filtered);
         } else if (sortOption === 'dueDate') {
-            sortedFiltered.sort((a, b) => {
-                if (!a.dueDate) return 1;
-                if (!b.dueDate) return -1;
-                return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
-            });
+            filtered = sortTasksByDueDate(filtered);
         }
         // 'recent' keeps the original order (newest first from API)
 
-        return sortedFiltered;
+        return filtered;
     }, [listData?.tasks, activeFilter, searchQuery, sortOption]);
 
     // Calculate statistics
@@ -185,10 +174,6 @@ export const ListDetailsContainer = () => {
         }
     };
 
-    const handleArchiveTask = (id: string) => {
-        // TODO: Archive task when backend supports it
-        console.log('Archive task:', id);
-    };
 
     const handleDeleteTask = (id: string) => {
         const task = listData?.tasks?.find(t => String(t.id) === id);
@@ -207,22 +192,12 @@ export const ListDetailsContainer = () => {
     // Format tasks for view
     const formattedTasks = useMemo(() => {
         return filteredTasks.map(task => {
-            // Format due date based on user settings
+            // Format due date based on user settings using utility function
             let formattedDueDate = '';
             if (task.dueDate) {
                 const date = new Date(task.dueDate);
-                const day = String(date.getDate()).padStart(2, '0');
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const year = date.getFullYear();
-
-                if (dateFormat === 'DD_MM_YYYY') {
-                    formattedDueDate = `${day}/${month}/${year}`;
-                } else if (dateFormat === 'YYYY_MM_DD') {
-                    formattedDueDate = `${year}/${month}/${day}`;
-                } else {
-                    // Default: MM_DD_YYYY
-                    formattedDueDate = `${month}/${day}/${year}`;
-                }
+                const { dateString } = formatTaskDate(date, dateFormat);
+                formattedDueDate = dateString;
             }
 
             return {
@@ -285,7 +260,6 @@ export const ListDetailsContainer = () => {
             onTaskToggle={handleTaskToggle}
             onTaskClick={handleTaskClick}
             onEditTask={handleEditTask}
-            onArchiveTask={handleArchiveTask}
             onDeleteTask={handleDeleteTask}
         />
     );

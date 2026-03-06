@@ -9,7 +9,6 @@ import type {
 const ENDPOINTS = {
   TASKS: '/tasks',
   TASK_BY_ID: (id: number) => `/tasks/${id}`,
-  TOGGLE_ARCHIVED: (id: number) => `/tasks/${id}/toggle-archived`,
   TOGGLE_STATUS: (id: number) => `/tasks/${id}/toggle-status`,
 };
 
@@ -74,19 +73,6 @@ export const updateTaskAPI = async (params: {
  */
 export const deleteTaskAPI = async (taskId: number): Promise<void> => {
   await api.delete(ENDPOINTS.TASK_BY_ID(taskId));
-};
-
-/**
- * Toggle task archived status
- */
-export const toggleTaskArchivedAPI = async (taskId: number): Promise<Task> => {
-  const response = await api.patch<Task>(ENDPOINTS.TOGGLE_ARCHIVED(taskId));
-
-  if (!response.data) {
-    throw new Error('Failed to toggle archived status');
-  }
-
-  return response.data;
 };
 
 /**

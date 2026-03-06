@@ -22,7 +22,7 @@ export const CalendarContainer = () => {
     // Map tasks to calendar events format
     const calendarTasks = useMemo(() => {
         return tasks
-            .filter((task: Task) => task.dueDate && !task.archived)
+            .filter((task: Task) => task.dueDate)
             .map((task: Task) => ({
                 id: String(task.id),
                 title: task.taskName,

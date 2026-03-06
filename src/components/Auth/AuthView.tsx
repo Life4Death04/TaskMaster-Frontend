@@ -156,18 +156,18 @@ export const AuthView = ({
                                     />
 
                                     <div className="relative flex py-1 items-center">
-                                        <div className="flex-grow border-t border-gray-200 dark:border-border-dark"></div>
+                                        <div className="flex-grow border-t border-border-input"></div>
                                         <div className="relative flex justify-center text-sm">
                                             <span className="px-2 text-gray-400 dark:text-text-secondary uppercase font-bold">
                                                 Or register with
                                             </span>
                                         </div>
-                                        <div className="flex-grow border-t border-gray-200 dark:border-border-dark"></div>
+                                        <div className="flex-grow border-t border-border-input"></div>
                                     </div>
 
                                     <SocialLoginButtons />
                                 </div>
-                                <div className="px-6 py-4 bg-background-primary border-t border-gray-200 dark:border-border-dark text-center rounded-b-2xl">
+                                <div className="px-6 py-4 bg-background-primary border-t border-border-input text-center rounded-b-2xl">
                                     <p className="text-sm text-gray-500 dark:text-text-secondary">
                                         Already have an account?{' '}
                                         <button

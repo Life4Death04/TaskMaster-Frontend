@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
  */
 export const ErrorPage = () => {
     const navigate = useNavigate();
-    /* const error = useRouteError() as Error & { statusText?: string }; */
 
     const handleGoToDashboard = () => {
         navigate('/home');
@@ -15,16 +14,6 @@ export const ErrorPage = () => {
     const handleReloadPage = () => {
         window.location.reload();
     };
-
-    /* const handleErrorDetails = () => {
-        console.error('Error details:', error);
-        alert(`Error: ${error?.message || 'Unknown error'}`);
-    };
- 
-    const handleGetSupport = () => {
-        // TODO: Open support modal or navigate to support page
-        window.open('mailto:support@taskmaster.com', '_blank');
-    }; */
 
     return (
         <div className="min-h-screen bg-background-dark flex items-center justify-center p-6">
@@ -93,30 +82,6 @@ export const ErrorPage = () => {
                         Reload Page
                     </button>
                 </div>
-
-                {/* Bottom Links */}
-                {/* <div className="flex items-center justify-center gap-6 text-sm">
-                    <button
-                        onClick={handleErrorDetails}
-                        className="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors"
-                    >
-                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <circle cx="12" cy="12" r="10" strokeWidth={2} />
-                            <path strokeLinecap="round" strokeWidth={2} d="M12 16v-4M12 8h.01" />
-                        </svg>
-                        Error Details
-                    </button>
-
-                    <button
-                        onClick={handleGetSupport}
-                        className="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors"
-                    >
-                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
-                        Get Support
-                    </button>
-                </div> */}
             </div>
         </div>
     );

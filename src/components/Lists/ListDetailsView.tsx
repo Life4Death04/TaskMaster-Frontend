@@ -2,35 +2,22 @@ import { useTranslation } from 'react-i18next';
 import { TaskCard } from '../Tasks/TaskCard';
 import { PageHeader } from '../common/PageHeader';
 import { TaskFilterBar } from '../common/TaskFilterBar';
-
-type FilterTab = 'all' | 'todo' | 'in_progress' | 'completed';
-type SortOption = 'recent' | 'dueDate' | 'priority';
-
-interface Task {
-    id: string;
-    title: string;
-    description: string;
-    label?: string;
-    dueDate: string;
-    dueTime?: string;
-    priority: 'HIGH' | 'MEDIUM' | 'LOW';
-    progressStatus: 'TODO' | 'IN_PROGRESS' | 'DONE';
-}
+import type { ListTaskFilterTab, TaskSortOption, TaskViewModel } from '@/types';
 
 interface ListDetailsViewProps {
     listName: string;
     listDescription?: string;
     totalTasks: number;
     activeTasks: number;
-    tasks: Task[];
-    activeFilter: FilterTab;
+    tasks: TaskViewModel[];
+    activeFilter: ListTaskFilterTab;
     searchQuery: string;
-    sortOption: SortOption;
+    sortOption: TaskSortOption;
     isFavorite?: boolean;
     onBack: () => void;
     onSearchChange: (query: string) => void;
-    onFilterChange: (filter: FilterTab) => void;
-    onSortChange: (sort: SortOption) => void;
+    onFilterChange: (filter: ListTaskFilterTab) => void;
+    onSortChange: (sort: TaskSortOption) => void;
     onToggleFavorite?: () => void;
     onEditList?: () => void;
     onDeleteList?: () => void;
@@ -72,14 +59,14 @@ export const ListDetailsView = ({
 }: ListDetailsViewProps) => {
     const { t } = useTranslation();
 
-    const filterTabs: { key: FilterTab; label: string }[] = [
+    const filterTabs: { key: ListTaskFilterTab; label: string }[] = [
         { key: 'all', label: t('tasks.filter.all') },
         { key: 'todo', label: t('tasks.filter.todo') },
         { key: 'in_progress', label: t('tasks.filter.inProgress') },
         { key: 'completed', label: t('tasks.filter.completed') },
     ];
 
-    const sortOptions: { key: SortOption; label: string }[] = [
+    const sortOptions: { key: TaskSortOption; label: string }[] = [
         { key: 'recent', label: t('tasks.sort.recent') },
         { key: 'dueDate', label: t('tasks.sort.dueDate') },
         { key: 'priority', label: t('tasks.sort.priority') },

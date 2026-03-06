@@ -4,21 +4,14 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { editTaskSchema, type EditTaskFormData } from '@/schemas/task.schemas';
 import { useFetchLists } from '@/api/queries/lists.queries';
+import type { TaskModalData } from '@/types';
 
 interface EditTaskModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSubmit: (data: EditTaskFormData) => void;
     isLoading?: boolean;
-    task?: {
-        id: number;
-        taskName: string;
-        description?: string | null;
-        status: 'TODO' | 'IN_PROGRESS' | 'DONE';
-        priority: 'LOW' | 'MEDIUM' | 'HIGH';
-        dueDate?: string | null;
-        listId?: number | null;
-    };
+    task?: TaskModalData;
 }
 
 export const EditTaskModal = ({

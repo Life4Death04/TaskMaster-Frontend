@@ -1,5 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { SettingSelector } from './SettingSelector';
+import type {
+    DateFormatTypes,
+    PriorityTypes,
+    StatusTypes,
+    UiLanguageTypes,
+} from '@/types';
 
 interface SettingsViewProps {
     userName: string;
@@ -12,17 +18,17 @@ interface SettingsViewProps {
     onSaveName: () => void;
     onCancelNameEdit: () => void;
     darkMode: boolean;
-    language: 'en' | 'es';
-    defaultPriority: 'LOW' | 'MEDIUM' | 'HIGH';
-    defaultStatus: 'TODO' | 'IN_PROGRESS' | 'DONE';
-    dateFormat: 'MM_DD_YYYY' | 'DD_MM_YYYY' | 'YYYY_MM_DD';
+    language: UiLanguageTypes;
+    defaultPriority: PriorityTypes;
+    defaultStatus: StatusTypes;
+    dateFormat: DateFormatTypes;
     hasChanges: boolean;
     onEditProfile: () => void;
     onDarkModeToggle: () => void;
-    onLanguageChange: (lang: 'en' | 'es') => void;
-    onDefaultPriorityChange: (priority: 'LOW' | 'MEDIUM' | 'HIGH') => void;
-    onDefaultStatusChange: (status: 'TODO' | 'IN_PROGRESS' | 'DONE') => void;
-    onDateFormatChange: (format: 'MM_DD_YYYY' | 'DD_MM_YYYY' | 'YYYY_MM_DD') => void;
+    onLanguageChange: (lang: UiLanguageTypes) => void;
+    onDefaultPriorityChange: (priority: PriorityTypes) => void;
+    onDefaultStatusChange: (status: StatusTypes) => void;
+    onDateFormatChange: (format: DateFormatTypes) => void;
     onLogout: () => void;
     onDeleteAccount: () => void;
     onDiscard: () => void;

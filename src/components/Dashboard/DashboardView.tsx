@@ -3,26 +3,10 @@ import { TaskItem } from './TaskItem';
 import { UpcomingDueDateItem } from './UpcomingDueDateItem';
 import { PageHeader } from '../common/PageHeader';
 import { useTranslation } from 'react-i18next';
-
-interface Task {
-    id: string;
-    title: string;
-    description: string;
-    status: 'overdue' | 'normal' | 'completed';
-    dueDate: string;
-    dueTime?: string;
-    priority: 'HIGH' | 'MEDIUM' | 'LOW';
-}
-
-interface UpcomingTask {
-    id: string;
-    date: string;
-    month: string;
-    title: string;
-    description: string;
-    time?: string;
-    priority?: 'HIGH' | 'MEDIUM' | 'LOW';
-}
+import type {
+    DashboardRecentTaskViewModel,
+    DashboardUpcomingTaskViewModel,
+} from '@/types';
 
 interface DashboardStats {
     totalTasks: number;
@@ -34,9 +18,9 @@ interface DashboardStats {
 interface DashboardViewProps {
     userName: string;
     stats: DashboardStats;
-    recentTasks: Task[];
+    recentTasks: DashboardRecentTaskViewModel[];
     activeTasksCount: number;
-    upcomingTasks: UpcomingTask[];
+    upcomingTasks: DashboardUpcomingTaskViewModel[];
     searchQuery: string;
     onSearchChange: (query: string) => void;
     onTaskToggle: (id: string) => void;

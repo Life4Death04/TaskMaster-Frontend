@@ -1,16 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { TaskOptionsMenu } from '../common/TaskOptionsMenu';
 import { getPriorityColor, getLabelColor } from '@/utils/taskHelpers';
+import type { TaskViewModel } from '@/types';
 
-interface TaskCardProps {
-    id: string;
-    title: string;
-    description: string;
-    label?: string;
-    dueDate: string;
-    dueTime?: string;
-    priority: 'HIGH' | 'MEDIUM' | 'LOW';
-    progressStatus: 'TODO' | 'IN_PROGRESS' | 'DONE';
+interface TaskCardProps extends TaskViewModel {
     onToggleComplete: (id: string) => void;
     onClick?: (id: string) => void;
     onEdit?: (id: string) => void;

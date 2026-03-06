@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import { useAppDispatch } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
 import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
@@ -9,7 +10,7 @@ import { getStatusBadge, getPriorityBadge } from '@/utils/taskHelpers';
 import type { Task } from '@/types';
 
 // Helper function to format date based on user settings
-const formatDate = (dateString: string | null | undefined, format: string = 'MM_DD_YYYY', t: any): string => {
+const formatDate = (dateString: string | null | undefined, format: string = 'MM_DD_YYYY', t: TFunction): string => {
     if (!dateString) return t('tasks.noDueDate');
 
     const date = new Date(dateString);

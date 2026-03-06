@@ -160,6 +160,53 @@ export interface ApiError {
 }
 
 // ============================================
+// Auth API Types
+// ============================================
+export interface AuthUserResponse {
+  success: boolean;
+  data: {
+    user: User;
+  };
+  message?: string;
+}
+
+export interface RegisterData {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface LoginData {
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  user: User;
+  token: string;
+}
+
+export interface RegisterResponse {
+  user: User;
+  token: string;
+}
+
+// ============================================
+// User API Types
+// ============================================
+export interface UserResponse {
+  success: boolean;
+  user: User;
+  message?: string;
+}
+
+export interface UpdateUserData {
+  firstName?: string;
+  lastName?: string;
+}
+
+// ============================================
 // UI Types
 // ============================================
 export interface ToastNotification {

@@ -49,13 +49,14 @@ export const registerUserAPI = async (data: RegisterData): Promise<User> => {
   try {
     const response = await api.post<RegisterResponse>(ENDPOINTS.REGISTER, data);
 
-    if (response.data.user && response.data.token) {
-      // Store token in localStorage
-      localStorage.setItem('auth_token', response.data.token);
-      return response.data.user;
+    // Guard clause - fail fast
+    if (!response.data.user || !response.data.token) {
+      throw new Error('Registration failed');
     }
 
-    throw new Error('Registration failed');
+    // Happy path - clear and unindented
+    localStorage.setItem('auth_token', response.data.token);
+    return response.data.user;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data?.message || error.message;
@@ -74,13 +75,14 @@ export const loginUserAPI = async (data: LoginData): Promise<AuthResponse> => {
   try {
     const response = await api.post<AuthResponse>(ENDPOINTS.LOGIN, data);
 
-    if (response.data.user && response.data.token) {
-      // Store token in localStorage for axios interceptor
-      localStorage.setItem('auth_token', response.data.token);
-      return response.data;
+    // Guard clause - fail fast
+    if (!response.data.user || !response.data.token) {
+      throw new Error('Login failed');
     }
 
-    throw new Error('Login failed');
+    // Happy path - clear and unindented
+    localStorage.setItem('auth_token', response.data.token);
+    return response.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data?.message || error.message;
@@ -110,11 +112,13 @@ export const syncUserWithBackendAPI = async (
       }
     );
 
-    if (response.data.success && response.data.data.user) {
-      return response.data.data.user;
+    // Guard clause - fail fast
+    if (!response.data.success || !response.data.data.user) {
+      throw new Error('User not found in backend');
     }
 
-    throw new Error('User not found in backend');
+    // Happy path - return user
+    return response.data.data.user;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 404) {

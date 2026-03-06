@@ -30,11 +30,13 @@ export const updateUserAPI = async (data: UpdateUserData): Promise<User> => {
       data
     );
 
-    if (response.data.user) {
-      return response.data.user;
+    // Guard clause - fail fast
+    if (!response.data.user) {
+      throw new Error('Update user failed');
     }
 
-    throw new Error('Update user failed');
+    // Happy path - return updated user
+    return response.data.user;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data?.message || error.message;

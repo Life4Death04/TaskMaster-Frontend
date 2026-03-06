@@ -11,7 +11,7 @@ interface Task {
     status: 'overdue' | 'normal' | 'completed';
     dueDate: string;
     dueTime?: string;
-    priority: 'high' | 'medium' | 'low';
+    priority: 'HIGH' | 'MEDIUM' | 'LOW';
 }
 
 interface UpcomingTask {
@@ -21,7 +21,7 @@ interface UpcomingTask {
     title: string;
     description: string;
     time?: string;
-    priority?: 'high' | 'medium' | 'low';
+    priority?: 'HIGH' | 'MEDIUM' | 'LOW';
 }
 
 interface DashboardStats {

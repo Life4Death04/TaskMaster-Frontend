@@ -84,18 +84,18 @@ export const getPriorityBadge = (
 
 /**
  * Get priority color for dot indicators
- * @param priority - The task priority (high, medium, low)
+ * @param priority - The task priority (HIGH, MEDIUM, LOW)
  * @returns Tailwind CSS color class
  */
 export const getPriorityColor = (
-  priority: 'high' | 'medium' | 'low'
+  priority: 'HIGH' | 'MEDIUM' | 'LOW'
 ): string => {
   switch (priority) {
-    case 'high':
+    case 'HIGH':
       return 'bg-red-500';
-    case 'medium':
+    case 'MEDIUM':
       return 'bg-orange-500';
-    case 'low':
+    case 'LOW':
       return 'bg-green-500';
     default:
       return 'bg-gray-500';
@@ -103,22 +103,32 @@ export const getPriorityColor = (
 };
 
 /**
- * Map uppercase priority to lowercase
- * @param priority - The task priority (HIGH, MEDIUM, LOW)
- * @returns Lowercase priority type
+ * Format date based on user settings
+ * @param dateString - The date string to format
+ * @param format - The date format (MM_DD_YYYY, DD_MM_YYYY, YYYY_MM_DD)
+ * @param t - Translation function from useTranslation hook
+ * @returns Formatted date string
  */
-export const mapPriorityToLowercase = (
-  priority: 'HIGH' | 'MEDIUM' | 'LOW'
-): 'high' | 'medium' | 'low' => {
-  switch (priority) {
-    case 'HIGH':
-      return 'high';
-    case 'MEDIUM':
-      return 'medium';
-    case 'LOW':
-      return 'low';
+export const formatDate = (
+  dateString: string | null | undefined,
+  format: string = 'MM_DD_YYYY',
+  t: TranslationFunction
+): string => {
+  if (!dateString) return t('tasks.noDueDate');
+
+  const date = new Date(dateString);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear();
+
+  switch (format) {
+    case 'DD_MM_YYYY':
+      return `${day}/${month}/${year}`;
+    case 'YYYY_MM_DD':
+      return `${year}/${month}/${day}`;
+    case 'MM_DD_YYYY':
     default:
-      return 'low';
+      return `${month}/${day}/${year}`;
   }
 };
 

@@ -13,7 +13,7 @@ interface Task {
     label?: string;
     dueDate: string;
     dueTime?: string;
-    priority: 'high' | 'medium' | 'low';
+    priority: 'HIGH' | 'MEDIUM' | 'LOW';
     progressStatus: 'TODO' | 'IN_PROGRESS' | 'DONE';
 }
 

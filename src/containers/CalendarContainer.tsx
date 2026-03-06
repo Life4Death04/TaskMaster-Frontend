@@ -4,23 +4,8 @@ import { CalendarView } from '@/components/Calendar/CalendarView';
 import { useAppDispatch } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
 import { useFetchTasks } from '@/api/queries/tasks.queries';
+import { getPriorityColor } from '@/utils/taskHelpers';
 import type { Task } from '@/types';
-
-/**
- * Get priority-based color styling for calendar events
- */
-const getPriorityColors = (priority: string): string => {
-    switch (priority.toUpperCase()) {
-        case 'HIGH':
-            return 'bg-red-500/80 text-white';
-        case 'MEDIUM':
-            return 'bg-amber-500/80 text-white';
-        case 'LOW':
-            return 'bg-green-500/80 text-white';
-        default:
-            return 'bg-gray-500/80 text-white';
-    }
-};
 
 /**
  * Calendar Container
@@ -41,7 +26,7 @@ export const CalendarContainer = () => {
             .map((task: Task) => ({
                 id: String(task.id),
                 title: task.taskName,
-                color: getPriorityColors(task.priority),
+                color: getPriorityColor(task.priority),
                 date: task.dueDate!,
             }));
     }, [tasks]);

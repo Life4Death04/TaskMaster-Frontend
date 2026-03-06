@@ -5,7 +5,6 @@ import {
   loginUserAPI,
   syncUserWithBackendAPI,
 } from '../request/auth.api';
-
 import { useDispatch } from 'react-redux';
 import { setToken, setUser } from '@/features/auth/authSlice';
 

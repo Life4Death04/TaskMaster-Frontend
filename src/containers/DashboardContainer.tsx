@@ -7,7 +7,6 @@ import { openModal } from '@/features/ui/uiSlice';
 import { useFetchTasks } from '@/api/queries/tasks.queries';
 import { useFetchLists } from '@/api/queries/lists.queries';
 import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
-import { mapPriorityToLowercase } from '@/utils/taskHelpers';
 
 /**
  * Dashboard Container Component
@@ -92,7 +91,7 @@ export const DashboardContainer = () => {
                 description: task.description || t('tasks.noDescription'),
                 status,
                 dueDate: dueDateText,
-                priority: mapPriorityToLowercase(task.priority),
+                priority: task.priority,
             };
         });
     }, [allTasks, t]);
@@ -120,7 +119,7 @@ export const DashboardContainer = () => {
                     month: monthNames[dueDate.getMonth()],
                     title: task.taskName,
                     description: task.description || t('tasks.noDescription'),
-                    priority: mapPriorityToLowercase(task.priority),
+                    priority: task.priority,
                 };
             });
     }, [allTasks]);

@@ -9,7 +9,7 @@ interface TaskCardProps {
     label?: string;
     dueDate: string;
     dueTime?: string;
-    priority: 'high' | 'medium' | 'low';
+    priority: 'HIGH' | 'MEDIUM' | 'LOW';
     progressStatus: 'TODO' | 'IN_PROGRESS' | 'DONE';
     onToggleComplete: (id: string) => void;
     onClick?: (id: string) => void;
@@ -89,8 +89,8 @@ export const TaskCard = ({
                     <div className="flex items-center gap-2">
                         <span className={`w-2.5 h-2.5 rounded-full ${getPriorityColor(priority)}`}></span>
                         <span className="text-text-secondary text-sm capitalize">
-                            {priority === 'high' ? t('common.priority.high') :
-                                priority === 'medium' ? t('common.priority.medium') :
+                            {priority === 'HIGH' ? t('common.priority.high') :
+                                priority === 'MEDIUM' ? t('common.priority.medium') :
                                     t('common.priority.low')}
                         </span>
                     </div>

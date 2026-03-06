@@ -234,7 +234,7 @@ export const ListDetailsContainer = () => {
                 description: task.description || '',
                 label: task.priority,
                 dueDate: formattedDueDate,
-                priority: task.priority.toLowerCase() as 'high' | 'medium' | 'low',
+                priority: task.priority,
                 progressStatus: task.status,
             };
         });

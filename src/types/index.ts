@@ -30,9 +30,9 @@ export interface Task {
   dueDate?: string | null;
   priority: PriorityTypes;
   status: StatusTypes;
-  authorId?: number;
+  authorId: number;
   listId?: number | null;
-  archived?: boolean;
+  archived: boolean;
 }
 
 // ============================================
@@ -56,6 +56,24 @@ export interface CreateListDto {
 }
 
 export interface UpdateListDto extends Partial<CreateListDto> {}
+
+// ============================================
+// Modal-specific Types
+// ============================================
+
+/**
+ * Subset of Task properties needed for modals (Edit/Details)
+ * Excludes authorId and archived which are managed by the backend
+ */
+export type TaskModalData = Pick<
+  Task,
+  'id' | 'taskName' | 'description' | 'status' | 'priority' | 'dueDate' | 'listId'
+>;
+
+/**
+ * Subset of List properties needed for Edit List modal
+ */
+export type ListModalData = Pick<List, 'id' | 'title' | 'description' | 'color'>;
 
 // ============================================
 // Settings Types
@@ -105,10 +123,10 @@ export type DeleteConfirmationType = 'task' | 'list' | 'item';
 // Discriminated union for type-safe modal handling
 export type ModalPayload =
   | { type: 'CREATE_TASK'; data?: { defaultListId?: number } }
-  | { type: 'EDIT_TASK'; data: Task }
+  | { type: 'EDIT_TASK'; data: TaskModalData }
   | { type: 'CREATE_LIST'; data?: never }
-  | { type: 'EDIT_LIST'; data: List }
-  | { type: 'TASK_DETAILS'; data: Task }
+  | { type: 'EDIT_LIST'; data: ListModalData }
+  | { type: 'TASK_DETAILS'; data: TaskModalData }
   | {
       type: 'DELETE_CONFIRMATION';
       data: {

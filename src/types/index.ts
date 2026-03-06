@@ -19,6 +19,7 @@ export type StatusTypes = 'TODO' | 'IN_PROGRESS' | 'DONE';
 export type ThemeTypes = 'LIGHT' | 'DARK';
 export type DateFormatTypes = 'MM_DD_YYYY' | 'DD_MM_YYYY' | 'YYYY_MM_DD';
 export type LanguageTypes = 'EN' | 'ES';
+export type UiLanguageTypes = 'en' | 'es';
 
 // ============================================
 // Task Types
@@ -56,6 +57,46 @@ export interface CreateListDto {
 }
 
 export interface UpdateListDto extends Partial<CreateListDto> {}
+
+// ============================================
+// Shared View Model Types
+// ============================================
+
+export type TaskSortOption = 'recent' | 'dueDate' | 'priority';
+export type TaskFilterTab = 'all' | 'todo' | 'in_progress' | 'done';
+export type ListTaskFilterTab = 'all' | 'todo' | 'in_progress' | 'completed';
+// AI said: Your dashboard/task-list view models are better as explicit types unless you refactor field names/types to match Task directly. Because the data could change through the time
+
+// But I think that we could just create these types as subsets of Task with some transformations (like status mapping for recent tasks) to avoid duplication and ensure consistency. ASK LUIS ABOUT IT. For now, I'll define them explicitly to match the current structure of the components, but we can refactor later if needed.
+export interface TaskViewModel {
+  id: string;
+  title: string;
+  description: string;
+  label?: string;
+  dueDate: string;
+  dueTime?: string;
+  priority: PriorityTypes;
+  progressStatus: StatusTypes;
+}
+export interface DashboardRecentTaskViewModel {
+  id: string;
+  title: string;
+  description: string;
+  status: 'overdue' | 'normal' | 'completed';
+  dueDate: string;
+  dueTime?: string;
+  priority: PriorityTypes;
+}
+
+export interface DashboardUpcomingTaskViewModel {
+  id: string;
+  date: string;
+  month: string;
+  title: string;
+  description: string;
+  time?: string;
+  priority?: PriorityTypes;
+}
 
 // ============================================
 // Modal-specific Types

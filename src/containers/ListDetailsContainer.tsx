@@ -7,10 +7,7 @@ import { useGetListById } from '@/api/queries/lists.queries';
 import { useFetchSettings } from '@/api/queries/settings.queries';
 import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
 import { useToggleListFavorite } from '@/api/mutations/lists.mutations';
-import type { StatusTypes } from '@/types';
-
-type FilterTab = 'all' | 'todo' | 'in_progress' | 'completed';
-type SortOption = 'recent' | 'dueDate' | 'priority';
+import type { ListTaskFilterTab, StatusTypes, TaskSortOption } from '@/types';
 
 /**
  * List Details Container
@@ -22,8 +19,8 @@ export const ListDetailsContainer = () => {
     const dispatch = useAppDispatch();
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
-    const [sortOption, setSortOption] = useState<SortOption>('recent');
+    const [activeFilter, setActiveFilter] = useState<ListTaskFilterTab>('all');
+    const [sortOption, setSortOption] = useState<TaskSortOption>('recent');
 
     // Fetch list data from API
     const { data: listData, isLoading } = useGetListById(Number(listId));
@@ -46,7 +43,7 @@ export const ListDetailsContainer = () => {
 
         // Apply status filter (skip if 'all' is selected)
         if (activeFilter !== 'all') {
-            const statusMap: Record<Exclude<FilterTab, 'all'>, StatusTypes> = {
+            const statusMap: Record<Exclude<ListTaskFilterTab, 'all'>, StatusTypes> = {
                 todo: 'TODO',
                 in_progress: 'IN_PROGRESS',
                 completed: 'DONE',
@@ -92,11 +89,11 @@ export const ListDetailsContainer = () => {
         setSearchQuery(query);
     };
 
-    const handleFilterChange = (filter: FilterTab) => {
+    const handleFilterChange = (filter: ListTaskFilterTab) => {
         setActiveFilter(filter);
     };
 
-    const handleSortChange = (sort: SortOption) => {
+    const handleSortChange = (sort: TaskSortOption) => {
         setSortOption(sort);
     };
 

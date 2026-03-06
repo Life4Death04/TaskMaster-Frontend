@@ -1,14 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { TaskOptionsMenu } from '../common/TaskOptionsMenu';
+import type { DashboardRecentTaskViewModel } from '@/types';
 
-interface TaskItemProps {
-    id: string;
-    title: string;
-    description: string;
-    status: 'overdue' | 'normal' | 'completed';
-    dueDate: string;
-    dueTime?: string;
-    priority: 'HIGH' | 'MEDIUM' | 'LOW';
+interface TaskItemProps extends DashboardRecentTaskViewModel {
     onToggleComplete: (id: string) => void;
     onClick?: (id: string) => void;
     onEdit?: (id: string) => void;

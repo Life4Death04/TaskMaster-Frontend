@@ -1,14 +1,7 @@
 import { useTranslation } from 'react-i18next';
+import type { DashboardUpcomingTaskViewModel } from '@/types';
 
-interface UpcomingDueDateItemProps {
-    id: string;
-    date: string;
-    month: string;
-    title: string;
-    description: string;
-    time?: string;
-    priority?: 'HIGH' | 'MEDIUM' | 'LOW';
-}
+interface UpcomingDueDateItemProps extends DashboardUpcomingTaskViewModel { }
 
 /**
  * Upcoming Due Date Item Component

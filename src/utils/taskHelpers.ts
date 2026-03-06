@@ -3,6 +3,8 @@
  * Reusable functions for task-related UI logic
  */
 
+import type { DateFormatTypes, PriorityTypes, StatusTypes } from '@/types';
+
 interface BadgeStyle {
   bg: string;
   text: string;
@@ -18,7 +20,7 @@ type TranslationFunction = (key: string) => string;
  * @returns Badge styling object with background, text color, and label
  */
 export const getStatusBadge = (
-  status?: string,
+  status?: StatusTypes,
   t?: TranslationFunction
 ): BadgeStyle => {
   switch (status) {
@@ -51,10 +53,10 @@ export const getStatusBadge = (
  * @returns Badge styling object with background, text color, and label
  */
 export const getPriorityBadge = (
-  priority?: string,
+  priority?: PriorityTypes,
   t?: TranslationFunction
 ): BadgeStyle => {
-  switch (priority?.toUpperCase()) {
+  switch (priority) {
     case 'HIGH':
       return {
         bg: 'bg-red-500/20',
@@ -87,9 +89,7 @@ export const getPriorityBadge = (
  * @param priority - The task priority (HIGH, MEDIUM, LOW)
  * @returns Tailwind CSS color class
  */
-export const getPriorityColor = (
-  priority: 'HIGH' | 'MEDIUM' | 'LOW'
-): string => {
+export const getPriorityColor = (priority: PriorityTypes): string => {
   switch (priority) {
     case 'HIGH':
       return 'bg-red-500';
@@ -111,7 +111,7 @@ export const getPriorityColor = (
  */
 export const formatDate = (
   dateString: string | null | undefined,
-  format: string = 'MM_DD_YYYY',
+  format: DateFormatTypes = 'MM_DD_YYYY',
   t: TranslationFunction
 ): string => {
   if (!dateString) return t('tasks.noDueDate');

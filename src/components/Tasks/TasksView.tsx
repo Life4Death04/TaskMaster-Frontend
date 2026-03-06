@@ -2,30 +2,17 @@ import { PageHeader } from '../common/PageHeader';
 import { TaskCard } from './TaskCard';
 import { TaskFilterBar } from '../common/TaskFilterBar';
 import { useTranslation } from 'react-i18next';
-
-type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
-type SortOption = 'recent' | 'dueDate' | 'priority';
-
-interface Task {
-    id: string;
-    title: string;
-    description: string;
-    label?: string;
-    dueDate: string;
-    dueTime?: string;
-    priority: 'HIGH' | 'MEDIUM' | 'LOW';
-    progressStatus: 'TODO' | 'IN_PROGRESS' | 'DONE';
-}
+import type { TaskFilterTab, TaskSortOption, TaskViewModel } from '@/types';
 
 interface TasksViewProps {
     userName: string;
-    tasks: Task[];
+    tasks: TaskViewModel[];
     searchQuery: string;
-    activeFilter: FilterTab;
-    sortOption: SortOption;
+    activeFilter: TaskFilterTab;
+    sortOption: TaskSortOption;
     onSearchChange: (query: string) => void;
-    onFilterChange: (filter: FilterTab) => void;
-    onSortChange: (sort: SortOption) => void;
+    onFilterChange: (filter: TaskFilterTab) => void;
+    onSortChange: (sort: TaskSortOption) => void;
     onTaskToggle: (id: string) => void;
     onTaskClick?: (id: string) => void;
     onCreateTask: () => void;
@@ -56,14 +43,14 @@ export const TasksView = ({
 }: TasksViewProps) => {
     const { t } = useTranslation();
 
-    const filterTabs: { key: FilterTab; label: string }[] = [
+    const filterTabs: { key: TaskFilterTab; label: string }[] = [
         { key: 'all', label: t('tasks.filter.all') },
         { key: 'todo', label: t('tasks.filter.todo') },
         { key: 'in_progress', label: t('tasks.filter.inProgress') },
         { key: 'done', label: t('tasks.filter.completed') },
     ];
 
-    const sortOptions: { key: SortOption; label: string }[] = [
+    const sortOptions: { key: TaskSortOption; label: string }[] = [
         { key: 'recent', label: t('tasks.sort.recent') },
         { key: 'dueDate', label: t('tasks.sort.dueDate') },
         { key: 'priority', label: t('tasks.sort.priority') },

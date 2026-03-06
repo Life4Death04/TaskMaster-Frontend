@@ -6,9 +6,7 @@ import { openModal } from '@/features/ui/uiSlice';
 import { useFetchTasks } from '@/api/queries/tasks.queries';
 import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
 import { useFetchSettings } from '@/api/queries/settings.queries';
-
-type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
-type SortOption = 'recent' | 'dueDate' | 'priority';
+import type { TaskFilterTab, TaskSortOption } from '@/types';
 
 /**
  * Tasks Container
@@ -19,8 +17,8 @@ export const TasksContainer = () => {
     const dispatch = useAppDispatch();
     const user = useAppSelector((state) => state.auth.user);
     const [searchQuery, setSearchQuery] = useState('');
-    const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
-    const [sortOption, setSortOption] = useState<SortOption>('recent');
+    const [activeFilter, setActiveFilter] = useState<TaskFilterTab>('all');
+    const [sortOption, setSortOption] = useState<TaskSortOption>('recent');
 
     // Fetch tasks from API
     const { data: tasks = [], isLoading, error } = useFetchTasks();
@@ -141,11 +139,11 @@ export const TasksContainer = () => {
         setSearchQuery(query);
     };
 
-    const handleFilterChange = (filter: FilterTab) => {
+    const handleFilterChange = (filter: TaskFilterTab) => {
         setActiveFilter(filter);
     };
 
-    const handleSortChange = (sort: SortOption) => {
+    const handleSortChange = (sort: TaskSortOption) => {
         setSortOption(sort);
     };
 

@@ -30,9 +30,9 @@ export interface Task {
   dueDate?: string | null;
   priority: PriorityTypes;
   status: StatusTypes;
-  authorId: number;
+  authorId?: number;
   listId?: number | null;
-  archived: boolean;
+  archived?: boolean;
 }
 
 // ============================================
@@ -101,8 +101,26 @@ export interface ToastNotification {
   type: 'success' | 'error' | 'info' | 'warning';
 }
 
-export interface ModalState {
-  isOpen: boolean;
-  type: string | null;
-  data?: any;
-}
+export type DeleteConfirmationType = 'task' | 'list' | 'item';
+// Discriminated union for type-safe modal handling
+export type ModalPayload =
+  | { type: 'CREATE_TASK'; data?: { defaultListId?: number } }
+  | { type: 'EDIT_TASK'; data: Task }
+  | { type: 'CREATE_LIST'; data?: never }
+  | { type: 'EDIT_LIST'; data: List }
+  | { type: 'TASK_DETAILS'; data: Task }
+  | {
+      type: 'DELETE_CONFIRMATION';
+      data: {
+        taskId?: number;
+        listId?: number;
+        itemName: string;
+        itemType: DeleteConfirmationType;
+        accountDelete?: boolean;
+      };
+    };
+
+// ModalState is a discriminated union that properly narrows type and data together
+export type ModalState =
+  | { isOpen: false; type: null }
+  | (ModalPayload & { isOpen: true });

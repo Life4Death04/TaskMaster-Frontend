@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { ToastNotification, ModalState } from '@/types';
+import type { ToastNotification, ModalState, ModalPayload } from '@/types';
 
 interface UIState {
   isLoading: boolean;
@@ -14,7 +14,6 @@ const initialState: UIState = {
   modal: {
     isOpen: false,
     type: null,
-    data: undefined,
   },
   toasts: [],
   sidebarOpen: true,
@@ -27,21 +26,16 @@ const uiSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
-    openModal: (
-      state,
-      action: PayloadAction<{ type: string; data?: any /*!!! ANY*/ }>
-    ) => {
+    openModal: (state, action: PayloadAction<ModalPayload>) => {
       state.modal = {
+        ...action.payload,
         isOpen: true,
-        type: action.payload.type,
-        data: action.payload.data,
       };
     },
     closeModal: (state) => {
       state.modal = {
         isOpen: false,
         type: null,
-        data: undefined,
       };
     },
     addToast: (state, action: PayloadAction<Omit<ToastNotification, 'id'>>) => {

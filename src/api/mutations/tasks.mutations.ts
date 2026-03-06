@@ -3,7 +3,6 @@ import {
   createTaskAPI,
   updateTaskAPI,
   deleteTaskAPI,
-  toggleTaskArchivedAPI,
   toggleTaskStatusAPI,
 } from '../request/tasks.api';
 import type { Task } from '@/types';
@@ -70,26 +69,6 @@ export const useDeleteTask = () => {
     },
     onError: (error: Error) => {
       console.error('Error deleting task:', error);
-    },
-  });
-};
-
-/**
- * Mutation hook to toggle task archived status
- * Automatically invalidates tasks query on success
- */
-export const useToggleTaskArchived = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: toggleTaskArchivedAPI,
-    onSuccess: (updatedTask: Task) => {
-      // Invalidate tasks list and specific task
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      queryClient.invalidateQueries({ queryKey: ['tasks', updatedTask.id] });
-    },
-    onError: (error: Error) => {
-      console.error('Error toggling archived status:', error);
     },
   });
 };

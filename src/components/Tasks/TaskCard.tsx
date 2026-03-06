@@ -1,20 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { TaskOptionsMenu } from '../common/TaskOptionsMenu';
 import { getPriorityColor, getLabelColor } from '@/utils/taskHelpers';
+import type { TaskViewModel } from '@/types';
 
-interface TaskCardProps {
-    id: string;
-    title: string;
-    description: string;
-    label?: string;
-    dueDate: string;
-    dueTime?: string;
-    priority: 'high' | 'medium' | 'low';
-    progressStatus: 'TODO' | 'IN_PROGRESS' | 'DONE';
+interface TaskCardProps extends TaskViewModel {
     onToggleComplete: (id: string) => void;
     onClick?: (id: string) => void;
     onEdit?: (id: string) => void;
-    onArchive?: (id: string) => void;
     onDelete?: (id: string) => void;
 }
 
@@ -34,7 +26,6 @@ export const TaskCard = ({
     onToggleComplete,
     onClick,
     onEdit,
-    onArchive,
     onDelete,
 }: TaskCardProps) => {
     const { t } = useTranslation();
@@ -87,10 +78,10 @@ export const TaskCard = ({
 
                     {/* Priority */}
                     <div className="flex items-center gap-2">
-                        <span className={`w-2.5 h-2.5 rounded-full ${getPriorityColor()}`}></span>
+                        <span className={`w-2.5 h-2.5 rounded-full ${getPriorityColor(priority)}`}></span>
                         <span className="text-text-secondary text-sm capitalize">
-                            {priority === 'high' ? t('common.priority.high') :
-                                priority === 'medium' ? t('common.priority.medium') :
+                            {priority === 'HIGH' ? t('common.priority.high') :
+                                priority === 'MEDIUM' ? t('common.priority.medium') :
                                     t('common.priority.low')}
                         </span>
                     </div>
@@ -102,7 +93,6 @@ export const TaskCard = ({
                 <TaskOptionsMenu
                     taskId={id}
                     onEdit={onEdit}
-                    onArchive={onArchive}
                     onDelete={onDelete}
                 />
             </div>

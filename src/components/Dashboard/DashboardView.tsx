@@ -3,26 +3,10 @@ import { TaskItem } from './TaskItem';
 import { UpcomingDueDateItem } from './UpcomingDueDateItem';
 import { PageHeader } from '../common/PageHeader';
 import { useTranslation } from 'react-i18next';
-
-interface Task {
-    id: string;
-    title: string;
-    description: string;
-    status: 'overdue' | 'normal' | 'completed';
-    dueDate: string;
-    dueTime?: string;
-    priority: 'high' | 'medium' | 'low';
-}
-
-interface UpcomingTask {
-    id: string;
-    date: string;
-    month: string;
-    title: string;
-    description: string;
-    time?: string;
-    priority?: 'high' | 'medium' | 'low';
-}
+import type {
+    DashboardRecentTaskViewModel,
+    DashboardUpcomingTaskViewModel,
+} from '@/types';
 
 interface DashboardStats {
     totalTasks: number;
@@ -34,9 +18,9 @@ interface DashboardStats {
 interface DashboardViewProps {
     userName: string;
     stats: DashboardStats;
-    recentTasks: Task[];
+    recentTasks: DashboardRecentTaskViewModel[];
     activeTasksCount: number;
-    upcomingTasks: UpcomingTask[];
+    upcomingTasks: DashboardUpcomingTaskViewModel[];
     searchQuery: string;
     onSearchChange: (query: string) => void;
     onTaskToggle: (id: string) => void;
@@ -45,7 +29,6 @@ interface DashboardViewProps {
     onCalendarClick: () => void;
     onAddReminder: () => void;
     onEditTask?: (id: string) => void;
-    onArchiveTask?: (id: string) => void;
     onDeleteTask?: (id: string) => void;
 }
 
@@ -67,7 +50,6 @@ export const DashboardView = ({
     onCalendarClick,
     onAddReminder,
     onEditTask,
-    onArchiveTask,
     onDeleteTask,
 }: DashboardViewProps) => {
     const { t } = useTranslation();
@@ -153,7 +135,6 @@ export const DashboardView = ({
                                     onToggleComplete={onTaskToggle}
                                     onClick={onTaskClick}
                                     onEdit={onEditTask}
-                                    onArchive={onArchiveTask}
                                     onDelete={onDeleteTask}
                                 />
                             ))}

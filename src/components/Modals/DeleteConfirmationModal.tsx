@@ -1,11 +1,12 @@
 import { useTranslation } from 'react-i18next';
+import { type DeleteConfirmationType } from '@/types';
 
 interface DeleteConfirmationModalProps {
     isOpen: boolean;
     onClose: () => void;
     onConfirm: () => void;
     itemName: string;
-    itemType?: 'task' | 'list' | 'item';
+    itemType?: DeleteConfirmationType;
     isLoading?: boolean;
 }
 

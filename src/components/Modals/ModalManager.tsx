@@ -17,7 +17,7 @@ import type { CreateListFormData, UpdateListFormData } from '@/schemas/list.sche
 export const ModalManager = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { isOpen, type, data } = useAppSelector((state) => state.ui.modal);
+    const modal = useAppSelector((state) => state.ui.modal);
 
     const createTaskMutation = useCreateTask();
     const updateTaskMutation = useUpdateTask();
@@ -41,11 +41,11 @@ export const ModalManager = () => {
     };
 
     const handleEditTask = async (formData: EditTaskFormData) => {
-        if (!data?.id) return;
+        if (modal.type !== 'EDIT_TASK') return;
 
         try {
             await updateTaskMutation.mutateAsync({
-                id: data.id,
+                id: modal.data.id,
                 data: formData,
             });
             handleClose();
@@ -55,10 +55,10 @@ export const ModalManager = () => {
     };
 
     const handleDeleteTask = async () => {
-        if (!data?.taskId) return;
+        if (modal.type !== 'DELETE_CONFIRMATION' || !modal.data.taskId) return;
 
         try {
-            await deleteTaskMutation.mutateAsync(data.taskId);
+            await deleteTaskMutation.mutateAsync(modal.data.taskId);
             handleClose();
         } catch (error) {
             console.error('Failed to delete task:', error);
@@ -75,11 +75,11 @@ export const ModalManager = () => {
     };
 
     const handleUpdateList = async (formData: UpdateListFormData) => {
-        if (!data?.id) return;
+        if (modal.type !== 'EDIT_LIST') return;
 
         try {
             await updateListMutation.mutateAsync({
-                id: data.id,
+                id: modal.data.id,
                 data: formData,
             });
             handleClose();
@@ -89,10 +89,10 @@ export const ModalManager = () => {
     };
 
     const handleDeleteList = async () => {
-        if (!data?.listId) return;
+        if (modal.type !== 'DELETE_CONFIRMATION' || !modal.data.listId) return;
 
         try {
-            await deleteListMutation.mutateAsync(data.listId);
+            await deleteListMutation.mutateAsync(modal.data.listId);
             handleClose();
             // Navigate back to lists page after deletion
             navigate('/lists');
@@ -114,35 +114,35 @@ export const ModalManager = () => {
         }
     };
 
-    if (!isOpen) return null;
+    if (!modal.isOpen) return null;
 
-    switch (type) {
+    switch (modal.type) {
         case 'CREATE_TASK':
             return (
                 <CreateTaskModal
-                    isOpen={isOpen}
+                    isOpen={modal.isOpen}
                     onClose={handleClose}
                     onSubmit={handleCreateTask}
                     isLoading={createTaskMutation.isPending}
-                    defaultListId={data?.defaultListId}
+                    defaultListId={modal.data?.defaultListId}
                 />
             );
 
         case 'EDIT_TASK':
             return (
                 <EditTaskModal
-                    isOpen={isOpen}
+                    isOpen={modal.isOpen}
                     onClose={handleClose}
                     onSubmit={handleEditTask}
                     isLoading={updateTaskMutation.isPending}
-                    task={data}
+                    task={modal.data}
                 />
             );
 
         case 'CREATE_LIST':
             return (
                 <CreateListModal
-                    isOpen={isOpen}
+                    isOpen={modal.isOpen}
                     onClose={handleClose}
                     onSubmit={handleCreateList}
                     isLoading={createListMutation.isPending}
@@ -152,37 +152,37 @@ export const ModalManager = () => {
         case 'EDIT_LIST':
             return (
                 <EditListModal
-                    isOpen={isOpen}
+                    isOpen={modal.isOpen}
                     onClose={handleClose}
                     onSubmit={handleUpdateList}
                     isLoading={updateListMutation.isPending}
-                    list={data}
+                    list={modal.data}
                 />
             );
 
         case 'TASK_DETAILS':
-            return <TaskDetailsModal onClose={handleClose} task={data} />;
+            return <TaskDetailsModal onClose={handleClose} task={modal.data} />;
 
         case 'DELETE_CONFIRMATION':
             const getConfirmHandler = () => {
-                if (data?.accountDelete) return handleDeleteAccount;
-                if (data?.listId) return handleDeleteList;
+                if (modal.data?.accountDelete) return handleDeleteAccount;
+                if (modal.data?.listId) return handleDeleteList;
                 return handleDeleteTask;
             };
 
             const getLoadingState = () => {
-                if (data?.accountDelete) return deleteUserMutation.isPending;
-                if (data?.listId) return deleteListMutation.isPending;
+                if (modal.data?.accountDelete) return deleteUserMutation.isPending;
+                if (modal.data?.listId) return deleteListMutation.isPending;
                 return deleteTaskMutation.isPending;
             };
 
             return (
                 <DeleteConfirmationModal
-                    isOpen={isOpen}
+                    isOpen={modal.isOpen}
                     onClose={handleClose}
                     onConfirm={getConfirmHandler()}
-                    itemName={data?.itemName || 'item'}
-                    itemType={data?.itemType || 'item'}
+                    itemName={modal.data?.itemName || 'item'}
+                    itemType={modal.data?.itemType || 'item'}
                     isLoading={getLoadingState()}
                 />
             );

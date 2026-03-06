@@ -67,13 +67,22 @@ export interface UpdateListDto extends Partial<CreateListDto> {}
  */
 export type TaskModalData = Pick<
   Task,
-  'id' | 'taskName' | 'description' | 'status' | 'priority' | 'dueDate' | 'listId'
+  | 'id'
+  | 'taskName'
+  | 'description'
+  | 'status'
+  | 'priority'
+  | 'dueDate'
+  | 'listId'
 >;
 
 /**
  * Subset of List properties needed for Edit List modal
  */
-export type ListModalData = Pick<List, 'id' | 'title' | 'description' | 'color'>;
+export type ListModalData = Pick<
+  List,
+  'id' | 'title' | 'description' | 'color'
+>;
 
 // ============================================
 // Settings Types

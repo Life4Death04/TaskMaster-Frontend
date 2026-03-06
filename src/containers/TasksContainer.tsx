@@ -6,6 +6,14 @@ import { openModal } from '@/features/ui/uiSlice';
 import { useFetchTasks } from '@/api/queries/tasks.queries';
 import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
 import { useFetchSettings } from '@/api/queries/settings.queries';
+import {
+    sortTasksByPriority,
+    sortTasksByDueDate,
+    filterTasksBySearch,
+    filterTasksByStatus,
+    formatTaskDate,
+    isTaskOverdue,
+} from '@/utils/taskHelpers';
 import type { TaskFilterTab, TaskSortOption } from '@/types';
 
 /**
@@ -34,35 +42,17 @@ export const TasksContainer = () => {
     const processedTasks = useMemo(() => {
         let filtered = [...tasks];
 
-        // Apply status filter
-        if (activeFilter === 'todo') {
-            filtered = filtered.filter((task) => task.status === 'TODO');
-        } else if (activeFilter === 'in_progress') {
-            filtered = filtered.filter((task) => task.status === 'IN_PROGRESS');
-        } else if (activeFilter === 'done') {
-            filtered = filtered.filter((task) => task.status === 'DONE');
-        }
+        // Apply status filter using utility function
+        filtered = filterTasksByStatus(filtered, activeFilter);
 
-        // Apply search
-        if (searchQuery.trim()) {
-            const query = searchQuery.toLowerCase();
-            filtered = filtered.filter(
-                (task) =>
-                    task.taskName.toLowerCase().includes(query) ||
-                    task.description?.toLowerCase().includes(query)
-            );
-        }
+        // Apply search using utility function
+        filtered = filterTasksBySearch(filtered, searchQuery);
 
-        // Apply sorting
+        // Apply sorting using utility functions
         if (sortOption === 'priority') {
-            const priorityOrder = { HIGH: 0, MEDIUM: 1, LOW: 2 };
-            filtered.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+            filtered = sortTasksByPriority(filtered);
         } else if (sortOption === 'dueDate') {
-            filtered.sort((a, b) => {
-                if (!a.dueDate) return 1;
-                if (!b.dueDate) return -1;
-                return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
-            });
+            filtered = sortTasksByDueDate(filtered);
         }
         // 'recent' keeps the original order (newest first from API)
 
@@ -96,35 +86,19 @@ export const TasksContainer = () => {
                         });
                     } else {
                         // Format date based on user's date format preference
-                        const day = String(date.getDate()).padStart(2, '0');
-                        const month = String(date.getMonth() + 1).padStart(2, '0');
-                        const year = date.getFullYear();
-
-                        let formattedDate = ''
-                        if (dateFormat === 'DD_MM_YYYY') {
-                            formattedDate = `${day}/${month}/${year}`;
-                        } else if (dateFormat === 'YYYY_MM_DD') {
-                            formattedDate = `${year}/${month}/${day}`;
-                        } else {
-                            // Default: MM_DD_YYYY
-                            formattedDate = `${month}/${day}/${year}`;
-                        }
-
-                        dueDate = `${t('tasks.dueLabel')} ${formattedDate}`;
+                        const { dateString } = formatTaskDate(date, dateFormat);
+                        dueDate = `${t('tasks.dueLabel')} ${dateString}`;
                     }
                 }
 
-                // Determine if task is overdue
-                const isOverdue =
-                    task.dueDate &&
-                    task.status !== 'DONE' &&
-                    new Date(task.dueDate) < new Date();
+                // Determine if task is overdue using utility function
+                const taskIsOverdue = isTaskOverdue(task);
 
                 return {
                     id: String(task.id),
                     title: task.taskName,
                     description: task.description || '',
-                    label: isOverdue ? 'OVERDUE' : undefined,
+                    label: taskIsOverdue ? 'OVERDUE' : undefined,
                     dueDate,
                     dueTime,
                     priority: task.priority,

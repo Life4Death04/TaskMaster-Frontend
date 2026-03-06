@@ -25,7 +25,6 @@ interface ListDetailsViewProps {
     onTaskToggle: (id: string) => void;
     onTaskClick?: (id: string) => void;
     onEditTask?: (id: string) => void;
-    onArchiveTask?: (id: string) => void;
     onDeleteTask?: (id: string) => void;
 }
 
@@ -54,7 +53,6 @@ export const ListDetailsView = ({
     onTaskToggle,
     onTaskClick,
     onEditTask,
-    onArchiveTask,
     onDeleteTask,
 }: ListDetailsViewProps) => {
     const { t } = useTranslation();
@@ -161,7 +159,6 @@ export const ListDetailsView = ({
                         onToggleComplete={onTaskToggle}
                         onClick={onTaskClick}
                         onEdit={onEditTask}
-                        onArchive={onArchiveTask}
                         onDelete={onDeleteTask}
                     />
                 ))}

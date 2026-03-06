@@ -33,7 +33,6 @@ export interface Task {
   status: StatusTypes;
   authorId: number;
   listId?: number | null;
-  archived: boolean;
 }
 
 // ============================================
@@ -104,7 +103,7 @@ export interface DashboardUpcomingTaskViewModel {
 
 /**
  * Subset of Task properties needed for modals (Edit/Details)
- * Excludes authorId and archived which are managed by the backend
+ * Excludes authorId which is managed by the backend
  */
 export type TaskModalData = Pick<
   Task,

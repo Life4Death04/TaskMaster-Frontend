@@ -7,7 +7,6 @@ interface TaskCardProps extends TaskViewModel {
     onToggleComplete: (id: string) => void;
     onClick?: (id: string) => void;
     onEdit?: (id: string) => void;
-    onArchive?: (id: string) => void;
     onDelete?: (id: string) => void;
 }
 
@@ -27,7 +26,6 @@ export const TaskCard = ({
     onToggleComplete,
     onClick,
     onEdit,
-    onArchive,
     onDelete,
 }: TaskCardProps) => {
     const { t } = useTranslation();
@@ -95,7 +93,6 @@ export const TaskCard = ({
                 <TaskOptionsMenu
                     taskId={id}
                     onEdit={onEdit}
-                    onArchive={onArchive}
                     onDelete={onDelete}
                 />
             </div>

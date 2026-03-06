@@ -185,10 +185,6 @@ export const ListDetailsContainer = () => {
         }
     };
 
-    const handleArchiveTask = (id: string) => {
-        // TODO: Archive task when backend supports it
-        console.log('Archive task:', id);
-    };
 
     const handleDeleteTask = (id: string) => {
         const task = listData?.tasks?.find(t => String(t.id) === id);
@@ -285,7 +281,6 @@ export const ListDetailsContainer = () => {
             onTaskToggle={handleTaskToggle}
             onTaskClick={handleTaskClick}
             onEditTask={handleEditTask}
-            onArchiveTask={handleArchiveTask}
             onDeleteTask={handleDeleteTask}
         />
     );

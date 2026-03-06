@@ -29,7 +29,6 @@ interface DashboardViewProps {
     onCalendarClick: () => void;
     onAddReminder: () => void;
     onEditTask?: (id: string) => void;
-    onArchiveTask?: (id: string) => void;
     onDeleteTask?: (id: string) => void;
 }
 
@@ -51,7 +50,6 @@ export const DashboardView = ({
     onCalendarClick,
     onAddReminder,
     onEditTask,
-    onArchiveTask,
     onDeleteTask,
 }: DashboardViewProps) => {
     const { t } = useTranslation();
@@ -137,7 +135,6 @@ export const DashboardView = ({
                                     onToggleComplete={onTaskToggle}
                                     onClick={onTaskClick}
                                     onEdit={onEditTask}
-                                    onArchive={onArchiveTask}
                                     onDelete={onDeleteTask}
                                 />
                             ))}

@@ -6,7 +6,6 @@ interface TaskItemProps extends DashboardRecentTaskViewModel {
     onToggleComplete: (id: string) => void;
     onClick?: (id: string) => void;
     onEdit?: (id: string) => void;
-    onArchive?: (id: string) => void;
     onDelete?: (id: string) => void;
 }
 
@@ -25,7 +24,6 @@ export const TaskItem = ({
     onToggleComplete,
     onClick,
     onEdit,
-    onArchive,
     onDelete,
 }: TaskItemProps) => {
     const { t } = useTranslation();
@@ -59,7 +57,6 @@ export const TaskItem = ({
                     <TaskOptionsMenu
                         taskId={id}
                         onEdit={onEdit}
-                        onArchive={onArchive}
                         onDelete={onDelete}
                     />
                 </div>

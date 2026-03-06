@@ -32,7 +32,7 @@ export const TasksContainer = () => {
 
     // Filter, search, and sort tasks
     const processedTasks = useMemo(() => {
-        let filtered = [...tasks].filter((task) => !task.archived);
+        let filtered = [...tasks];
 
         // Apply status filter
         if (activeFilter === 'todo') {
@@ -195,11 +195,6 @@ export const TasksContainer = () => {
         }
     };
 
-    const handleArchiveTask = (id: string) => {
-        // TODO: Implement archive task
-        console.log('Archive task:', id);
-    };
-
     const handleDeleteTask = (id: string) => {
         const task = tasks.find((t) => t.id === Number(id));
         if (task) {
@@ -251,7 +246,6 @@ export const TasksContainer = () => {
             onTaskClick={handleTaskClick}
             onCreateTask={handleCreateTask}
             onEditTask={handleEditTask}
-            onArchiveTask={handleArchiveTask}
             onDeleteTask={handleDeleteTask}
         />
     );

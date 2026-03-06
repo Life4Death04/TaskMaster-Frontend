@@ -17,7 +17,6 @@ interface TasksViewProps {
     onTaskClick?: (id: string) => void;
     onCreateTask: () => void;
     onEditTask?: (id: string) => void;
-    onArchiveTask?: (id: string) => void;
     onDeleteTask?: (id: string) => void;
 }
 
@@ -38,7 +37,6 @@ export const TasksView = ({
     onTaskClick,
     onCreateTask,
     onEditTask,
-    onArchiveTask,
     onDeleteTask,
 }: TasksViewProps) => {
     const { t } = useTranslation();
@@ -96,7 +94,6 @@ export const TasksView = ({
                         onToggleComplete={onTaskToggle}
                         onClick={onTaskClick}
                         onEdit={onEditTask}
-                        onArchive={onArchiveTask}
                         onDelete={onDeleteTask}
                     />
                 ))}

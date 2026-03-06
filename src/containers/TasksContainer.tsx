@@ -61,7 +61,7 @@ export const TasksContainer = () => {
 
     // Map API tasks to UI format
     /**
-     * The code iterates through each task in processedTasks and transforms it into a new shape suitable for your UI components. This transformation handles several important aspects of task display.
+     * The code iterates through each task in processedTasks and transforms it into a new shape suitable for the UI components. This transformation handles several important aspects of task display.
      */
     const mappedTasks = useMemo(
         () =>

@@ -8,33 +8,37 @@ interface FilterTabOption<T = string> {
     label: string;
 }
 
-interface TaskFilterBarProps<T = string, S = string> {
+// Discriminated union: If showSort is true, all sort-related props are required
+type TaskFilterBarProps<T = string, S = string> = {
     filterTabs: FilterTabOption<T>[];
     activeFilter: T;
     onFilterChange: (filter: T) => void;
     onCreateTask: () => void;
-    showSort?: boolean;
-    sortOption?: S;
-    sortOptions?: FilterTabOption<S>[];
-    onSortChange?: (sort: S) => void;
-}
+} & (
+        | {
+            showSort: true;
+            sortOption: S;
+            sortOptions: FilterTabOption<S>[];
+            onSortChange: (sort: S) => void;
+        }
+        | {
+            showSort?: false;
+            sortOption?: never;
+            sortOptions?: never;
+            onSortChange?: never;
+        }
+    );
 
 /**
  * Task Filter Bar Component
  * Reusable filter tabs with Create Task button and optional sort dropdown
  * Now composed of smaller, reusable components
  */
-export const TaskFilterBar = <T extends string = string, S extends string = string>({
-    filterTabs,
-    activeFilter,
-    onFilterChange,
-    onCreateTask,
-    showSort = false,
-    sortOption,
-    sortOptions,
-    onSortChange,
-}: TaskFilterBarProps<T, S>) => {
+export const TaskFilterBar = <T extends string = string, S extends string = string>(
+    props: TaskFilterBarProps<T, S>
+) => {
     const { t } = useTranslation();
+    const { filterTabs, activeFilter, onFilterChange, onCreateTask } = props;
 
     return (
         <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
@@ -48,11 +52,11 @@ export const TaskFilterBar = <T extends string = string, S extends string = stri
             {/* Sort and Create Button */}
             <div className="flex flex-wrap items-center gap-4">
                 {/* Sort Dropdown (Optional) */}
-                {showSort && sortOptions && sortOption && onSortChange && (
+                {props.showSort && (
                     <SortDropdown
-                        options={sortOptions}
-                        value={sortOption}
-                        onChange={onSortChange}
+                        options={props.sortOptions}
+                        value={props.sortOption}
+                        onChange={props.onSortChange}
                         label="Sort"
                     />
                 )}

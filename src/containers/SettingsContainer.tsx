@@ -182,7 +182,7 @@ export const SettingsContainer = () => {
             data: {
                 accountDelete: true,
                 itemName: 'your account',
-                itemType: 'account',
+                itemType: 'account', //TODO: implement account deletion in backend and frontend, then remove this comment
             },
         }));
     };

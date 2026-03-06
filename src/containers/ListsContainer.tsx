@@ -22,6 +22,7 @@ export const ListsContainer = () => {
     const { data: lists = [], isLoading } = useFetchLists();
 
     // Filter and search lists
+    // Note: We can add more complex filtering logic here if needed (e.g., by color, by task count, etc.) but for now I will just filter by title and description
     const filteredLists = useMemo(() => {
         let filtered = lists;
 
@@ -37,6 +38,7 @@ export const ListsContainer = () => {
     }, [lists, searchQuery]);
 
     // Format lists for view
+    // Note: We can add more complex filtering logic here if needed (e.g., by color, by task count, etc.) but for now I will just filter by title and description
     const formattedLists = useMemo(() => {
         return filteredLists.map((list) => ({
             id: String(list.id),

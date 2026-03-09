@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { fadeInVariants, staggerContainerVariants, fadeInDownVariants } from '@/utils/animations';
 
 export interface NavigationItem {
     path: string;
@@ -43,7 +45,7 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
             )}
 
             {/* Sidebar */}
-            <aside
+            <motion.aside
                 className={`
           fixed top-0 left-0 h-full z-50
           bg-card-primary
@@ -52,9 +54,12 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
           
           ${isOpen ? 'w-50' : 'w-19'}
         `}
+                variants={fadeInVariants}
+                initial="hidden"
+                animate="visible"
             >
                 {/* Sidebar Header */}
-                <div className="flex items-center justify-between p-4 border-b border-border-default lg:w-50">
+                <motion.div className="flex items-center justify-between p-4 border-b border-border-default lg:w-50" variants={fadeInDownVariants} initial="hidden" animate="visible">
                     {isMobile ? (
                         <>
                             <button
@@ -112,108 +117,114 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                         </div>
                     )
                     }
-                </div>
+                </motion.div>
 
                 {/* Sidebar Navigation */}
-                <nav className="p-4 space-y-2">
+                <motion.nav className="p-4 space-y-2" variants={staggerContainerVariants} initial="hidden" animate="visible">
                     {navigationItems.map((item) => (
-                        <Link
-                            key={item.path}
-                            to={item.path}
-                            onClick={onClose}
-                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors hover:cursor-pointer"
-                        >
-                            <div className="w-5 h-5 text-text-primary flex-shrink-0">
-                                {item.icon}
-                            </div>
-                            {isOpen && (
-                                <span className="text-text-primary">{item.label}</span>
-                            )}
-                        </Link>
+                        <motion.div key={item.path} variants={fadeInDownVariants}>
+                            <Link
+                                to={item.path}
+                                onClick={onClose}
+                                className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors hover:cursor-pointer"
+                            >
+                                <div className="w-5 h-5 text-text-primary flex-shrink-0">
+                                    {item.icon}
+                                </div>
+                                {isOpen && (
+                                    <span className="text-text-primary">{item.label}</span>
+                                )}
+                            </Link>
+                        </motion.div>
                     ))}
-                </nav>
+                </motion.nav>
 
                 {/* Lists Navigation Section */}
                 {listItems.length > 0 && (
-                    <div className="border-t border-border-default">
+                    <motion.div className="border-t border-border-default" variants={staggerContainerVariants} initial="hidden" animate="visible">
                         {isOpen && (
-                            <div className="px-4 pt-4 pb-2">
+                            <motion.div className="px-4 pt-4 pb-2" variants={fadeInDownVariants}>
                                 <h3 className="text-xs font-semibold text-text-secondary uppercase tracking-wider">
                                     {t('lists.favoriteLists')}
                                 </h3>
-                            </div>
+                            </motion.div>
                         )}
                         <div className="space-y-2 p-4 pt-2">
                             {listItems.map((list) => (
-                                <Link
-                                    key={list.id}
-                                    to={`/lists/${list.id}`}
-                                    onClick={onClose}
-                                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors hover:cursor-pointer"
-                                >
-                                    <svg
-                                        className="w-5 h-5 flex-shrink-0"
-                                        fill={list.color}
-                                        viewBox="0 0 24 24"
+                                <motion.div key={list.id} variants={fadeInDownVariants}>
+                                    <Link
+                                        to={`/lists/${list.id}`}
+                                        onClick={onClose}
+                                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors hover:cursor-pointer"
                                     >
-                                        <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
-                                    </svg>
-                                    {isOpen && (
-                                        <span className="text-text-primary text-sm truncate">{list.name}</span>
-                                    )}
-                                </Link>
+                                        <svg
+                                            className="w-5 h-5 flex-shrink-0"
+                                            fill={list.color}
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+                                        </svg>
+                                        {isOpen && (
+                                            <span className="text-text-primary text-sm truncate">{list.name}</span>
+                                        )}
+                                    </Link>
+                                </motion.div>
                             ))}
                         </div>
-                    </div>
+                    </motion.div>
                 )}
 
 
                 {/* Sidebar Footer */}
-                <div className="flex items-center flex-col justify-between p-4 border-t border-border-default lg:w-50 bottom-0 right-0 left-0 absolute">
-                    <Link
-                        key={"/settings"}
-                        to={"/settings"}
-                        onClick={onClose}
-                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors w-full hover:cursor-pointer"
-                    >
-                        <div className="w-5 h-5 text-text-primary flex-shrink-0">
-                            <svg
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                className="w-5 h-5"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                                />
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                />
-                            </svg>
-                        </div>
-                        {isOpen && (
-                            <span className="text-text-primary">{"Settings"}</span>
-                        )}
-                    </Link>
+                <motion.div className="flex flex-col justify-between p-4 border-t border-border-default lg:w-50 bottom-0 right-0 left-0 absolute" variants={staggerContainerVariants} initial="hidden" animate="visible">
+                    <motion.div variants={fadeInDownVariants}>
+                        <Link
+                            key={"/settings"}
+                            to={"/settings"}
+                            onClick={onClose}
+                            className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors w-full hover:cursor-pointer"
+                        >
+                            <div className="w-5 h-5 text-text-primary flex-shrink-0">
+                                <svg
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    className="w-5 h-5"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                                    />
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                    />
+                                </svg>
+                            </div>
+                            {isOpen && (
+                                <span className="text-text-primary">{"Settings"}</span>
+                            )}
+                        </Link>
+                    </motion.div>
 
-                    <button onClick={onLogout} className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors w-full hover:cursor-pointer">
-                        <div className="w-5 h-5 text-text-primary flex-shrink-0">
-                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                            </svg>
-                        </div>
-                        {isOpen && (
-                            <span className="text-text-primary">{"Log out"}</span>
-                        )}
-                    </button>
-                </div>
-            </aside>
+                    <motion.div variants={fadeInDownVariants}>
+                        <button onClick={onLogout} className="flex items-center gap-3 p-3 rounded-lg hover:bg-background-primary-hover transition-colors w-full hover:cursor-pointer">
+                            <div className="w-5 h-5 text-text-primary flex-shrink-0">
+                                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                </svg>
+                            </div>
+                            {isOpen && (
+                                <span className="text-text-primary">{"Log out"}</span>
+                            )}
+                        </button>
+                    </motion.div>
+                </motion.div>
+            </motion.aside>
         </>
     );
 };

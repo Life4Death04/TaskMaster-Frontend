@@ -1,3 +1,6 @@
+import { motion } from 'framer-motion';
+import { fadeInVariants } from '@/utils/animations';
+
 interface PageHeaderProps {
     title: string;
     subtitle: string;
@@ -28,7 +31,12 @@ export const PageHeader = ({
     const formattedSubtitle = userName ? subtitle.replace('{userName}', userName) : subtitle;
 
     return (
-        <div className="mb-8">
+        <motion.div
+            className="mb-8"
+            variants={fadeInVariants}
+            initial="hidden"
+            animate="visible"
+        >
             <div className="flex items-center justify-between flex-wrap gap-4">
                 <div className="flex items-center gap-4">
                     {/* Back Button */}
@@ -77,6 +85,6 @@ export const PageHeader = ({
                     )}
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };

@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { staggerContainerVariants, fadeInVariants } from '@/utils/animations';
 import { PageHeader } from '../common/PageHeader';
 import { ActionButton } from '../common/ActionButton';
 
@@ -98,9 +100,9 @@ export const CalendarView = ({
             />
 
             {/* Calendar Header Controls */}
-            <div className="mb-6 flex items-center justify-between flex-wrap gap-4">
+            <motion.div className="mb-6 flex items-center justify-between flex-wrap gap-4" variants={staggerContainerVariants} initial="hidden" animate="visible">
                 {/* Month Navigation */}
-                <div className="flex items-center sm:gap-4 bg-card-primary shadow-md border border-border-default rounded-lg p-2">
+                <motion.div className="flex items-center sm:gap-4 bg-card-primary shadow-md border border-border-default rounded-lg p-2" variants={fadeInVariants}>
                     <button
                         onClick={onPreviousMonth}
                         className="p-2 hover:bg-background-primary-hover rounded-lg transition-colors text-text-primary hover:cursor-pointer"
@@ -124,9 +126,9 @@ export const CalendarView = ({
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                     </button>
-                </div>
+                </motion.div>
 
-                <div className='flex flex-wrap gap-4'>
+                <motion.div className='flex flex-wrap gap-4' variants={fadeInVariants}>
                     {/* Create Task Button */}
                     <ActionButton
                         onClick={onAddTask}
@@ -138,11 +140,11 @@ export const CalendarView = ({
                         }
                         variant="gradient"
                     />
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
 
             {/* Calendar Grid */}
-            <div className="bg-card-primary border border-border-default rounded-2xl shadow-lg overflow-hidden">
+            <motion.div className="bg-card-primary border border-border-default rounded-2xl shadow-lg overflow-hidden" variants={fadeInVariants} initial="hidden" animate="visible">
                 {/* Week Days Header */}
                 <div className="grid grid-cols-7 border-b border-border-default">
                     {weekDays.map((day) => (
@@ -195,7 +197,7 @@ export const CalendarView = ({
                         );
                     })}
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };

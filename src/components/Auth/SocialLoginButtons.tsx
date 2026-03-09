@@ -1,8 +1,21 @@
+/**
+ * Social Login Buttons Component
+ * Displays Google and Apple login options (not yet implemented)
+ */
 export const SocialLoginButtons = () => {
+    const handleSocialLogin = (provider: string) => {
+        alert(
+            `${provider} authentication is not available in this project.\n\n` +
+            `This feature will be implemented in future projects using Auth0.\n\n` +
+            `For now, please use email/password authentication.`
+        );
+    };
+
     return (
         <div className="grid grid-cols-2 gap-4">
             <button
                 type="button"
+                onClick={() => handleSocialLogin('Google')}
                 className="flex items-center justify-center gap-2 h-11 rounded-lg border border-border-input bg-card-primary hover:bg-background-primary-hover text-text-primary transition-colors text-sm font-medium hover:cursor-pointer"
             >
                 <svg
@@ -31,6 +44,7 @@ export const SocialLoginButtons = () => {
             </button>
             <button
                 type="button"
+                onClick={() => handleSocialLogin('Apple')}
                 className="flex items-center justify-center gap-2 h-11 rounded-lg border border-border-input bg-card-primary hover:bg-background-primary-hover text-text-primary transition-colors text-sm font-medium hover:cursor-pointer"
             >
                 <svg

@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { createSelectChangeHandler } from '@/utils/selectHelpers';
 
 interface SortOption<T = string> {
     key: T;
@@ -19,16 +20,16 @@ interface SortDropdownProps<T = string> {
 export const SortDropdown = <T extends string = string>({
     options,
     value,
-    onChange,
-    label = 'Sort',
+    onChange
 }: SortDropdownProps<T>) => {
     const { t } = useTranslation();
+    const handleChange = createSelectChangeHandler(options, onChange, 'key');
 
     return (
         <div className="relative">
             <select
                 value={value}
-                onChange={(e) => onChange(e.target.value as T)}
+                onChange={(e) => handleChange(e.target.value)}
                 className="px-6 py-2.5 pr-10 bg-card-primary border border-border-default rounded-lg text-text-primary text-sm font-medium cursor-pointer hover:bg-background-primary-hover transition-colors appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
             >
                 {options.map((option) => (

@@ -5,32 +5,12 @@ import { openModal } from '@/features/ui/uiSlice';
 import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
 import { useFetchSettings } from '@/api/queries/settings.queries';
 import { useFetchLists } from '@/api/queries/lists.queries';
-import { getStatusBadge, getPriorityBadge } from '@/utils/taskHelpers';
-import type { Task } from '@/types';
-
-// Helper function to format date based on user settings
-const formatDate = (dateString: string | null | undefined, format: string = 'MM_DD_YYYY', t: any): string => {
-    if (!dateString) return t('tasks.noDueDate');
-
-    const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-
-    switch (format) {
-        case 'DD_MM_YYYY':
-            return `${day}/${month}/${year}`;
-        case 'YYYY_MM_DD':
-            return `${year}/${month}/${day}`;
-        case 'MM_DD_YYYY':
-        default:
-            return `${month}/${day}/${year}`;
-    }
-};
+import { getStatusBadge, getPriorityBadge, formatDate } from '@/utils/taskHelpers';
+import type { TaskModalData } from '@/types';
 
 interface TaskDetailsModalProps {
     onClose: () => void;
-    task?: Task;
+    task?: TaskModalData;
 }
 
 export const TaskDetailsModal: React.FC<TaskDetailsModalProps> = ({ onClose, task }) => {

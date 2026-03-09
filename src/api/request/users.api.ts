@@ -1,6 +1,6 @@
 import api from '@/lib/axios';
 import axios from 'axios';
-import type { User } from '@/types';
+import type { User, UserResponse, UpdateUserData } from '@/types';
 
 // API Endpoints
 const ENDPOINTS = {
@@ -8,33 +8,21 @@ const ENDPOINTS = {
   DELETE_USER: '/users/me',
 };
 
-interface BackendUserResponse {
-  success: boolean;
-  user: User;
-  message?: string;
-}
-
-interface UpdateUserData {
-  firstName?: string;
-  lastName?: string;
-}
-
 /**
  * API call to update user profile information
  * Updates firstName and/or lastName
  */
 export const updateUserAPI = async (data: UpdateUserData): Promise<User> => {
   try {
-    const response = await api.put<BackendUserResponse>(
-      ENDPOINTS.UPDATE_USER,
-      data
-    );
+    const response = await api.put<UserResponse>(ENDPOINTS.UPDATE_USER, data);
 
-    if (response.data.user) {
-      return response.data.user;
+    // Guard clause - fail fast
+    if (!response.data.user) {
+      throw new Error('Update user failed');
     }
 
-    throw new Error('Update user failed');
+    // Happy path - return updated user
+    return response.data.user;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data?.message || error.message;

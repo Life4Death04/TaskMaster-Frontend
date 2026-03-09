@@ -215,7 +215,7 @@ export interface ToastNotification {
   type: 'success' | 'error' | 'info' | 'warning';
 }
 
-export type DeleteConfirmationType = 'task' | 'list' | 'item';
+export type DeleteConfirmationType = 'task' | 'list' | 'item' | 'account';
 // Discriminated union for type-safe modal handling
 export type ModalPayload =
   | { type: 'CREATE_TASK'; data?: { defaultListId?: number } }

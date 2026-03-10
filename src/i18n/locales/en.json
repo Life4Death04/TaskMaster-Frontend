@@ -224,14 +224,16 @@
       "deleting": "Deleting...",
       "task": "task",
       "list": "list",
-      "item": "item"
+      "item": "item",
+      "account": "account"
     }
   },
   "sidebar": {
     "myTasks": "My Tasks",
     "calendar": "Calendar",
     "lists": "Lists",
-    "settings": "Settings"
+    "settings": "Settings",
+    "logout": "Log out"
   },
   "calendar": {
     "title": "Calendar",

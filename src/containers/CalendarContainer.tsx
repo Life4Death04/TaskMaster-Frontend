@@ -76,6 +76,39 @@ export const CalendarContainer = () => {
         dispatch(openModal({ type: 'CREATE_TASK' }));
     };
 
+    // Generate calendar grid
+    const generateCalendarDays = () => {
+        const days = [];
+        const totalCells = 35; // 5 weeks
+
+        // Previous month empty cells
+        for (let i = 0; i < firstDayOfMonth; i++) {
+            days.push({ day: null, isCurrentMonth: false });
+        }
+
+        // Current month days
+        for (let day = 1; day <= daysInMonth; day++) {
+            days.push({ day, isCurrentMonth: true });
+        }
+
+        // Fill remaining cells
+        const remainingCells = totalCells - days.length;
+        for (let i = 0; i < remainingCells; i++) {
+            days.push({ day: null, isCurrentMonth: false });
+        }
+
+        return days;
+    };
+
+    const calendarDays = generateCalendarDays();
+
+    // Get tasks for a specific day
+    const getTasksForDay = (day: number | null) => {
+        if (!day) return [];
+        const dateStr = `${currentYear}-${String(currentMonthNumber).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        return calendarTasks.filter(task => task.date.startsWith(dateStr));
+    };
+
     // Show loading state
     if (isLoading) {
         return (
@@ -96,13 +129,10 @@ export const CalendarContainer = () => {
 
     return (
         <CalendarView
-            userName="User"
             currentMonth={currentMonth}
-            currentMonthNumber={currentMonthNumber}
             currentYear={currentYear}
-            tasks={calendarTasks}
-            daysInMonth={daysInMonth}
-            firstDayOfMonth={firstDayOfMonth}
+            calendarDays={calendarDays}
+            getTasksForDay={getTasksForDay}
             onPreviousMonth={handlePreviousMonth}
             onNextMonth={handleNextMonth}
             onTaskClick={handleTaskClick}

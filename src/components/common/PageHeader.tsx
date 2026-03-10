@@ -5,8 +5,8 @@ interface PageHeaderProps {
     title: string;
     subtitle: string;
     userName?: string;
-    searchQuery: string;
-    onSearchChange: (query: string) => void;
+    searchQuery?: string;
+    onSearchChange?: (query: string) => void;
     showSearch?: boolean;
     showBackButton?: boolean;
     onBack?: () => void;
@@ -21,7 +21,7 @@ export const PageHeader = ({
     title,
     subtitle,
     userName,
-    searchQuery,
+    searchQuery = '',
     onSearchChange,
     showSearch = true,
     showBackButton = false,
@@ -63,7 +63,7 @@ export const PageHeader = ({
                     {/* Action Buttons (for List Details) */}
                     {actionButtons}
 
-                    {showSearch && (
+                    {showSearch && onSearchChange && (
                         <div className="relative">
                             <svg
                                 className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-secondary pointer-events-none"

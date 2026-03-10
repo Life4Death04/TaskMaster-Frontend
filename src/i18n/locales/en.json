@@ -30,7 +30,12 @@
     "active": "Active",
     "viewAll": "View All",
     "upcomingDueDates": "Upcoming Due Dates",
-    "addReminder": "Add Reminder"
+    "addReminder": "No Reminders yet",
+    "empty": {
+      "title": "No tasks yet",
+      "subtitle": "Create your first task to get started",
+      "createTask": "Create Task"
+    }
   },
   "tasks": {
     "title": "My Tasks",

@@ -30,7 +30,12 @@
     "active": "Activas",
     "viewAll": "Ver Todas",
     "upcomingDueDates": "Próximas Fechas de Vencimiento",
-    "addReminder": "Agregar Recordatorio"
+    "addReminder": "Ningún Recordatorio",
+    "empty": {
+      "title": "Aún no hay tareas",
+      "subtitle": "Crea tu primera tarea para comenzar",
+      "createTask": "Crear Tarea"
+    }
   },
   "tasks": {
     "title": "Mis Tareas",

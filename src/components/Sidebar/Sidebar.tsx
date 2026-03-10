@@ -206,7 +206,7 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                                 </svg>
                             </div>
                             {isOpen && (
-                                <span className="text-text-primary">{"Settings"}</span>
+                                <span className="text-text-primary">{t('sidebar.settings')}</span>
                             )}
                         </Link>
                     </motion.div>
@@ -219,7 +219,7 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                                 </svg>
                             </div>
                             {isOpen && (
-                                <span className="text-text-primary">{"Log out"}</span>
+                                <span className="text-text-primary">{t('sidebar.logout')}</span>
                             )}
                         </button>
                     </motion.div>

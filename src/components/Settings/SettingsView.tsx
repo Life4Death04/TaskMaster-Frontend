@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { staggerContainerVariants, fadeInDownVariants } from '@/utils/animations';
 import { SettingSelector } from './SettingSelector';
 import type {
     DateFormatTypes,
@@ -69,15 +71,15 @@ export const SettingsView = ({
     const { t } = useTranslation();
 
     return (
-        <div className="min-h-screen bg-background-primary p-6">
+        <motion.div className="min-h-screen bg-background-primary p-6" variants={staggerContainerVariants} initial="hidden" animate="visible">
             {/* Header */}
-            <div className="mb-8">
+            <motion.div className="mb-8" variants={fadeInDownVariants}>
                 <h1 className="text-text-primary text-3xl font-bold mb-2">{t('settings.title')}</h1>
                 <p className="text-text-secondary text-sm">{t('settings.subtitle')}</p>
-            </div>
+            </motion.div>
 
             {/* Profile Card */}
-            <div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6 shadow-md">
+            <motion.div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6 shadow-md" variants={fadeInDownVariants}>
                 <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex flex-wrap items-center justify-center gap-4">
                         {/* Avatar with Camera Icon */}
@@ -142,10 +144,10 @@ export const SettingsView = ({
                         {t('settings.profile.edit')}
                     </button>
                 </div>
-            </div>
+            </motion.div>
 
             {/* General Preferences */}
-            <div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6 shadow-md">
+            <motion.div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6 shadow-md" variants={fadeInDownVariants}>
                 <h3 className="text-text-primary text-lg font-bold mb-6">{t('settings.preferences.title')}</h3>
 
                 <div className="space-y-6">
@@ -301,9 +303,9 @@ export const SettingsView = ({
                         onChange={onDateFormatChange}
                     />
                 </div>
-            </div>
+            </motion.div>
             {/* Account Management */}
-            <div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6 shadow-md">
+            <motion.div className="bg-card-primary border border-border-default rounded-xl p-6 mb-6 shadow-md" variants={fadeInDownVariants}>
                 <h3 className="text-text-primary text-lg font-bold mb-6">{t('settings.account.title')}</h3>
 
                 <div className="flex flex-wrap items-center gap-4 mb-4">
@@ -333,7 +335,7 @@ export const SettingsView = ({
                 <p className="text-text-secondary text-xs text-center">
                     {t('settings.account.deleteWarning')}
                 </p>
-            </div>
+            </motion.div>
 
             {/* Action Buttons */}
             {hasChanges && (
@@ -355,6 +357,6 @@ export const SettingsView = ({
                     </button>
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 };

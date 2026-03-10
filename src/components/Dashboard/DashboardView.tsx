@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+import { staggerContainerVariants, sectionHeaderVariants } from '@/utils/animations';
 import { StatsCard } from './StatsCard';
 import { TaskItem } from './TaskItem';
 import { UpcomingDueDateItem } from './UpcomingDueDateItem';
@@ -67,7 +69,12 @@ export const DashboardView = ({
             />
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <motion.div
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+                variants={staggerContainerVariants}
+                initial="hidden"
+                animate="visible"
+            >
                 <StatsCard
                     title={t('dashboard.stats.totalTasks')}
                     value={stats.totalTasks}
@@ -107,15 +114,19 @@ export const DashboardView = ({
                         </svg>
                     }
                 />
-
-            </div>
+            </motion.div>
 
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Recent Tasks Section */}
                 <div className="lg:col-span-2">
                     <div className="bg-card-dark rounded-xl">
-                        <div className="flex items-center justify-between py-6">
+                        <motion.div
+                            className="flex items-center justify-between py-6"
+                            variants={sectionHeaderVariants}
+                            initial="hidden"
+                            animate="visible"
+                        >
                             <div className="flex items-center gap-3">
                                 <h2 className="text-text-primary text-xl font-bold">{t('dashboard.recentTasks')}</h2>
                                 <span className="px-2 py-1 text-xs font-semibold bg-primary/20 text-primary rounded">
@@ -125,9 +136,9 @@ export const DashboardView = ({
                             <button onClick={onViewAllTasks} className="text-primary hover:text-primary-hover text-sm font-medium transition-colors hover:cursor-pointer">
                                 {t('dashboard.viewAll')}
                             </button>
-                        </div>
+                        </motion.div>
 
-                        <div className="flex flex-col gap-4">
+                        <motion.div className="flex flex-col gap-4" variants={staggerContainerVariants} initial="hidden" animate="visible">
                             {recentTasks.map((task) => (
                                 <TaskItem
                                     key={task.id}
@@ -138,14 +149,19 @@ export const DashboardView = ({
                                     onDelete={onDeleteTask}
                                 />
                             ))}
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
 
                 {/* Upcoming Due Dates Section */}
                 <div className="lg:col-span-1">
                     <div>
-                        <div className="flex items-center justify-between py-6">
+                        <motion.div
+                            className="flex items-center justify-between py-6"
+                            variants={sectionHeaderVariants}
+                            initial="hidden"
+                            animate="visible"
+                        >
                             <h2 className="text-text-primary text-xl font-bold">{t('dashboard.upcomingDueDates')}</h2>
                             <button onClick={onCalendarClick} className="px-2 hover:bg-background-primary-hover rounded-lg transition-colors text-text-secondary hover:text-text-primary hover:cursor-pointer" aria-label="Calendar">
                                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -155,14 +171,14 @@ export const DashboardView = ({
                                     <line x1="3" y1="10" x2="21" y2="10" strokeWidth={2} />
                                 </svg>
                             </button>
-                        </div>
+                        </motion.div>
 
                         <div className="bg-card-primary border border-border-default rounded-lg p-4 shadow-md">
-                            <div className="divide-y divide-border-default">
+                            <motion.div className="divide-y divide-border-default" variants={staggerContainerVariants} initial="hidden" animate="visible">
                                 {upcomingTasks.map((task) => (
                                     <UpcomingDueDateItem key={task.id} {...task} />
                                 ))}
-                            </div>
+                            </motion.div>
 
                             <button onClick={onAddReminder} className="w-full p-2 my-2 flex items-center justify-center gap-2 text-text-secondary hover:text-text-primary hover:bg-background-primary-hover transition-colors border border-dashed border-border-default rounded-lg hover:cursor-pointer">
                                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">

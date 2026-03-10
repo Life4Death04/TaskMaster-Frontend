@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { LoginForm } from '@/components/Auth/LoginForm';
 import { RegisterForm } from '@/components/Auth/RegisterForm';
@@ -66,21 +67,36 @@ export const AuthView = ({
 
                     <div>
                         {/* Tabs */}
-                        <div className="flex mb-8 bg-card-primary  p-1 border-b border-border-input">
+                        <div className="relative flex mb-8 bg-card-primary p-1 border-b border-border-input">
+                            {/* Animated Slider */}
+                            <motion.div
+                                className="absolute bottom-0 h-0.5 bg-primary"
+                                initial={false}
+                                animate={{
+                                    left: activeTab === 'login' ? '0%' : '50%',
+                                    width: '50%',
+                                }}
+                                transition={{
+                                    type: 'spring',
+                                    stiffness: 300,
+                                    damping: 30,
+                                }}
+                            />
+
                             <button
                                 onClick={() => onTabChange('login')}
-                                className={`flex-1 py-2 px-4 font-medium transition-colors hover:cursor-pointer ${activeTab === 'login'
-                                    ? 'border-b-3 border-primary text-gray-900 text-primary shadow-sm'
-                                    : 'text-text-secondary hover:text-text-secondary-hover '
+                                className={`flex-1 py-2 px-4 font-medium transition-colors hover:cursor-pointer relative z-10 ${activeTab === 'login'
+                                        ? 'text-primary'
+                                        : 'text-text-secondary hover:text-text-secondary-hover'
                                     }`}
                             >
                                 Login
                             </button>
                             <button
                                 onClick={() => onTabChange('register')}
-                                className={`flex-1 py-2 px-4 font-medium transition-colors hover:cursor-pointer ${activeTab === 'register'
-                                    ? 'border-b-3 border-primary text-gray-900 text-primary shadow-sm'
-                                    : 'text-text-secondary hover:text-text-secondary-hover '
+                                className={`flex-1 py-2 px-4 font-medium transition-colors hover:cursor-pointer relative z-10 ${activeTab === 'register'
+                                        ? 'text-primary'
+                                        : 'text-text-secondary hover:text-text-secondary-hover'
                                     }`}
                             >
                                 Register

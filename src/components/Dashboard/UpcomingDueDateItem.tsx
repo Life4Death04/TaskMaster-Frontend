@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { fadeInDownVariants } from '@/utils/animations';
 import type { DashboardUpcomingTaskViewModel } from '@/types';
 
 interface UpcomingDueDateItemProps extends DashboardUpcomingTaskViewModel { }
@@ -18,7 +20,10 @@ export const UpcomingDueDateItem = ({
     const { t } = useTranslation();
 
     return (
-        <div className="flex gap-3 p-3 bg-card-primary hover:bg-background-primary-hover transition-colors hover:rounded-lg hover:cursor-pointer">
+        <motion.div
+            className="flex gap-3 p-3 bg-card-primary hover:bg-background-primary-hover transition-colors hover:rounded-lg hover:cursor-pointer"
+            variants={fadeInDownVariants}
+        >
             <div className="flex items-center justify-center">
                 <div className="w-12 h-12 rounded-lg bg-background-primary border border-border-default flex flex-col items-center justify-center">
                     <span className="text-text-secondary text-[10px] font-semibold uppercase">{month}</span>
@@ -51,6 +56,6 @@ export const UpcomingDueDateItem = ({
                     </div>
                 )}
             </div>
-        </div>
+        </motion.div>
     );
 };

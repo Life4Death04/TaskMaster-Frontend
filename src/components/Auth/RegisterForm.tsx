@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+import { staggerContainerVariants, fadeInDownVariants } from '@/utils/animations';
 import type { UseFormRegister, FieldErrors } from 'react-hook-form';
 
 export interface RegisterFormData {
@@ -26,25 +28,25 @@ export const RegisterForm = ({
     successMessage,
 }: RegisterFormProps) => {
     return (
-        <form onSubmit={onSubmit} className="space-y-4">
-            <div className="text-center">
+        <motion.form onSubmit={onSubmit} className="space-y-4" variants={staggerContainerVariants} initial="hidden" animate="visible">
+            <motion.div className="text-center" variants={fadeInDownVariants}>
                 <h2 className="text-text-primary text-2xl font-bold leading-tight">Create an Account</h2>
                 <p className="text-gray-500 dark:text-text-secondary text-sm mt-1">Please enter your details to register.</p>
-            </div>
+            </motion.div>
 
             {errorMessage && (
-                <div className="bg-error-background border border-error-border text-error-text px-4 py-3 rounded-lg">
+                <motion.div className="bg-error-background border border-error-border text-error-text px-4 py-3 rounded-lg" variants={fadeInDownVariants}>
                     {errorMessage}
-                </div>
+                </motion.div>
             )}
 
             {successMessage && (
-                <div className="bg-success-background border border-success-border text-success-text px-4 py-3 rounded-lg">
+                <motion.div className="bg-success-background border border-success-border text-success-text px-4 py-3 rounded-lg" variants={fadeInDownVariants}>
                     {successMessage}
-                </div>
+                </motion.div>
             )}
 
-            <div className="grid grid-cols-2 gap-4">
+            <motion.div className="grid grid-cols-2 gap-4" variants={fadeInDownVariants}>
                 <div>
                     <label
                         htmlFor="firstName"
@@ -98,9 +100,9 @@ export const RegisterForm = ({
                         </p>
                     )}
                 </div>
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div variants={fadeInDownVariants}>
                 <label
                     htmlFor="register-email"
                     className="block text-sm font-medium text-text-primary mb-2"
@@ -125,9 +127,9 @@ export const RegisterForm = ({
                         {errors.email.message}
                     </p>
                 )}
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div variants={fadeInDownVariants}>
                 <label
                     htmlFor="register-password"
                     className="block text-sm font-medium text-text-primary mb-2"
@@ -152,9 +154,9 @@ export const RegisterForm = ({
                         {errors.password.message}
                     </p>
                 )}
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div variants={fadeInDownVariants}>
                 <label
                     htmlFor="register-confirm-password"
                     className="block text-sm font-medium text-text-primary mb-2"
@@ -179,15 +181,16 @@ export const RegisterForm = ({
                         {errors.confirmPassword.message}
                     </p>
                 )}
-            </div>
+            </motion.div>
 
-            <button
+            <motion.button
                 type="submit"
                 disabled={isLoading}
                 className="w-full bg-primary hover:bg-primary-hover text-white font-medium py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed hover:cursor-pointer"
+                variants={fadeInDownVariants}
             >
                 {isLoading ? 'Creating account...' : 'Create Account'}
-            </button>
-        </form>
+            </motion.button>
+        </motion.form>
     );
 };

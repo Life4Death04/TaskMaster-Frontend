@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { fadeInDownVariants } from '@/utils/animations';
 import { TaskOptionsMenu } from '../common/TaskOptionsMenu';
 import type { DashboardRecentTaskViewModel } from '@/types';
 
@@ -29,9 +31,10 @@ export const TaskItem = ({
     const { t } = useTranslation();
 
     return (
-        <div
+        <motion.div
             className="flex gap-3 p-4 rounded-lg bg-card-primary hover:bg-background-primary-hover transition-colors border border-border-default hover:border-border-dark hover:cursor-pointer shadow-md"
             onClick={() => onClick?.(id)}
+            variants={fadeInDownVariants}
         >
             <div className="pt-1" onClick={(e) => e.stopPropagation()}>
                 <input
@@ -85,6 +88,6 @@ export const TaskItem = ({
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };

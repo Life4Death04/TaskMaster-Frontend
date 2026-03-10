@@ -12,7 +12,7 @@ interface AuthState {
 
 const initialState: AuthState = {
   user: null,
-  token: localStorage.getItem('token'),
+  token: typeof window !== 'undefined' ? localStorage.getItem('token') : null,
   isAuthenticated: false,
   isLoading: true,
   error: null,
@@ -29,18 +29,22 @@ const authSlice = createSlice({
     },
     setToken: (state, action: PayloadAction<string | null>) => {
       state.token = action.payload;
-      if (action.payload) {
-        localStorage.setItem('token', action.payload);
-      } else {
-        localStorage.removeItem('token');
+      if (typeof window !== 'undefined') {
+        if (action.payload) {
+          localStorage.setItem('token', action.payload);
+        } else {
+          localStorage.removeItem('token');
+        }
       }
     },
     logout: (state) => {
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
-      localStorage.removeItem('token');
-      localStorage.removeItem('auth_token');
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('token');
+        localStorage.removeItem('auth_token');
+      }
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;

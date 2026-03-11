@@ -57,6 +57,7 @@
       "emailInvalid": "Invalid email address",
       "passwordRequired": "Password is required",
       "passwordMinLength": "Password must be at least 6 characters",
+      "invalidCredentials": "Invalid email or password",
       "firstNameRequired": "First name is required",
       "firstNameMinLength": "At least 2 characters",
       "lastNameRequired": "Last name is required",

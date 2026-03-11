@@ -57,6 +57,7 @@
       "emailInvalid": "Correo electrónico inválido",
       "passwordRequired": "La contraseña es obligatoria",
       "passwordMinLength": "La contraseña debe tener al menos 6 caracteres",
+      "invalidCredentials": "Correo electrónico o contraseña inválidos",
       "firstNameRequired": "El nombre es obligatorio",
       "firstNameMinLength": "Al menos 2 caracteres",
       "lastNameRequired": "El apellido es obligatorio",

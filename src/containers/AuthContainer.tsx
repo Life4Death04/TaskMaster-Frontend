@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { useRegisterUser, useLoginUser } from '@/api/mutations/auth.mutations';
 import { AuthView } from '@/components/Auth/AuthView';
 import type { LoginFormData } from '@/components/Auth/LoginForm';
@@ -15,6 +16,7 @@ type TabType = 'login' | 'register';
 export const AuthContainer = () => {
     const [activeTab, setActiveTab] = useState<TabType>('login');
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     // Login form
     const {
@@ -71,7 +73,7 @@ export const AuthContainer = () => {
             onRegisterSubmit={onRegisterSubmit}
             registerLoading={registerMutation.isPending}
             registerError={registerMutation.error?.message}
-            registerSuccess={registerMutation.isSuccess ? 'Account created successfully! You can now log in.' : undefined}
+            registerSuccess={registerMutation.isSuccess ? t('auth.register.successMessage') : undefined}
         />
     );
 };

@@ -32,7 +32,7 @@ export const TaskItem = ({
 
     return (
         <motion.div
-            className="flex gap-3 p-4 rounded-lg bg-card-primary hover:bg-background-primary-hover transition-colors border border-border-default hover:border-border-dark hover:cursor-pointer shadow-md"
+            className="flex gap-3 p-4 rounded-lg bg-card-primary hover:bg-background-primary-hover transition-colors border border-border-default hover:border-border-dark hover:cursor-pointer shadow-md test-id:task-item"
             onClick={() => onClick?.(id)}
             variants={fadeInDownVariants}
         >

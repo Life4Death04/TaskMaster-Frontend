@@ -54,7 +54,7 @@ export const PageHeader = ({
 
                     {/* Title and Subtitle */}
                     <div>
-                        <h1 className="text-text-primary text-3xl font-bold mb-1">{title}</h1>
+                        <h2 className="text-text-primary text-3xl font-bold mb-1">{title}</h2>
                         <p className="text-text-secondary text-sm">{formattedSubtitle}</p>
                     </div>
                 </div>

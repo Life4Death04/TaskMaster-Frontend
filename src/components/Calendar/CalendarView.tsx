@@ -107,7 +107,7 @@ export const CalendarView = ({
             </motion.div>
 
             {/* Calendar Grid */}
-            <motion.div className="bg-card-primary border border-border-default rounded-2xl shadow-lg overflow-hidden" variants={fadeInVariants} initial="hidden" animate="visible">
+            <motion.div className="bg-card-primary border border-border-default rounded-2xl shadow-lg overflow-hidden test-id:calendar" variants={fadeInVariants} initial="hidden" animate="visible">
                 {/* Week Days Header */}
                 <div className="grid grid-cols-7 border-b border-border-default">
                     {weekDays.map((day) => (

@@ -48,7 +48,7 @@ export const ListCard = ({
     return (
         <motion.button
             onClick={onClick}
-            className="group h-full bg-card-primary border border-border-default rounded-xl overflow-hidden hover:shadow-lg shadow-md hover:-translate-y-1 transition-all duration-300 text-left hover:cursor-pointer max-h-fit"
+            className="group h-full bg-card-primary border border-border-default rounded-xl overflow-hidden hover:shadow-lg shadow-md hover:-translate-y-1 transition-all duration-300 text-left hover:cursor-pointer max-h-fit test-id:list-card"
             variants={fadeInVariants}
         >
             {/* Colored top border */}

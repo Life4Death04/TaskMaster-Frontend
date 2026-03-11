@@ -113,7 +113,7 @@ export const Sidebar = ({ isOpen, isMobile, onToggle, onClose, navigationItems, 
                             <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg w-10 h-10 flex items-center justify-center shadow-lg shadow-purple-900/20">
                                 <span className="material-symbols-outlined text-white">check_circle</span>
                             </div>
-                            <h1 className="text-xl font-bold tracking-tight">TaskMaster</h1>
+                            <div className="text-xl font-bold tracking-tight">TaskMaster</div>
                         </div>
                     )
                     }

@@ -38,13 +38,23 @@ export const RegisterForm = ({
             </motion.div>
 
             {errorMessage && (
-                <motion.div className="bg-error-background border border-error-border text-error-text px-4 py-3 rounded-lg" variants={fadeInDownVariants}>
+                <motion.div 
+                    className="bg-error-background border border-error-border text-error-text px-4 py-3 rounded-lg" 
+                    variants={fadeInDownVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
                     {errorMessage}
                 </motion.div>
             )}
 
             {successMessage && (
-                <motion.div className="bg-success-background border border-success-border text-success-text px-4 py-3 rounded-lg" variants={fadeInDownVariants}>
+                <motion.div 
+                    className="bg-success-background border border-success-border text-success-text px-4 py-3 rounded-lg" 
+                    variants={fadeInDownVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
                     {successMessage}
                 </motion.div>
             )}

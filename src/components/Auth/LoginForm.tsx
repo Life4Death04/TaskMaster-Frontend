@@ -32,8 +32,13 @@ export const LoginForm = ({
                 <p className="text-gray-500 dark:text-text-secondary text-sm mt-1">{t('auth.login.subtitle')}</p>
             </motion.div>
             {errorMessage && (
-                <motion.div className="bg-error-background border border-error-border text-error-text px-4 py-3 rounded-lg" variants={fadeInDownVariants}>
-                    {errorMessage}
+                <motion.div
+                    className="bg-error-background border border-error-border text-error-text px-4 py-3 rounded-lg"
+                    variants={fadeInDownVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
+                    {t('auth.errors.invalidCredentials')}
                 </motion.div>
             )}
 

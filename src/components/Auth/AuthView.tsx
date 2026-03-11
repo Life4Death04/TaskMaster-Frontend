@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { LoginForm } from '@/components/Auth/LoginForm';
 import { RegisterForm } from '@/components/Auth/RegisterForm';
@@ -46,6 +47,8 @@ export const AuthView = ({
     registerError,
     registerSuccess,
 }: AuthViewProps) => {
+    const { t } = useTranslation();
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-auth-page">
             {/* Theme Toggle - Top Right */}
@@ -57,11 +60,11 @@ export const AuthView = ({
                 <div className="bg-card-primary rounded-2xl shadow-xl transition-colors">
                     {/* Header */}
                     <div className="text-center bg-auth-header w-full py-6 px-4 rounded-t-2xl">
-                        <h1 className="text-4xl font-bold text-white mb-2">
-                            TaskMaster
-                        </h1>
+                        <div className="text-4xl font-bold text-white mb-2">
+                            {t('auth.appName')}
+                        </div>
                         <p className="text-white">
-                            Organize your life, master your tasks
+                            {t('auth.tagline')}
                         </p>
                     </div>
 
@@ -86,20 +89,20 @@ export const AuthView = ({
                             <button
                                 onClick={() => onTabChange('login')}
                                 className={`flex-1 py-2 px-4 font-medium transition-colors hover:cursor-pointer relative z-10 ${activeTab === 'login'
-                                        ? 'text-primary'
-                                        : 'text-text-secondary hover:text-text-secondary-hover'
+                                    ? 'text-primary'
+                                    : 'text-text-secondary hover:text-text-secondary-hover'
                                     }`}
                             >
-                                Login
+                                {t('auth.tabs.login')}
                             </button>
                             <button
                                 onClick={() => onTabChange('register')}
                                 className={`flex-1 py-2 px-4 font-medium transition-colors hover:cursor-pointer relative z-10 ${activeTab === 'register'
-                                        ? 'text-primary'
-                                        : 'text-text-secondary hover:text-text-secondary-hover'
+                                    ? 'text-primary'
+                                    : 'text-text-secondary hover:text-text-secondary-hover'
                                     }`}
                             >
-                                Register
+                                {t('auth.tabs.register')}
                             </button>
                         </div>
 
@@ -119,7 +122,7 @@ export const AuthView = ({
                                         <div className="flex-grow border-t border-border-input"></div>
                                         <div className="relative flex justify-center text-sm">
                                             <span className="px-2 text-gray-400 dark:text-text-secondary uppercase font-bold">
-                                                Or continue with
+                                                {t('auth.social.continueWith')}
                                             </span>
                                         </div>
                                         <div className="flex-grow border-t border-border-input"></div>
@@ -129,28 +132,28 @@ export const AuthView = ({
                                 </div>
                                 <div className="px-6 py-4 bg-background-primary border-t border-border-input text-center rounded-b-2xl">
                                     <p className="text-sm text-gray-500 dark:text-text-secondary">
-                                        Don't have an account?{' '}
+                                        {t('auth.login.noAccount')}{' '}
                                         <button
                                             onClick={() => onTabChange('register')}
                                             className="text-primary font-bold hover:underline"
                                         >
-                                            Sign up
+                                            {t('auth.login.signUpLink')}
                                         </button>
                                     </p>
                                     <div className="mt-2 text-xs text-gray-400 dark:text-gray-600">
-                                        By continuing, you agree to TaskMaster's{' '}
+                                        {t('auth.footer.agreement')}{' '}
                                         <a
                                             className="hover:text-gray-500 dark:hover:text-gray-400 hover:cursor-pointer underline"
                                             href="#"
                                         >
-                                            Terms
+                                            {t('auth.footer.terms')}
                                         </a>{' '}
-                                        and{' '}
+                                        {t('auth.footer.and')}{' '}
                                         <a
                                             className="hover:text-gray-500 dark:hover:text-gray-400 hover:cursor-pointer underline"
                                             href="#"
                                         >
-                                            Privacy Policy
+                                            {t('auth.footer.privacy')}
                                         </a>
                                         .
                                     </div>
@@ -175,7 +178,7 @@ export const AuthView = ({
                                         <div className="flex-grow border-t border-border-input"></div>
                                         <div className="relative flex justify-center text-sm">
                                             <span className="px-2 text-gray-400 dark:text-text-secondary uppercase font-bold">
-                                                Or register with
+                                                {t('auth.social.registerWith')}
                                             </span>
                                         </div>
                                         <div className="flex-grow border-t border-border-input"></div>
@@ -185,28 +188,28 @@ export const AuthView = ({
                                 </div>
                                 <div className="px-6 py-4 bg-background-primary border-t border-border-input text-center rounded-b-2xl">
                                     <p className="text-sm text-gray-500 dark:text-text-secondary">
-                                        Already have an account?{' '}
+                                        {t('auth.register.haveAccount')}{' '}
                                         <button
                                             onClick={() => onTabChange('login')}
                                             className="text-primary font-bold hover:underline"
                                         >
-                                            Log in
+                                            {t('auth.register.loginLink')}
                                         </button>
                                     </p>
                                     <div className="mt-2 text-xs text-gray-400 dark:text-gray-600">
-                                        By continuing, you agree to TaskMaster's{' '}
+                                        {t('auth.footer.agreement')}{' '}
                                         <a
                                             className="hover:text-gray-500 dark:hover:text-gray-400 hover:cursor-pointer underline"
                                             href="#"
                                         >
-                                            Terms
+                                            {t('auth.footer.terms')}
                                         </a>{' '}
-                                        and{' '}
+                                        {t('auth.footer.and')}{' '}
                                         <a
                                             className="hover:text-gray-500 dark:hover:text-gray-400 hover:cursor-pointer underline"
                                             href="#"
                                         >
-                                            Privacy Policy
+                                            {t('auth.footer.privacy')}
                                         </a>
                                         .
                                     </div>

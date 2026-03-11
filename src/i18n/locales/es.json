@@ -4,18 +4,66 @@
     "welcome": "Bienvenido a TaskMaster"
   },
   "auth": {
-    "login": "Iniciar Sesión",
-    "logout": "Cerrar Sesión",
-    "register": "Registrarse",
-    "email": "Correo Electrónico",
-    "password": "Contraseña",
-    "firstName": "Nombre",
-    "lastName": "Apellido",
-    "confirmPassword": "Confirmar Contraseña",
-    "emailPlaceholder": "nombre@ejemplo.com",
-    "passwordPlaceholder": "Ingrese su contraseña",
-    "firstNamePlaceholder": "Juan",
-    "lastNamePlaceholder": "Pérez"
+    "appName": "TaskMaster",
+    "tagline": "Organiza tu vida, domina tus tareas",
+    "tabs": {
+      "login": "Iniciar Sesión",
+      "register": "Registrarse"
+    },
+    "login": {
+      "title": "Bienvenido de Nuevo",
+      "subtitle": "Por favor, ingresa tus datos para iniciar sesión.",
+      "emailLabel": "Correo Electrónico",
+      "passwordLabel": "Contraseña",
+      "emailPlaceholder": "nombre@ejemplo.com",
+      "passwordPlaceholder": "Ingresa tu contraseña",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "submitButton": "Iniciar Sesión",
+      "submitting": "Iniciando sesión...",
+      "noAccount": "¿No tienes una cuenta?",
+      "signUpLink": "Regístrate"
+    },
+    "register": {
+      "title": "Crear una Cuenta",
+      "subtitle": "Por favor, ingresa tus datos para registrarte.",
+      "firstNameLabel": "Nombre",
+      "lastNameLabel": "Apellido",
+      "emailLabel": "Correo Electrónico",
+      "passwordLabel": "Contraseña",
+      "confirmPasswordLabel": "Confirmar Contraseña",
+      "firstNamePlaceholder": "Juan",
+      "lastNamePlaceholder": "Pérez",
+      "emailPlaceholder": "tu@ejemplo.com",
+      "passwordPlaceholder": "Ingresa tu contraseña",
+      "confirmPasswordPlaceholder": "Ingresa tu contraseña",
+      "submitButton": "Crear Cuenta",
+      "submitting": "Creando cuenta...",
+      "haveAccount": "¿Ya tienes una cuenta?",
+      "loginLink": "Inicia sesión",
+      "successMessage": "¡Cuenta creada exitosamente! Ahora puedes iniciar sesión."
+    },
+    "social": {
+      "continueWith": "O continúa con",
+      "registerWith": "O regístrate con"
+    },
+    "footer": {
+      "agreement": "Al continuar, aceptas los",
+      "terms": "Términos",
+      "and": "y la",
+      "privacy": "Política de Privacidad"
+    },
+    "errors": {
+      "emailRequired": "El correo electrónico es obligatorio",
+      "emailInvalid": "Correo electrónico inválido",
+      "passwordRequired": "La contraseña es obligatoria",
+      "passwordMinLength": "La contraseña debe tener al menos 6 caracteres",
+      "firstNameRequired": "El nombre es obligatorio",
+      "firstNameMinLength": "Al menos 2 caracteres",
+      "lastNameRequired": "El apellido es obligatorio",
+      "lastNameMinLength": "Al menos 2 caracteres",
+      "confirmPasswordRequired": "La confirmación de contraseña es obligatoria"
+    },
+    "logout": "Cerrar Sesión"
   },
   "dashboard": {
     "title": "Panel de Control",

@@ -35,7 +35,7 @@
       "lastNamePlaceholder": "Doe",
       "emailPlaceholder": "you@example.com",
       "passwordPlaceholder": "Enter your password",
-      "confirmPasswordPlaceholder": "Enter your password",
+      "confirmPasswordPlaceholder": "Enter your password again",
       "submitButton": "Create Account",
       "submitting": "Creating account...",
       "haveAccount": "Already have an account?",

@@ -36,6 +36,7 @@ export const TaskCard = ({
     return (
         <motion.div
             className="flex gap-4 p-4 bg-card-primary border border-border-default rounded-xl hover:border-border-input hover:shadow-lg shadow-md transition-all hover:cursor-pointer"
+            data-testid="task-card"
             onClick={() => onClick?.(id)}
             variants={fadeInDownVariants}
         >

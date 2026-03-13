@@ -9,7 +9,7 @@ export const SocialLoginButtons = () => {
     const handleSocialLogin = (provider: string) => {
         alert(
             `${provider} authentication is not yet implemented.\n\n` +
-            `This feature may be added in the future.\n\n` +
+            `This feature will be implemented in future projects due this one is for showing up that I know how a Authentication flows works from backend to frontend (and even how I should treat the data in the db).\n\n` +
             `For now, please use email/password authentication.`
         );
     };

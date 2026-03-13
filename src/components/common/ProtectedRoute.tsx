@@ -1,4 +1,3 @@
-import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '@/hooks/redux';
 import type { ReactNode } from 'react';
@@ -14,12 +13,9 @@ interface ProtectedRouteProps {
  */
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const navigate = useNavigate();
-    const { isLoading: auth0Loading } = useAuth0();
-    const { isAuthenticated, isLoading: reduxLoading } = useAppSelector(
+    const { isAuthenticated, isLoading } = useAppSelector(
         (state) => state.auth
     );
-
-    const isLoading = auth0Loading || reduxLoading;
 
     // Redirect to auth page if not authenticated
     useEffect(() => {

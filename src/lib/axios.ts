@@ -11,7 +11,7 @@ const api = axios.create({
   },
 });
 
-// Request interceptor to add Auth0 token
+// Request interceptor to add JWT authentication token
 api.interceptors.request.use(
   (config) => {
     // Get token from Redux store

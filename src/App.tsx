@@ -1,5 +1,4 @@
 import { Provider } from 'react-redux';
-import { Auth0Provider } from '@auth0/auth0-react';
 import { I18nextProvider } from 'react-i18next';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -105,30 +104,17 @@ function AppContent() {
 }
 
 function App() {
-  const domain = import.meta.env.VITE_AUTH0_DOMAIN;
-  const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
-  const audience = import.meta.env.VITE_AUTH0_AUDIENCE;
-
   return (
     <QueryClientProvider client={queryClient}>
-      <Auth0Provider
-        domain={domain}
-        clientId={clientId}
-        authorizationParams={{
-          redirect_uri: "http://localhost:5173/home",
-          audience: audience,
-        }}
-      >
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <ThemeProvider>
-              <BrowserRouter>
-                <AppContent />
-              </BrowserRouter>
-            </ThemeProvider>
-          </I18nextProvider>
-        </Provider>
-      </Auth0Provider>
+      <Provider store={store}>
+        <I18nextProvider i18n={i18n}>
+          <ThemeProvider>
+            <BrowserRouter>
+              <AppContent />
+            </BrowserRouter>
+          </ThemeProvider>
+        </I18nextProvider>
+      </Provider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

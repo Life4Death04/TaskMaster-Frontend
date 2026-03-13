@@ -8,8 +8,8 @@ import { staggerContainerVariants, fadeInDownVariants } from '@/utils/animations
 export const SocialLoginButtons = () => {
     const handleSocialLogin = (provider: string) => {
         alert(
-            `${provider} authentication is not available in this project.\n\n` +
-            `This feature will be implemented in future projects using Auth0.\n\n` +
+            `${provider} authentication is not yet implemented.\n\n` +
+            `This feature may be added in the future.\n\n` +
             `For now, please use email/password authentication.`
         );
     };

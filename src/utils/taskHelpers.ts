@@ -3,6 +3,8 @@
  * Reusable functions for task-related UI logic
  */
 
+import type { DateFormatTypes, PriorityTypes, StatusTypes } from '@/types';
+
 interface BadgeStyle {
   bg: string;
   text: string;
@@ -18,7 +20,7 @@ type TranslationFunction = (key: string) => string;
  * @returns Badge styling object with background, text color, and label
  */
 export const getStatusBadge = (
-  status?: string,
+  status?: StatusTypes,
   t?: TranslationFunction
 ): BadgeStyle => {
   switch (status) {
@@ -51,10 +53,10 @@ export const getStatusBadge = (
  * @returns Badge styling object with background, text color, and label
  */
 export const getPriorityBadge = (
-  priority?: string,
+  priority?: PriorityTypes,
   t?: TranslationFunction
 ): BadgeStyle => {
-  switch (priority?.toUpperCase()) {
+  switch (priority) {
     case 'HIGH':
       return {
         bg: 'bg-red-500/20',
@@ -84,18 +86,16 @@ export const getPriorityBadge = (
 
 /**
  * Get priority color for dot indicators
- * @param priority - The task priority (high, medium, low)
+ * @param priority - The task priority (HIGH, MEDIUM, LOW)
  * @returns Tailwind CSS color class
  */
-export const getPriorityColor = (
-  priority: 'high' | 'medium' | 'low'
-): string => {
+export const getPriorityColor = (priority: PriorityTypes): string => {
   switch (priority) {
-    case 'high':
+    case 'HIGH':
       return 'bg-red-500';
-    case 'medium':
+    case 'MEDIUM':
       return 'bg-orange-500';
-    case 'low':
+    case 'LOW':
       return 'bg-green-500';
     default:
       return 'bg-gray-500';
@@ -103,22 +103,32 @@ export const getPriorityColor = (
 };
 
 /**
- * Map uppercase priority to lowercase
- * @param priority - The task priority (HIGH, MEDIUM, LOW)
- * @returns Lowercase priority type
+ * Format date based on user settings
+ * @param dateString - The date string to format
+ * @param format - The date format (MM_DD_YYYY, DD_MM_YYYY, YYYY_MM_DD)
+ * @param t - Translation function from useTranslation hook
+ * @returns Formatted date string
  */
-export const mapPriorityToLowercase = (
-  priority: 'HIGH' | 'MEDIUM' | 'LOW'
-): 'high' | 'medium' | 'low' => {
-  switch (priority) {
-    case 'HIGH':
-      return 'high';
-    case 'MEDIUM':
-      return 'medium';
-    case 'LOW':
-      return 'low';
+export const formatDate = (
+  dateString: string | null | undefined,
+  format: DateFormatTypes = 'MM_DD_YYYY',
+  t: TranslationFunction
+): string => {
+  if (!dateString) return t('tasks.noDueDate');
+
+  const date = new Date(dateString);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear();
+
+  switch (format) {
+    case 'DD_MM_YYYY':
+      return `${day}/${month}/${year}`;
+    case 'YYYY_MM_DD':
+      return `${year}/${month}/${day}`;
+    case 'MM_DD_YYYY':
     default:
-      return 'low';
+      return `${month}/${day}/${year}`;
   }
 };
 
@@ -136,4 +146,123 @@ export const getLabelColor = (label?: string): string => {
   if (lowerLabel.includes('marketing'))
     return 'bg-purple-500/20 text-purple-400';
   return 'bg-gray-500/20 text-gray-400';
+};
+
+/**
+ * Format a date based on user's date format preference with specific formatting
+ * @param date - The date object to format
+ * @param dateFormat - User's preferred date format
+ * @returns Object with formatted date string and optional time
+ */
+export const formatTaskDate = (
+  date: Date,
+  dateFormat: DateFormatTypes
+): { dateString: string; timeString?: string } => {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+
+  let formattedDate = '';
+  if (dateFormat === 'DD_MM_YYYY') {
+    formattedDate = `${day}/${month}/${year}`;
+  } else if (dateFormat === 'YYYY_MM_DD') {
+    formattedDate = `${year}/${month}/${day}`;
+  } else {
+    // Default: MM_DD_YYYY
+    formattedDate = `${month}/${day}/${year}`;
+  }
+
+  return { dateString: formattedDate };
+};
+
+/**
+ * Sort tasks by priority (HIGH -> MEDIUM -> LOW)
+ * @param tasks - Array of tasks to sort
+ * @returns Sorted array (does not mutate original)
+ */
+export const sortTasksByPriority = <T extends { priority: PriorityTypes }>(
+  tasks: T[]
+): T[] => {
+  const priorityOrder = { HIGH: 0, MEDIUM: 1, LOW: 2 };
+  return [...tasks].sort(
+    (a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]
+  );
+};
+
+/**
+ * Sort tasks by due date (earliest first, tasks without dates last)
+ * @param tasks - Array of tasks to sort
+ * @returns Sorted array (does not mutate original)
+ */
+export const sortTasksByDueDate = <T extends { dueDate?: string | null }>(
+  tasks: T[]
+): T[] => {
+  return [...tasks].sort((a, b) => {
+    if (!a.dueDate) return 1;
+    if (!b.dueDate) return -1;
+    return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+  });
+};
+
+/**
+ * Filter tasks by search query (searches taskName and description)
+ * @param tasks - Array of tasks to filter
+ * @param query - Search query string
+ * @returns Filtered array
+ */
+export const filterTasksBySearch = <
+  T extends { taskName: string; description?: string | null },
+>(
+  tasks: T[],
+  query: string
+): T[] => {
+  if (!query.trim()) return tasks;
+  const lowerQuery = query.toLowerCase();
+  return tasks.filter(
+    (task) =>
+      task.taskName.toLowerCase().includes(lowerQuery) ||
+      task.description?.toLowerCase().includes(lowerQuery)
+  );
+};
+
+/**
+ * Check if a task is overdue
+ * @param task - Task to check
+ * @returns True if task is overdue (has dueDate in past and not completed)
+ */
+export const isTaskOverdue = (task: {
+  dueDate?: string | null;
+  status: StatusTypes;
+}): boolean => {
+  return (
+    !!task.dueDate &&
+    task.status !== 'DONE' &&
+    new Date(task.dueDate) < new Date()
+  );
+};
+
+/**
+ * Filter tasks by status based on UI filter tabs
+ * Maps UI filter values ('todo', 'in_progress', 'done', 'completed') to StatusTypes
+ * @param tasks - Array of tasks to filter
+ * @param filter - UI filter value ('all' returns all tasks)
+ * @returns Filtered tasks array
+ */
+export const filterTasksByStatus = <T extends { status: StatusTypes }>(
+  tasks: T[],
+  filter: 'all' | 'todo' | 'in_progress' | 'done' | 'completed'
+): T[] => {
+  // Return all tasks if 'all' filter is selected
+  if (filter === 'all') return tasks;
+
+  // Map UI filter values to StatusTypes
+  const statusMap: Record<string, StatusTypes> = {
+    todo: 'TODO',
+    in_progress: 'IN_PROGRESS',
+    done: 'DONE',
+    completed: 'DONE', // 'completed' also maps to 'DONE'
+  };
+
+  const targetStatus = statusMap[filter];
+  return tasks.filter((task) => task.status === targetStatus);
 };

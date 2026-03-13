@@ -4,18 +4,67 @@
     "welcome": "Welcome to TaskMaster"
   },
   "auth": {
-    "login": "Login",
-    "logout": "Logout",
-    "register": "Register",
-    "email": "Email",
-    "password": "Password",
-    "firstName": "First Name",
-    "lastName": "Last Name",
-    "confirmPassword": "Confirm Password",
-    "emailPlaceholder": "name@example.com",
-    "passwordPlaceholder": "Enter your password",
-    "firstNamePlaceholder": "John",
-    "lastNamePlaceholder": "Doe"
+    "appName": "TaskMaster",
+    "tagline": "Organize your life, master your tasks",
+    "tabs": {
+      "login": "Login",
+      "register": "Register"
+    },
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Please enter your details to sign in.",
+      "emailLabel": "Email Address",
+      "passwordLabel": "Password",
+      "emailPlaceholder": "name@example.com",
+      "passwordPlaceholder": "Enter your password",
+      "forgotPassword": "Forgot password?",
+      "submitButton": "Log In",
+      "submitting": "Logging in...",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up"
+    },
+    "register": {
+      "title": "Create an Account",
+      "subtitle": "Please enter your details to register.",
+      "firstNameLabel": "First Name",
+      "lastNameLabel": "Last Name",
+      "emailLabel": "Email Address",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "firstNamePlaceholder": "John",
+      "lastNamePlaceholder": "Doe",
+      "emailPlaceholder": "you@example.com",
+      "passwordPlaceholder": "Enter your password",
+      "confirmPasswordPlaceholder": "Enter your password again",
+      "submitButton": "Create Account",
+      "submitting": "Creating account...",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Log in",
+      "successMessage": "Account created successfully! You can now log in."
+    },
+    "social": {
+      "continueWith": "Or continue with",
+      "registerWith": "Or register with"
+    },
+    "footer": {
+      "agreement": "By continuing, you agree to TaskMaster's",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Privacy Policy"
+    },
+    "errors": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email address",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "invalidCredentials": "Invalid email or password",
+      "firstNameRequired": "First name is required",
+      "firstNameMinLength": "At least 2 characters",
+      "lastNameRequired": "Last name is required",
+      "lastNameMinLength": "At least 2 characters",
+      "confirmPasswordRequired": "Password confirmation is required"
+    },
+    "logout": "Logout"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -30,7 +79,12 @@
     "active": "Active",
     "viewAll": "View All",
     "upcomingDueDates": "Upcoming Due Dates",
-    "addReminder": "Add Reminder"
+    "addReminder": "No Reminders yet",
+    "empty": {
+      "title": "No tasks yet",
+      "subtitle": "Create your first task to get started",
+      "createTask": "Create Task"
+    }
   },
   "tasks": {
     "title": "My Tasks",
@@ -219,14 +273,16 @@
       "deleting": "Deleting...",
       "task": "task",
       "list": "list",
-      "item": "item"
+      "item": "item",
+      "account": "account"
     }
   },
   "sidebar": {
     "myTasks": "My Tasks",
     "calendar": "Calendar",
     "lists": "Lists",
-    "settings": "Settings"
+    "settings": "Settings",
+    "logout": "Log out"
   },
   "calendar": {
     "title": "Calendar",

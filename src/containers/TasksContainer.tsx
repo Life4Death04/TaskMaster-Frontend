@@ -6,10 +6,15 @@ import { openModal } from '@/features/ui/uiSlice';
 import { useFetchTasks } from '@/api/queries/tasks.queries';
 import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
 import { useFetchSettings } from '@/api/queries/settings.queries';
-import { mapPriorityToLowercase } from '@/utils/taskHelpers';
-
-type FilterTab = 'all' | 'todo' | 'in_progress' | 'done';
-type SortOption = 'recent' | 'dueDate' | 'priority';
+import {
+    sortTasksByPriority,
+    sortTasksByDueDate,
+    filterTasksBySearch,
+    filterTasksByStatus,
+    formatTaskDate,
+    isTaskOverdue,
+} from '@/utils/taskHelpers';
+import type { TaskFilterTab, TaskSortOption } from '@/types';
 
 /**
  * Tasks Container
@@ -20,8 +25,8 @@ export const TasksContainer = () => {
     const dispatch = useAppDispatch();
     const user = useAppSelector((state) => state.auth.user);
     const [searchQuery, setSearchQuery] = useState('');
-    const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
-    const [sortOption, setSortOption] = useState<SortOption>('recent');
+    const [activeFilter, setActiveFilter] = useState<TaskFilterTab>('all');
+    const [sortOption, setSortOption] = useState<TaskSortOption>('recent');
 
     // Fetch tasks from API
     const { data: tasks = [], isLoading, error } = useFetchTasks();
@@ -35,37 +40,19 @@ export const TasksContainer = () => {
 
     // Filter, search, and sort tasks
     const processedTasks = useMemo(() => {
-        let filtered = [...tasks].filter((task) => !task.archived);
+        let filtered = [...tasks];
 
-        // Apply status filter
-        if (activeFilter === 'todo') {
-            filtered = filtered.filter((task) => task.status === 'TODO');
-        } else if (activeFilter === 'in_progress') {
-            filtered = filtered.filter((task) => task.status === 'IN_PROGRESS');
-        } else if (activeFilter === 'done') {
-            filtered = filtered.filter((task) => task.status === 'DONE');
-        }
+        // Apply status filter using utility function
+        filtered = filterTasksByStatus(filtered, activeFilter);
 
-        // Apply search
-        if (searchQuery.trim()) {
-            const query = searchQuery.toLowerCase();
-            filtered = filtered.filter(
-                (task) =>
-                    task.taskName.toLowerCase().includes(query) ||
-                    task.description?.toLowerCase().includes(query)
-            );
-        }
+        // Apply search using utility function
+        filtered = filterTasksBySearch(filtered, searchQuery);
 
-        // Apply sorting
+        // Apply sorting using utility functions
         if (sortOption === 'priority') {
-            const priorityOrder = { HIGH: 0, MEDIUM: 1, LOW: 2 };
-            filtered.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+            filtered = sortTasksByPriority(filtered);
         } else if (sortOption === 'dueDate') {
-            filtered.sort((a, b) => {
-                if (!a.dueDate) return 1;
-                if (!b.dueDate) return -1;
-                return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
-            });
+            filtered = sortTasksByDueDate(filtered);
         }
         // 'recent' keeps the original order (newest first from API)
 
@@ -74,7 +61,7 @@ export const TasksContainer = () => {
 
     // Map API tasks to UI format
     /**
-     * The code iterates through each task in processedTasks and transforms it into a new shape suitable for your UI components. This transformation handles several important aspects of task display.
+     * The code iterates through each task in processedTasks and transforms it into a new shape suitable for the UI components. This transformation handles several important aspects of task display.
      */
     const mappedTasks = useMemo(
         () =>
@@ -99,38 +86,22 @@ export const TasksContainer = () => {
                         });
                     } else {
                         // Format date based on user's date format preference
-                        const day = String(date.getDate()).padStart(2, '0');
-                        const month = String(date.getMonth() + 1).padStart(2, '0');
-                        const year = date.getFullYear();
-
-                        let formattedDate = ''
-                        if (dateFormat === 'DD_MM_YYYY') {
-                            formattedDate = `${day}/${month}/${year}`;
-                        } else if (dateFormat === 'YYYY_MM_DD') {
-                            formattedDate = `${year}/${month}/${day}`;
-                        } else {
-                            // Default: MM_DD_YYYY
-                            formattedDate = `${month}/${day}/${year}`;
-                        }
-
-                        dueDate = `${t('tasks.dueLabel')} ${formattedDate}`;
+                        const { dateString } = formatTaskDate(date, dateFormat);
+                        dueDate = `${t('tasks.dueLabel')} ${dateString}`;
                     }
                 }
 
-                // Determine if task is overdue
-                const isOverdue =
-                    task.dueDate &&
-                    task.status !== 'DONE' &&
-                    new Date(task.dueDate) < new Date();
+                // Determine if task is overdue using utility function
+                const taskIsOverdue = isTaskOverdue(task);
 
                 return {
                     id: String(task.id),
                     title: task.taskName,
                     description: task.description || '',
-                    label: isOverdue ? 'OVERDUE' : undefined,
+                    label: taskIsOverdue ? 'OVERDUE' : undefined,
                     dueDate,
                     dueTime,
-                    priority: mapPriorityToLowercase(task.priority),
+                    priority: task.priority,
                     progressStatus: task.status,
                 };
             }),
@@ -142,11 +113,11 @@ export const TasksContainer = () => {
         setSearchQuery(query);
     };
 
-    const handleFilterChange = (filter: FilterTab) => {
+    const handleFilterChange = (filter: TaskFilterTab) => {
         setActiveFilter(filter);
     };
 
-    const handleSortChange = (sort: SortOption) => {
+    const handleSortChange = (sort: TaskSortOption) => {
         setSortOption(sort);
     };
 
@@ -196,11 +167,6 @@ export const TasksContainer = () => {
                 })
             );
         }
-    };
-
-    const handleArchiveTask = (id: string) => {
-        // TODO: Implement archive task
-        console.log('Archive task:', id);
     };
 
     const handleDeleteTask = (id: string) => {
@@ -254,7 +220,6 @@ export const TasksContainer = () => {
             onTaskClick={handleTaskClick}
             onCreateTask={handleCreateTask}
             onEditTask={handleEditTask}
-            onArchiveTask={handleArchiveTask}
             onDeleteTask={handleDeleteTask}
         />
     );

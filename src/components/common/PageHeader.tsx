@@ -1,9 +1,12 @@
+import { motion } from 'framer-motion';
+import { fadeInVariants } from '@/utils/animations';
+
 interface PageHeaderProps {
     title: string;
     subtitle: string;
     userName?: string;
-    searchQuery: string;
-    onSearchChange: (query: string) => void;
+    searchQuery?: string;
+    onSearchChange?: (query: string) => void;
     showSearch?: boolean;
     showBackButton?: boolean;
     onBack?: () => void;
@@ -18,7 +21,7 @@ export const PageHeader = ({
     title,
     subtitle,
     userName,
-    searchQuery,
+    searchQuery = '',
     onSearchChange,
     showSearch = true,
     showBackButton = false,
@@ -28,7 +31,12 @@ export const PageHeader = ({
     const formattedSubtitle = userName ? subtitle.replace('{userName}', userName) : subtitle;
 
     return (
-        <div className="mb-8">
+        <motion.div
+            className="mb-8"
+            variants={fadeInVariants}
+            initial="hidden"
+            animate="visible"
+        >
             <div className="flex items-center justify-between flex-wrap gap-4">
                 <div className="flex items-center gap-4">
                     {/* Back Button */}
@@ -46,7 +54,7 @@ export const PageHeader = ({
 
                     {/* Title and Subtitle */}
                     <div>
-                        <h1 className="text-text-primary text-3xl font-bold mb-1">{title}</h1>
+                        <h2 className="text-text-primary text-3xl font-bold mb-1">{title}</h2>
                         <p className="text-text-secondary text-sm">{formattedSubtitle}</p>
                     </div>
                 </div>
@@ -55,7 +63,7 @@ export const PageHeader = ({
                     {/* Action Buttons (for List Details) */}
                     {actionButtons}
 
-                    {showSearch && (
+                    {showSearch && onSearchChange && (
                         <div className="relative">
                             <svg
                                 className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-secondary pointer-events-none"
@@ -77,6 +85,6 @@ export const PageHeader = ({
                     )}
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };

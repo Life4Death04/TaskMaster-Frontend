@@ -9,7 +9,14 @@ import { useFetchSettings } from '@/api/queries/settings.queries';
 import { useUpdateSettings } from '@/api/mutations/settings.mutations';
 import { useUpdateUser } from '@/api/mutations/users.mutations';
 import { useTheme } from '@/contexts/ThemeContext';
-import type { ThemeTypes, DateFormatTypes, LanguageTypes, PriorityTypes, StatusTypes } from '@/types';
+import type {
+    DateFormatTypes,
+    LanguageTypes,
+    PriorityTypes,
+    StatusTypes,
+    ThemeTypes,
+    UiLanguageTypes,
+} from '@/types';
 
 /**
  * Settings Container
@@ -19,7 +26,7 @@ export const SettingsContainer = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { setTheme } = useTheme();
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
 
     // Get user from Redux
     const user = useAppSelector((state) => state.auth.user);
@@ -31,10 +38,10 @@ export const SettingsContainer = () => {
 
     // Settings state
     const [darkMode, setDarkMode] = useState(true);
-    const [language, setLanguage] = useState<'en' | 'es'>('en');
-    const [defaultPriority, setDefaultPriority] = useState<'LOW' | 'MEDIUM' | 'HIGH'>('MEDIUM');
-    const [defaultStatus, setDefaultStatus] = useState<'TODO' | 'IN_PROGRESS' | 'DONE'>('TODO');
-    const [dateFormat, setDateFormat] = useState<'MM_DD_YYYY' | 'DD_MM_YYYY' | 'YYYY_MM_DD'>('DD_MM_YYYY');
+    const [language, setLanguage] = useState<UiLanguageTypes>('en');
+    const [defaultPriority, setDefaultPriority] = useState<PriorityTypes>('MEDIUM');
+    const [defaultStatus, setDefaultStatus] = useState<StatusTypes>('TODO');
+    const [dateFormat, setDateFormat] = useState<DateFormatTypes>('DD_MM_YYYY');
     const [hasChanges, setHasChanges] = useState(false);
 
     // Profile editing state
@@ -45,10 +52,10 @@ export const SettingsContainer = () => {
     // Original values to track changes
     const [originalSettings, setOriginalSettings] = useState({
         darkMode: true,
-        language: 'en' as 'en' | 'es',
-        defaultPriority: 'MEDIUM' as 'LOW' | 'MEDIUM' | 'HIGH',
-        defaultStatus: 'TODO' as 'TODO' | 'IN_PROGRESS' | 'DONE',
-        dateFormat: 'DD_MM_YYYY' as 'MM_DD_YYYY' | 'DD_MM_YYYY' | 'YYYY_MM_DD',
+        language: 'en' as UiLanguageTypes,
+        defaultPriority: 'MEDIUM' as PriorityTypes,
+        defaultStatus: 'TODO' as StatusTypes,
+        dateFormat: 'DD_MM_YYYY' as DateFormatTypes,
     });
 
     // Initialize state from API settings
@@ -143,22 +150,22 @@ export const SettingsContainer = () => {
         setDarkMode(!darkMode);
     };
 
-    const handleLanguageChange = (lang: 'en' | 'es') => {
+    const handleLanguageChange = (lang: UiLanguageTypes) => {
         setLanguage(lang);
 
         // Immediately update i18n language
         i18n.changeLanguage(lang);
     };
 
-    const handleDefaultPriorityChange = (priority: 'LOW' | 'MEDIUM' | 'HIGH') => {
+    const handleDefaultPriorityChange = (priority: PriorityTypes) => {
         setDefaultPriority(priority);
     };
 
-    const handleDefaultStatusChange = (status: 'TODO' | 'IN_PROGRESS' | 'DONE') => {
+    const handleDefaultStatusChange = (status: StatusTypes) => {
         setDefaultStatus(status);
     };
 
-    const handleDateFormatChange = (format: 'MM_DD_YYYY' | 'DD_MM_YYYY' | 'YYYY_MM_DD') => {
+    const handleDateFormatChange = (format: DateFormatTypes) => {
         setDateFormat(format);
     };
 
@@ -174,7 +181,7 @@ export const SettingsContainer = () => {
             type: 'DELETE_CONFIRMATION',
             data: {
                 accountDelete: true,
-                itemName: 'your account',
+                itemName: t('modals.deleteConfirmation.account'),
                 itemType: 'account',
             },
         }));

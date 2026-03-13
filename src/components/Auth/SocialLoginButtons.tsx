@@ -1,9 +1,26 @@
+import { motion } from 'framer-motion';
+import { staggerContainerVariants, fadeInDownVariants } from '@/utils/animations';
+
+/**
+ * Social Login Buttons Component
+ * Displays Google and Apple login options (not yet implemented)
+ */
 export const SocialLoginButtons = () => {
+    const handleSocialLogin = (provider: string) => {
+        alert(
+            `${provider} authentication is not available in this project.\n\n` +
+            `This feature will be implemented in future projects using Auth0.\n\n` +
+            `For now, please use email/password authentication.`
+        );
+    };
+
     return (
-        <div className="grid grid-cols-2 gap-4">
-            <button
+        <motion.div className="grid grid-cols-2 gap-4" variants={staggerContainerVariants} initial="hidden" animate="visible">
+            <motion.button
                 type="button"
+                onClick={() => handleSocialLogin('Google')}
                 className="flex items-center justify-center gap-2 h-11 rounded-lg border border-border-input bg-card-primary hover:bg-background-primary-hover text-text-primary transition-colors text-sm font-medium hover:cursor-pointer"
+                variants={fadeInDownVariants}
             >
                 <svg
                     className="w-5 h-5"
@@ -28,10 +45,12 @@ export const SocialLoginButtons = () => {
                     ></path>
                 </svg>
                 <span>Google</span>
-            </button>
-            <button
+            </motion.button>
+            <motion.button
                 type="button"
+                onClick={() => handleSocialLogin('Apple')}
                 className="flex items-center justify-center gap-2 h-11 rounded-lg border border-border-input bg-card-primary hover:bg-background-primary-hover text-text-primary transition-colors text-sm font-medium hover:cursor-pointer"
+                variants={fadeInDownVariants}
             >
                 <svg
                     className="w-5 h-5 fill-svg-fill-primary"
@@ -41,7 +60,7 @@ export const SocialLoginButtons = () => {
                     <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.74 1.18 0 2.24-1.23 3.71-1.14 1.5.07 2.68.74 3.37 1.84-2.94 1.83-2.39 5.38.74 6.7-.58 1.66-1.55 3.12-2.9 4.83zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"></path>
                 </svg>
                 <span>Apple</span>
-            </button>
-        </div>
+            </motion.button>
+        </motion.div>
     );
 };

@@ -1,14 +1,9 @@
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { fadeInDownVariants } from '@/utils/animations';
+import type { DashboardUpcomingTaskViewModel } from '@/types';
 
-interface UpcomingDueDateItemProps {
-    id: string;
-    date: string;
-    month: string;
-    title: string;
-    description: string;
-    time?: string;
-    priority?: 'high' | 'medium' | 'low';
-}
+interface UpcomingDueDateItemProps extends DashboardUpcomingTaskViewModel { }
 
 /**
  * Upcoming Due Date Item Component
@@ -25,7 +20,10 @@ export const UpcomingDueDateItem = ({
     const { t } = useTranslation();
 
     return (
-        <div className="flex gap-3 p-3 bg-card-primary hover:bg-background-primary-hover transition-colors hover:rounded-lg hover:cursor-pointer">
+        <motion.div
+            className="flex gap-3 p-3 bg-card-primary hover:bg-background-primary-hover transition-colors hover:rounded-lg hover:cursor-pointer"
+            variants={fadeInDownVariants}
+        >
             <div className="flex items-center justify-center">
                 <div className="w-12 h-12 rounded-lg bg-background-primary border border-border-default flex flex-col items-center justify-center">
                     <span className="text-text-secondary text-[10px] font-semibold uppercase">{month}</span>
@@ -37,12 +35,12 @@ export const UpcomingDueDateItem = ({
                 <div className="flex flex-wrap items-start justify-between gap-2 mb-1">
                     <h4 className="text-text-primary font-semibold text-sm">{title}</h4>
                     {priority && (
-                        <span className={`px-2 py-0.5 text-xs font-bold rounded uppercase ${priority === 'high' ? 'bg-red-500/20 text-red-400' :
-                                priority === 'medium' ? 'bg-orange-500/20 text-orange-400' :
-                                    'bg-green-500/20 text-green-400'
+                        <span className={`px-2 py-0.5 text-xs font-bold rounded uppercase ${priority === 'HIGH' ? 'bg-red-500/20 text-red-400' :
+                            priority === 'MEDIUM' ? 'bg-orange-500/20 text-orange-400' :
+                                'bg-green-500/20 text-green-400'
                             }`}>
-                            {priority === 'high' ? t('common.priority.high') :
-                                priority === 'medium' ? t('common.priority.medium') :
+                            {priority === 'HIGH' ? t('common.priority.high') :
+                                priority === 'MEDIUM' ? t('common.priority.medium') :
                                     t('common.priority.low')}
                         </span>
                     )}
@@ -58,6 +56,6 @@ export const UpcomingDueDateItem = ({
                     </div>
                 )}
             </div>
-        </div>
+        </motion.div>
     );
 };

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { AnimatedModal } from '../common/AnimatedModal';
 import { updateListSchema, type UpdateListFormData } from '@/schemas/list.schemas';
 
 interface EditListModalProps {
@@ -69,121 +70,116 @@ export const EditListModal = ({ isOpen, onClose, onSubmit, isLoading = false, li
         onClose();
     };
 
-    if (!isOpen) return null;
+    if (!list) return null;
 
     return (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center">
-            {/* Backdrop */}
-            <div
-                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-                onClick={handleClose}
-            />
-
-            {/* Modal */}
-            <div className="relative w-full max-w-md mx-4 bg-background-primary border border-border-default rounded-2xl shadow-2xl">
-                {/* Header */}
-                <div className="flex items-center justify-between p-6 pb-4 border-b border-border-default">
-                    <div>
-                        <div className="flex items-center gap-2 mb-1">
-                            <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                            </svg>
-                            <h2 className="text-text-primary text-xl font-bold">{t('modals.editList.title')}</h2>
-                        </div>
-                        <p className="text-text-secondary text-sm">{t('modals.editList.subtitle')}</p>
-                    </div>
-                    <button
-                        onClick={handleClose}
-                        type="button"
-                        className="text-text-secondary hover:text-text-primary hover:cursor-pointer transition-colors p-1"
-                        aria-label="Close modal"
-                    >
-                        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        <AnimatedModal
+            isOpen={isOpen}
+            onClose={handleClose}
+            className="relative w-full max-w-md mx-4 bg-background-primary border border-border-default rounded-2xl shadow-2xl"
+        >
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 pb-4 border-b border-border-default">
+                <div>
+                    <div className="flex items-center gap-2 mb-1">
+                        <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
-                    </button>
+                        <h2 className="text-text-primary text-xl font-bold">{t('modals.editList.title')}</h2>
+                    </div>
+                    <p className="text-text-secondary text-sm">{t('modals.editList.subtitle')}</p>
+                </div>
+                <button
+                    onClick={handleClose}
+                    type="button"
+                    className="text-text-secondary hover:text-text-primary hover:cursor-pointer transition-colors p-1"
+                    aria-label="Close modal"
+                >
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleFormSubmit}>
+                {/* Content */}
+                <div className="p-6 space-y-5">
+                    {/* List Name */}
+                    <div>
+                        <label className="block text-text-primary text-sm font-semibold mb-2">
+                            {t('lists.listName')}
+                        </label>
+                        <input
+                            type="text"
+                            {...register('title')}
+                            className="w-full px-4 py-2.5 bg-background-input border border-border-input rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                        />
+                        {errors.title && (
+                            <p className="text-red-400 text-xs mt-1">{errors.title.message}</p>
+                        )}
+                    </div>
+
+                    {/* Description */}
+                    <div>
+                        <label className="block text-text-primary text-sm font-semibold mb-2">
+                            {t('lists.description')}
+                        </label>
+                        <textarea
+                            {...register('description')}
+                            rows={3}
+                            className="w-full px-4 py-2.5 bg-background-input border border-border-input rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
+                        />
+                        {errors.description && (
+                            <p className="text-red-400 text-xs mt-1">{errors.description.message}</p>
+                        )}
+                    </div>
+
+                    {/* List Color */}
+                    <div>
+                        <label className="block text-text-primary text-sm font-semibold mb-3">
+                            {t('lists.color')}
+                        </label>
+                        <div className="flex gap-3 flex-wrap">
+                            {COLORS.map((color) => (
+                                <button
+                                    key={color.value}
+                                    type="button"
+                                    onClick={() => setValue('color', color.value)}
+                                    className={`w-10 h-10 rounded-full ${color.class} transition-transform hover:scale-110 hover:cursor-pointer ${selectedColor === color.value
+                                        ? 'ring-4 ring-white/30 scale-110'
+                                        : ''
+                                        }`}
+                                    aria-label={`Select ${color.name}`}
+                                />
+                            ))}
+                        </div>
+                        {errors.color && (
+                            <p className="text-red-400 text-xs mt-1">{errors.color.message}</p>
+                        )}
+                    </div>
                 </div>
 
-                {/* Form */}
-                <form onSubmit={handleFormSubmit}>
-                    {/* Content */}
-                    <div className="p-6 space-y-5">
-                        {/* List Name */}
-                        <div>
-                            <label className="block text-text-primary text-sm font-semibold mb-2">
-                                {t('lists.listName')}
-                            </label>
-                            <input
-                                type="text"
-                                {...register('title')}
-                                className="w-full px-4 py-2.5 bg-background-input border border-border-input rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all"
-                            />
-                            {errors.title && (
-                                <p className="text-red-400 text-xs mt-1">{errors.title.message}</p>
-                            )}
-                        </div>
-
-                        {/* Description */}
-                        <div>
-                            <label className="block text-text-primary text-sm font-semibold mb-2">
-                                {t('lists.description')}
-                            </label>
-                            <textarea
-                                {...register('description')}
-                                rows={3}
-                                className="w-full px-4 py-2.5 bg-background-input border border-border-input rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
-                            />
-                            {errors.description && (
-                                <p className="text-red-400 text-xs mt-1">{errors.description.message}</p>
-                            )}
-                        </div>
-
-                        {/* List Color */}
-                        <div>
-                            <label className="block text-text-primary text-sm font-semibold mb-3">
-                                {t('lists.color')}
-                            </label>
-                            <div className="flex gap-3 flex-wrap">
-                                {COLORS.map((color) => (
-                                    <button
-                                        key={color.value}
-                                        type="button"
-                                        onClick={() => setValue('color', color.value)}
-                                        className={`w-10 h-10 rounded-full ${color.class} transition-transform hover:scale-110 hover:cursor-pointer ${selectedColor === color.value
-                                            ? 'ring-4 ring-white/30 scale-110'
-                                            : ''
-                                            }`}
-                                        aria-label={`Select ${color.name}`}
-                                    />
-                                ))}
-                            </div>
-                            {errors.color && (
-                                <p className="text-red-400 text-xs mt-1">{errors.color.message}</p>
-                            )}
-                        </div>
+                {/* Footer */}
+                <div className="flex items-center justify-end p-6 pt-4 border-t border-border-default">
+                    <div className="flex items-center gap-3">
+                        <button
+                            type="button"
+                            onClick={handleClose}
+                            className="px-6 py-2.5 bg-background-primary-hover hover:bg-border-dark hover:cursor-pointer text-text-primary rounded-lg font-medium transition-colors"
+                        >
+                            {t('common.cancel')}
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="px-6 py-2.5 bg-primary hover:bg-primary-hover hover:cursor-pointer text-white rounded-lg font-medium transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {isLoading ? t('common.saving') : t('common.saveChanges')}
+                        </button>
                     </div>
-
-                    {/* Footer */}
-                    <div className="flex items-center justify-end p-6 pt-4 border-t border-border-default">
-                        <div className="flex items-center gap-3">
-                            <button
-                                type="button"
-                                onClick={handleClose}
-                                className="px-6 py-2.5 bg-background-primary-hover hover:bg-border-dark hover:cursor-pointer text-text-primary rounded-lg font-medium transition-colors"
-                            >
-                                {t('common.cancel')}
-                            </button>
-                            <button
-                                type="submit"
-                                disabled={isLoading}
-                                className="px-6 py-2.5 bg-primary hover:bg-primary-hover hover:cursor-pointer text-white rounded-lg font-medium transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {isLoading ? t('common.saving') : t('common.saveChanges')}
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+                </div>
+            </form>
+        </AnimatedModal>
     );
 };

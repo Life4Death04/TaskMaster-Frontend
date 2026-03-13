@@ -1,4 +1,6 @@
 import { type ReactNode } from 'react';
+import { motion } from 'framer-motion';
+import { fadeInDownVariants } from '@/utils/animations';
 
 interface StatsCardProps {
     title: string;
@@ -14,7 +16,10 @@ interface StatsCardProps {
  */
 export const StatsCard = ({ title, value, icon, variant = 'default', children }: StatsCardProps) => {
     return (
-        <div className="bg-card-primary rounded-xl p-6 border border-border-default shadow-md sm:h-fit md:h-26 lg:h-full">
+        <motion.div
+            className="bg-card-primary rounded-xl p-6 border border-border-default shadow-md sm:h-fit md:h-26 lg:h-full"
+            variants={fadeInDownVariants}
+        >
             {variant === 'default' ? (
                 <div className="flex items-start gap-4">
                     <div className="bg-transparent size-10 m-auto rounded-lg bg-primary/10 text-primary flex-shrink-0 ">
@@ -31,6 +36,6 @@ export const StatsCard = ({ title, value, icon, variant = 'default', children }:
                     <div className="flex gap-2">{children}</div>
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 };

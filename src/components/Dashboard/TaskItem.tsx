@@ -1,18 +1,13 @@
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { fadeInDownVariants } from '@/utils/animations';
 import { TaskOptionsMenu } from '../common/TaskOptionsMenu';
+import type { DashboardRecentTaskViewModel } from '@/types';
 
-interface TaskItemProps {
-    id: string;
-    title: string;
-    description: string;
-    status: 'overdue' | 'normal' | 'completed';
-    dueDate: string;
-    dueTime?: string;
-    priority: 'high' | 'medium' | 'low';
+interface TaskItemProps extends DashboardRecentTaskViewModel {
     onToggleComplete: (id: string) => void;
     onClick?: (id: string) => void;
     onEdit?: (id: string) => void;
-    onArchive?: (id: string) => void;
     onDelete?: (id: string) => void;
 }
 
@@ -31,15 +26,15 @@ export const TaskItem = ({
     onToggleComplete,
     onClick,
     onEdit,
-    onArchive,
     onDelete,
 }: TaskItemProps) => {
     const { t } = useTranslation();
 
     return (
-        <div
-            className="flex gap-3 p-4 rounded-lg bg-card-primary hover:bg-background-primary-hover transition-colors border border-border-default hover:border-border-dark hover:cursor-pointer shadow-md"
+        <motion.div
+            className="flex gap-3 p-4 rounded-lg bg-card-primary hover:bg-background-primary-hover transition-colors border border-border-default hover:border-border-dark hover:cursor-pointer shadow-md test-id:task-item"
             onClick={() => onClick?.(id)}
+            variants={fadeInDownVariants}
         >
             <div className="pt-1" onClick={(e) => e.stopPropagation()}>
                 <input
@@ -65,7 +60,6 @@ export const TaskItem = ({
                     <TaskOptionsMenu
                         taskId={id}
                         onEdit={onEdit}
-                        onArchive={onArchive}
                         onDelete={onDelete}
                     />
                 </div>
@@ -82,18 +76,18 @@ export const TaskItem = ({
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <span className={`w-2 h-2 rounded-full ${priority === 'high' ? 'bg-red-500' :
-                            priority === 'medium' ? 'bg-orange-500' :
+                        <span className={`w-2 h-2 rounded-full ${priority === 'HIGH' ? 'bg-red-500' :
+                            priority === 'MEDIUM' ? 'bg-orange-500' :
                                 'bg-green-500'
                             }`}></span>
                         <span className="text-text-secondary text-xs capitalize">
-                            {priority === 'high' ? t('common.priority.high') :
-                                priority === 'medium' ? t('common.priority.medium') :
+                            {priority === 'HIGH' ? t('common.priority.high') :
+                                priority === 'MEDIUM' ? t('common.priority.medium') :
                                     t('common.priority.low')}
                         </span>
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };

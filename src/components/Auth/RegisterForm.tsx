@@ -1,3 +1,6 @@
+import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import { staggerContainerVariants, fadeInDownVariants } from '@/utils/animations';
 import type { UseFormRegister, FieldErrors } from 'react-hook-form';
 
 export interface RegisterFormData {
@@ -25,45 +28,57 @@ export const RegisterForm = ({
     errorMessage,
     successMessage,
 }: RegisterFormProps) => {
+    const { t } = useTranslation();
+
     return (
-        <form onSubmit={onSubmit} className="space-y-4">
-            <div className="text-center">
-                <h2 className="text-text-primary text-2xl font-bold leading-tight">Create an Account</h2>
-                <p className="text-gray-500 dark:text-text-secondary text-sm mt-1">Please enter your details to register.</p>
-            </div>
+        <motion.form onSubmit={onSubmit} className="space-y-4" variants={staggerContainerVariants} initial="hidden" animate="visible">
+            <motion.div className="text-center" variants={fadeInDownVariants}>
+                <h2 className="text-text-primary text-2xl font-bold leading-tight">{t('auth.register.title')}</h2>
+                <p className="text-gray-500 dark:text-text-secondary text-sm mt-1">{t('auth.register.subtitle')}</p>
+            </motion.div>
 
             {errorMessage && (
-                <div className="bg-error-background border border-error-border text-error-text px-4 py-3 rounded-lg">
+                <motion.div
+                    className="bg-error-background border border-error-border text-error-text px-4 py-3 rounded-lg"
+                    variants={fadeInDownVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
                     {errorMessage}
-                </div>
+                </motion.div>
             )}
 
             {successMessage && (
-                <div className="bg-success-background border border-success-border text-success-text px-4 py-3 rounded-lg">
+                <motion.div
+                    className="bg-success-background border border-success-border text-success-text px-4 py-3 rounded-lg"
+                    variants={fadeInDownVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
                     {successMessage}
-                </div>
+                </motion.div>
             )}
 
-            <div className="grid grid-cols-2 gap-4">
+            <motion.div className="grid grid-cols-2 gap-4" variants={fadeInDownVariants}>
                 <div>
                     <label
                         htmlFor="firstName"
                         className="block text-sm font-medium text-text-primary mb-2"
                     >
-                        First Name
+                        {t('auth.register.firstNameLabel')}
                     </label>
                     <input
                         id="firstName"
                         type="text"
                         {...register('firstName', {
-                            required: 'First name is required',
+                            required: t('auth.errors.firstNameRequired'),
                             minLength: {
                                 value: 2,
-                                message: 'At least 2 characters',
+                                message: t('auth.errors.firstNameMinLength'),
                             },
                         })}
                         className="w-full px-4 py-3 border border-border-input rounded-lg bg-background-input text-text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
-                        placeholder="John"
+                        placeholder={t('auth.register.firstNamePlaceholder')}
                     />
                     {errors.firstName && (
                         <p className="mt-1 text-sm text-red-600 dark:text-red-400">
@@ -77,20 +92,20 @@ export const RegisterForm = ({
                         htmlFor="lastName"
                         className="block text-sm font-medium text-text-primary mb-2"
                     >
-                        Last Name
+                        {t('auth.register.lastNameLabel')}
                     </label>
                     <input
                         id="lastName"
                         type="text"
                         {...register('lastName', {
-                            required: 'Last name is required',
+                            required: t('auth.errors.lastNameRequired'),
                             minLength: {
                                 value: 2,
-                                message: 'At least 2 characters',
+                                message: t('auth.errors.lastNameMinLength'),
                             },
                         })}
                         className="w-full px-4 py-3 border border-border-input rounded-lg bg-background-input text-text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
-                        placeholder="Doe"
+                        placeholder={t('auth.register.lastNamePlaceholder')}
                     />
                     {errors.lastName && (
                         <p className="mt-1 text-sm text-red-600 dark:text-red-400">
@@ -98,96 +113,97 @@ export const RegisterForm = ({
                         </p>
                     )}
                 </div>
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div variants={fadeInDownVariants}>
                 <label
                     htmlFor="register-email"
                     className="block text-sm font-medium text-text-primary mb-2"
                 >
-                    Email Address
+                    {t('auth.register.emailLabel')}
                 </label>
                 <input
                     id="register-email"
                     type="email"
                     {...register('email', {
-                        required: 'Email is required',
+                        required: t('auth.errors.emailRequired'),
                         pattern: {
                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: 'Invalid email address',
+                            message: t('auth.errors.emailInvalid'),
                         },
                     })}
                     className="w-full px-4 py-3 border border-border-input rounded-lg bg-background-input text-text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
-                    placeholder="you@example.com"
+                    placeholder={t('auth.register.emailPlaceholder')}
                 />
                 {errors.email && (
                     <p className="mt-1 text-sm text-red-600 dark:text-red-400">
                         {errors.email.message}
                     </p>
                 )}
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div variants={fadeInDownVariants}>
                 <label
                     htmlFor="register-password"
                     className="block text-sm font-medium text-text-primary mb-2"
                 >
-                    Password
+                    {t('auth.register.passwordLabel')}
                 </label>
                 <input
                     id="register-password"
                     type="password"
                     {...register('password', {
-                        required: 'Password is required',
+                        required: t('auth.errors.passwordRequired'),
                         minLength: {
                             value: 6,
-                            message: 'Password must be at least 6 characters',
+                            message: t('auth.errors.passwordMinLength'),
                         },
                     })}
                     className="w-full px-4 py-3 border border-border-input rounded-lg bg-background-input text-text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
-                    placeholder="Enter your password"
+                    placeholder={t('auth.register.passwordPlaceholder')}
                 />
                 {errors.password && (
                     <p className="mt-1 text-sm text-red-600 dark:text-red-400">
                         {errors.password.message}
                     </p>
                 )}
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div variants={fadeInDownVariants}>
                 <label
                     htmlFor="register-confirm-password"
                     className="block text-sm font-medium text-text-primary mb-2"
                 >
-                    Confirm Password
+                    {t('auth.register.confirmPasswordLabel')}
                 </label>
                 <input
                     id="register-confirm-password"
                     type="password"
                     {...register('confirmPassword', {
-                        required: 'Password confirmation is required',
+                        required: t('auth.errors.confirmPasswordRequired'),
                         minLength: {
                             value: 6,
-                            message: 'Password must be at least 6 characters',
+                            message: t('auth.errors.passwordMinLength'),
                         },
                     })}
                     className="w-full px-4 py-3 border border-border-input rounded-lg bg-background-input text-text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
-                    placeholder="Enter your password"
+                    placeholder={t('auth.register.confirmPasswordPlaceholder')}
                 />
                 {errors.confirmPassword && (
                     <p className="mt-1 text-sm text-red-600 dark:text-red-400">
                         {errors.confirmPassword.message}
                     </p>
                 )}
-            </div>
+            </motion.div>
 
-            <button
+            <motion.button
                 type="submit"
                 disabled={isLoading}
                 className="w-full bg-primary hover:bg-primary-hover text-white font-medium py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed hover:cursor-pointer"
+                variants={fadeInDownVariants}
             >
-                {isLoading ? 'Creating account...' : 'Create Account'}
-            </button>
-        </form>
+                {isLoading ? t('auth.register.submitting') : t('auth.register.submitButton')}
+            </motion.button>
+        </motion.form>
     );
 };

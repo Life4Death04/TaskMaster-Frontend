@@ -1,36 +1,25 @@
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { staggerContainerVariants, fadeInVariants } from '@/utils/animations';
 import { TaskCard } from '../Tasks/TaskCard';
 import { PageHeader } from '../common/PageHeader';
 import { TaskFilterBar } from '../common/TaskFilterBar';
-
-type FilterTab = 'all' | 'todo' | 'in_progress' | 'completed';
-type SortOption = 'recent' | 'dueDate' | 'priority';
-
-interface Task {
-    id: string;
-    title: string;
-    description: string;
-    label?: string;
-    dueDate: string;
-    dueTime?: string;
-    priority: 'high' | 'medium' | 'low';
-    progressStatus: 'TODO' | 'IN_PROGRESS' | 'DONE';
-}
+import type { ListTaskFilterTab, TaskSortOption, TaskViewModel } from '@/types';
 
 interface ListDetailsViewProps {
     listName: string;
     listDescription?: string;
     totalTasks: number;
     activeTasks: number;
-    tasks: Task[];
-    activeFilter: FilterTab;
+    tasks: TaskViewModel[];
+    activeFilter: ListTaskFilterTab;
     searchQuery: string;
-    sortOption: SortOption;
+    sortOption: TaskSortOption;
     isFavorite?: boolean;
     onBack: () => void;
     onSearchChange: (query: string) => void;
-    onFilterChange: (filter: FilterTab) => void;
-    onSortChange: (sort: SortOption) => void;
+    onFilterChange: (filter: ListTaskFilterTab) => void;
+    onSortChange: (sort: TaskSortOption) => void;
     onToggleFavorite?: () => void;
     onEditList?: () => void;
     onDeleteList?: () => void;
@@ -38,7 +27,6 @@ interface ListDetailsViewProps {
     onTaskToggle: (id: string) => void;
     onTaskClick?: (id: string) => void;
     onEditTask?: (id: string) => void;
-    onArchiveTask?: (id: string) => void;
     onDeleteTask?: (id: string) => void;
 }
 
@@ -67,19 +55,18 @@ export const ListDetailsView = ({
     onTaskToggle,
     onTaskClick,
     onEditTask,
-    onArchiveTask,
     onDeleteTask,
 }: ListDetailsViewProps) => {
     const { t } = useTranslation();
 
-    const filterTabs: { key: FilterTab; label: string }[] = [
+    const filterTabs: { key: ListTaskFilterTab; label: string }[] = [
         { key: 'all', label: t('tasks.filter.all') },
         { key: 'todo', label: t('tasks.filter.todo') },
         { key: 'in_progress', label: t('tasks.filter.inProgress') },
         { key: 'completed', label: t('tasks.filter.completed') },
     ];
 
-    const sortOptions: { key: SortOption; label: string }[] = [
+    const sortOptions: { key: TaskSortOption; label: string }[] = [
         { key: 'recent', label: t('tasks.sort.recent') },
         { key: 'dueDate', label: t('tasks.sort.dueDate') },
         { key: 'priority', label: t('tasks.sort.priority') },
@@ -159,7 +146,7 @@ export const ListDetailsView = ({
             />
 
             {/* Tasks List */}
-            <div className="space-y-4">
+            <motion.div className="space-y-4" variants={staggerContainerVariants} initial="hidden" animate="visible">
                 {tasks.map((task) => (
                     <TaskCard
                         key={task.id}
@@ -174,15 +161,14 @@ export const ListDetailsView = ({
                         onToggleComplete={onTaskToggle}
                         onClick={onTaskClick}
                         onEdit={onEditTask}
-                        onArchive={onArchiveTask}
                         onDelete={onDeleteTask}
                     />
                 ))}
-            </div>
+            </motion.div>
 
             {/* Empty State */}
             {tasks.length === 0 && (
-                <div className="flex flex-col items-center justify-center py-20">
+                <motion.div className="flex flex-col items-center justify-center py-20" variants={fadeInVariants} initial="hidden" animate="visible">
                     <div className="w-20 h-20 rounded-full bg-background-primary-hover flex items-center justify-center mb-4">
                         <svg className="w-10 h-10 text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
@@ -199,7 +185,7 @@ export const ListDetailsView = ({
                         </svg>
                         {t('tasks.createTask')}
                     </button>
-                </div>
+                </motion.div>
             )}
         </div>
     );

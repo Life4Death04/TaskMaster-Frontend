@@ -39,6 +39,8 @@ export const TaskCard = ({
             data-testid="task-card"
             onClick={() => onClick?.(id)}
             variants={fadeInDownVariants}
+            initial="hidden"
+            animate="visible"
         >
             {/* Checkbox */}
             <div className="pt-1" onClick={(e) => e.stopPropagation()}>

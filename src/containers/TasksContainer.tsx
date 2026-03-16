@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { TasksView } from '../components/Tasks/TasksView';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { openModal } from '@/features/ui/uiSlice';
-import { useFetchTasks } from '@/api/queries/tasks.queries';
+import { useFetchTasksPaginated } from '@/api/queries/tasks.queries';
 import { useToggleTaskStatus } from '@/api/mutations/tasks.mutations';
 import { useFetchSettings } from '@/api/queries/settings.queries';
 import {
@@ -14,11 +14,11 @@ import {
     formatTaskDate,
     isTaskOverdue,
 } from '@/utils/taskHelpers';
-import type { TaskFilterTab, TaskSortOption } from '@/types';
+import type { TaskFilterTab, TaskSortOption, Task } from '@/types';
 
 /**
  * Tasks Container
- * Business logic container for the Tasks page
+ * Business logic container for the Tasks page with pagination support
  */
 export const TasksContainer = () => {
     const { t } = useTranslation();
@@ -28,8 +28,16 @@ export const TasksContainer = () => {
     const [activeFilter, setActiveFilter] = useState<TaskFilterTab>('all');
     const [sortOption, setSortOption] = useState<TaskSortOption>('recent');
 
-    // Fetch tasks from API
-    const { data: tasks = [], isLoading, error } = useFetchTasks();
+    // Fetch tasks with pagination (10 per page)
+    const {
+        data,
+        isLoading,
+        error,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+    } = useFetchTasksPaginated(10);
+
     const toggleStatusMutation = useToggleTaskStatus();
 
     // Fetch user settings for date format
@@ -38,9 +46,22 @@ export const TasksContainer = () => {
 
     const userName = user?.firstName || 'User';
 
+    // Flatten all pages into a single array of tasks
+    const allTasks = useMemo(() => {
+        if (!data?.pages) return [];
+        // Combine all tasks from all pages into one array
+        return data.pages.flatMap((page) => page.data);
+    }, [data]);
+
+    // Get pagination info from the last page
+    const paginationInfo = useMemo(() => {
+        if (!data?.pages || data.pages.length === 0) return null;
+        return data.pages[data.pages.length - 1].pagination;
+    }, [data]);
+
     // Filter, search, and sort tasks
     const processedTasks = useMemo(() => {
-        let filtered = [...tasks];
+        let filtered = [...allTasks];
 
         // Apply status filter using utility function
         filtered = filterTasksByStatus(filtered, activeFilter);
@@ -57,7 +78,7 @@ export const TasksContainer = () => {
         // 'recent' keeps the original order (newest first from API)
 
         return filtered;
-    }, [tasks, activeFilter, searchQuery, sortOption]);
+    }, [allTasks, activeFilter, searchQuery, sortOption]);
 
     // Map API tasks to UI format
     /**
@@ -130,7 +151,7 @@ export const TasksContainer = () => {
     };
 
     const handleTaskClick = (id: string) => {
-        const task = tasks.find((t) => t.id === Number(id));
+        const task = allTasks.find((t) => t.id === Number(id));
         if (task) {
             dispatch(
                 openModal({
@@ -150,7 +171,7 @@ export const TasksContainer = () => {
     };
 
     const handleEditTask = (id: string) => {
-        const task = tasks.find((t) => t.id === Number(id));
+        const task = allTasks.find((t) => t.id === Number(id));
         if (task) {
             dispatch(
                 openModal({
@@ -170,7 +191,7 @@ export const TasksContainer = () => {
     };
 
     const handleDeleteTask = (id: string) => {
-        const task = tasks.find((t) => t.id === Number(id));
+        const task = allTasks.find((t) => t.id === Number(id));
         if (task) {
             // Open delete confirmation with task data (no functions in Redux!)
             dispatch(openModal({
@@ -186,6 +207,13 @@ export const TasksContainer = () => {
 
     const handleCreateTask = () => {
         dispatch(openModal({ type: 'CREATE_TASK' }));
+    };
+
+    // Handle Load More button click
+    const handleLoadMore = () => {
+        if (hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+        }
     };
 
     // Show loading state
@@ -221,6 +249,12 @@ export const TasksContainer = () => {
             onCreateTask={handleCreateTask}
             onEditTask={handleEditTask}
             onDeleteTask={handleDeleteTask}
+            // Pagination props
+            hasNextPage={hasNextPage || false}
+            isFetchingNextPage={isFetchingNextPage}
+            onLoadMore={handleLoadMore}
+            totalTasks={paginationInfo?.total}
+            currentlyShowing={allTasks.length}
         />
     );
 };

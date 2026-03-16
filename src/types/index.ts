@@ -36,6 +36,31 @@ export interface Task {
 }
 
 // ============================================
+// Pagination Types
+// ============================================
+/**
+ * Pagination metadata returned by the backend
+ */
+export interface PaginationMeta {
+  total: number; // Total number of items in database
+  page: number; // Current page number
+  limit: number; // Items per page
+  totalPages: number; // Total number of pages
+  hasNextPage: boolean; // Whether there's a next page
+  hasPreviousPage: boolean; // Whether there's a previous page
+}
+
+/**
+ * Paginated API response structure
+ */
+export interface PaginatedResponse<T> {
+  success: true;
+  data: T[];
+  pagination: PaginationMeta;
+  message?: string;
+}
+
+// ============================================
 // List Types
 // ============================================
 export interface List {

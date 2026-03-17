@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { fadeInVariants } from '@/utils/animations';
 
 interface ListCardProps {
     id: string;
@@ -26,9 +28,12 @@ export const ListCard = ({
 
     if (isNewCard) {
         return (
-            <button
+            <motion.button
                 onClick={onClick}
                 className="group h-full border-2 border-dashed border-border-default rounded-xl p-6 hover:border-primary hover:cursor-pointer hover:bg-background-primary-hover transition-all duration-300 flex flex-col items-center justify-center gap-3 max-h-[160px]"
+                variants={fadeInVariants}
+                initial="hidden"
+                animate="visible"
             >
                 <div className="w-12 h-12 rounded-full bg-background-primary-hover group-hover:bg-primary/20 flex items-center justify-center transition-colors">
                     <svg className="w-6 h-6 text-text-secondary group-hover:text-primary transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -38,14 +43,17 @@ export const ListCard = ({
                 <p className="text-text-secondary group-hover:text-text-primary font-medium transition-colors">
                     {t('lists.createNewList')}
                 </p>
-            </button>
+            </motion.button>
         );
     }
 
     return (
-        <button
+        <motion.button
             onClick={onClick}
-            className="group h-full bg-card-primary border border-border-default rounded-xl overflow-hidden hover:shadow-lg shadow-md hover:-translate-y-1 transition-all duration-300 text-left hover:cursor-pointer max-h-fit"
+            className="group h-full bg-card-primary border border-border-default rounded-xl overflow-hidden hover:shadow-lg shadow-md hover:-translate-y-1 transition-all duration-300 text-left hover:cursor-pointer max-h-fit test-id:list-card"
+            variants={fadeInVariants}
+            initial="hidden"
+            animate="visible"
         >
             {/* Colored top border */}
             <div className='h-1.5' style={{ backgroundColor: color }}></div>
@@ -69,6 +77,6 @@ export const ListCard = ({
                     <span className={`text-sm font-medium text-[${color}]`}>{taskCount} tasks</span>
                 </div>
             </div>
-        </button>
+        </motion.button>
     );
 };

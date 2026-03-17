@@ -26,7 +26,7 @@ export const SettingsContainer = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { setTheme } = useTheme();
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
 
     // Get user from Redux
     const user = useAppSelector((state) => state.auth.user);
@@ -181,8 +181,8 @@ export const SettingsContainer = () => {
             type: 'DELETE_CONFIRMATION',
             data: {
                 accountDelete: true,
-                itemName: 'your account',
-                itemType: 'account', //TODO: implement account deletion in backend and frontend, then remove this comment
+                itemName: t('modals.deleteConfirmation.account'),
+                itemType: 'account',
             },
         }));
     };

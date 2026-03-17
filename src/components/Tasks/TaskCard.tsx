@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { fadeInDownVariants } from '@/utils/animations';
 import { TaskOptionsMenu } from '../common/TaskOptionsMenu';
 import { getPriorityColor, getLabelColor } from '@/utils/taskHelpers';
 import type { TaskViewModel } from '@/types';
@@ -32,9 +34,13 @@ export const TaskCard = ({
     const isCompleted = progressStatus === 'DONE';
 
     return (
-        <div
+        <motion.div
             className="flex gap-4 p-4 bg-card-primary border border-border-default rounded-xl hover:border-border-input hover:shadow-lg shadow-md transition-all hover:cursor-pointer"
+            data-testid="task-card"
             onClick={() => onClick?.(id)}
+            variants={fadeInDownVariants}
+            initial="hidden"
+            animate="visible"
         >
             {/* Checkbox */}
             <div className="pt-1" onClick={(e) => e.stopPropagation()}>
@@ -96,6 +102,6 @@ export const TaskCard = ({
                     onDelete={onDelete}
                 />
             </div>
-        </div>
+        </motion.div>
     );
 };

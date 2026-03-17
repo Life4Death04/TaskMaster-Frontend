@@ -1,5 +1,5 @@
 import api from '@/lib/axios';
-import type { Task } from '@/types';
+import type { Task, PaginatedResponse } from '@/types';
 import type {
   CreateTaskFormData,
   EditTaskFormData,
@@ -13,11 +13,26 @@ const ENDPOINTS = {
 };
 
 /**
- * Fetch all tasks for authenticated user
+ * Fetch all tasks for authenticated user (non-paginated)
  */
 export const fetchTasksAPI = async (): Promise<Task[]> => {
   const response = await api.get<{ data: Task[] }>(ENDPOINTS.TASKS);
   return response.data.data || [];
+};
+
+/**
+ * Fetch tasks with pagination
+ * @param page - Page number (1-indexed)
+ * @param limit - Number of items per page (default: 10)
+ */
+export const fetchTasksPaginatedAPI = async (
+  page: number = 1,
+  limit: number = 10
+): Promise<PaginatedResponse<Task>> => {
+  const response = await api.get<PaginatedResponse<Task>>(ENDPOINTS.TASKS, {
+    params: { page, limit },
+  });
+  return response.data;
 };
 
 /**

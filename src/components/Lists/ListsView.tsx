@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { fadeInVariants, staggerContainerVariants } from '@/utils/animations';
 import { PageHeader } from '../common/PageHeader';
 import { ListCard } from './ListCard';
 import type { Task } from '@/types';
@@ -48,7 +50,7 @@ export const ListsView = ({
             />
 
             {/* Create Button */}
-            <div className="mb-8 flex justify-end">
+            <motion.div className="mb-8 flex justify-end" variants={fadeInVariants} initial="hidden" animate="visible">
                 {/* Create New List Button */}
                 <button
                     onClick={onCreateList}
@@ -59,10 +61,10 @@ export const ListsView = ({
                     </svg>
                     {t('lists.createNewList')}
                 </button>
-            </div>
+            </motion.div>
 
             {/* Lists Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" variants={staggerContainerVariants} initial="hidden" animate="visible">
                 {lists.map((list) => (
                     <ListCard
                         key={list.id}
@@ -87,7 +89,7 @@ export const ListsView = ({
                         onClick={onCreateList}
                     />
                 )}
-            </div>
+            </motion.div>
 
             {/* Empty State */}
             {lists.length === 0 && (

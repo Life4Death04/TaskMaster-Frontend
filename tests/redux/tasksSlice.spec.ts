@@ -4,14 +4,13 @@ import tasksReducer, {
   addTask,
   updateTask,
   deleteTask,
-  toggleArchiveTask,
   setLoading,
   setError,
 } from '../../src/features/tasks/tasksSlice';
 import type { Task } from '../../src/types';
 
-// Mock tasks data (with archived property for slice testing)
-const mockTasks: Array<Task & { archived?: boolean }> = [
+// Mock tasks data
+const mockTasks: Task[] = [
   {
     id: 1,
     taskName: 'Complete project',
@@ -21,7 +20,6 @@ const mockTasks: Array<Task & { archived?: boolean }> = [
     dueDate: '2026-03-15',
     authorId: 1,
     listId: 1,
-    archived: false,
   },
   {
     id: 2,
@@ -32,18 +30,16 @@ const mockTasks: Array<Task & { archived?: boolean }> = [
     dueDate: '2026-03-10',
     authorId: 1,
     listId: 1,
-    archived: false,
   },
   {
     id: 3,
-    taskName: 'Old task',
-    description: 'Archived task',
+    taskName: 'Review code',
+    description: 'Code review task',
     status: 'DONE',
     priority: 'LOW',
     dueDate: null,
     authorId: 1,
     listId: 1,
-    archived: true,
   },
 ];
 
@@ -55,7 +51,6 @@ test.describe('tasksSlice - Initial State', () => {
     const state = tasksReducer(undefined, { type: 'unknown' });
 
     expect(state.tasks).toEqual([]);
-    expect(state.archivedTasks).toEqual([]);
     expect(state.isLoading).toBe(false);
     expect(state.error).toBeNull();
   });
@@ -65,40 +60,29 @@ test.describe('tasksSlice - Initial State', () => {
 // setTasks Action Tests
 // ============================================================================
 test.describe('tasksSlice - setTasks', () => {
-  test('should separate tasks and archived tasks', () => {
+  test('should set all tasks', () => {
     const state = tasksReducer(undefined, setTasks(mockTasks));
 
-    expect(state.tasks).toHaveLength(2);
-    expect(state.archivedTasks).toHaveLength(1);
+    expect(state.tasks).toHaveLength(3);
     expect(state.error).toBeNull();
-  });
-
-  test('should only set active tasks when no archived tasks', () => {
-    const activeTasks = mockTasks.filter((task) => !task.archived);
-    const state = tasksReducer(undefined, setTasks(activeTasks));
-
-    expect(state.tasks).toHaveLength(2);
-    expect(state.archivedTasks).toHaveLength(0);
   });
 
   test('should handle empty tasks array', () => {
     const state = tasksReducer(undefined, setTasks([]));
 
     expect(state.tasks).toEqual([]);
-    expect(state.archivedTasks).toEqual([]);
   });
 
   test('should replace existing tasks', () => {
     const initialState = {
       tasks: [mockTasks[0]],
-      archivedTasks: [],
       isLoading: false,
       error: 'Previous error',
     };
 
     const state = tasksReducer(initialState, setTasks(mockTasks));
 
-    expect(state.tasks).toHaveLength(2);
+    expect(state.tasks).toHaveLength(3);
     expect(state.error).toBeNull();
   });
 });
@@ -107,8 +91,8 @@ test.describe('tasksSlice - setTasks', () => {
 // addTask Action Tests
 // ============================================================================
 test.describe('tasksSlice - addTask', () => {
-  test('should add active task to tasks array', () => {
-    const newTask: Task & { archived?: boolean } = {
+  test('should add task to tasks array', () => {
+    const newTask: Task = {
       id: 4,
       taskName: 'New task',
       description: 'A new task',
@@ -117,7 +101,6 @@ test.describe('tasksSlice - addTask', () => {
       dueDate: null,
       authorId: 1,
       listId: 1,
-      archived: false,
     };
 
     const state = tasksReducer(undefined, addTask(newTask));
@@ -125,35 +108,15 @@ test.describe('tasksSlice - addTask', () => {
     expect(state.tasks).toHaveLength(1);
     expect(state.tasks[0]).toEqual(newTask);
   });
-
-  test('should add archived task to archivedTasks array', () => {
-    const archivedTask: Task & { archived?: boolean } = {
-      id: 4,
-      taskName: 'Archived task',
-      description: 'An archived task',
-      status: 'DONE',
-      priority: 'LOW',
-      dueDate: null,
-      authorId: 1,
-      listId: 1,
-      archived: true,
-    };
-
-    const state = tasksReducer(undefined, addTask(archivedTask));
-
-    expect(state.archivedTasks).toHaveLength(1);
-    expect(state.archivedTasks[0]).toEqual(archivedTask);
-  });
 });
 
 // ============================================================================
 // updateTask Action Tests
 // ============================================================================
 test.describe('tasksSlice - updateTask', () => {
-  test('should update active task in tasks array', () => {
+  test('should update task in tasks array', () => {
     const initialState = {
-      tasks: mockTasks.filter((t) => !t.archived),
-      archivedTasks: mockTasks.filter((t) => t.archived),
+      tasks: mockTasks,
       isLoading: false,
       error: null,
     };
@@ -170,28 +133,9 @@ test.describe('tasksSlice - updateTask', () => {
     expect(state.tasks[0].status).toBe('DONE');
   });
 
-  test('should update archived task in archivedTasks array', () => {
-    const initialState = {
-      tasks: mockTasks.filter((t) => !t.archived),
-      archivedTasks: mockTasks.filter((t) => t.archived),
-      isLoading: false,
-      error: null,
-    };
-
-    const updatedTask: Task = {
-      ...mockTasks[2],
-      taskName: 'Updated archived task',
-    };
-
-    const state = tasksReducer(initialState, updateTask(updatedTask));
-
-    expect(state.archivedTasks[0].taskName).toBe('Updated archived task');
-  });
-
   test('should not modify state if task id not found', () => {
     const initialState = {
-      tasks: mockTasks.filter((t) => !t.archived),
-      archivedTasks: mockTasks.filter((t) => t.archived),
+      tasks: mockTasks,
       isLoading: false,
       error: null,
     };
@@ -217,37 +161,22 @@ test.describe('tasksSlice - updateTask', () => {
 // deleteTask Action Tests
 // ============================================================================
 test.describe('tasksSlice - deleteTask', () => {
-  test('should delete active task from tasks array', () => {
+  test('should delete task from tasks array', () => {
     const initialState = {
-      tasks: mockTasks.filter((t) => !t.archived),
-      archivedTasks: mockTasks.filter((t) => t.archived),
+      tasks: mockTasks,
       isLoading: false,
       error: null,
     };
 
     const state = tasksReducer(initialState, deleteTask(1));
 
-    expect(state.tasks).toHaveLength(1);
+    expect(state.tasks).toHaveLength(2);
     expect(state.tasks[0].id).toBe(2);
-  });
-
-  test('should delete archived task from archivedTasks array', () => {
-    const initialState = {
-      tasks: mockTasks.filter((t) => !t.archived),
-      archivedTasks: mockTasks.filter((t) => t.archived),
-      isLoading: false,
-      error: null,
-    };
-
-    const state = tasksReducer(initialState, deleteTask(3));
-
-    expect(state.archivedTasks).toHaveLength(0);
   });
 
   test('should handle deleting non-existent task', () => {
     const initialState = {
-      tasks: mockTasks.filter((t) => !t.archived),
-      archivedTasks: mockTasks.filter((t) => t.archived),
+      tasks: mockTasks,
       isLoading: false,
       error: null,
     };
@@ -255,58 +184,6 @@ test.describe('tasksSlice - deleteTask', () => {
     const state = tasksReducer(initialState, deleteTask(999));
 
     expect(state.tasks).toEqual(initialState.tasks);
-    expect(state.archivedTasks).toEqual(initialState.archivedTasks);
-  });
-});
-
-// ============================================================================
-// toggleArchiveTask Action Tests
-// ============================================================================
-test.describe('tasksSlice - toggleArchiveTask', () => {
-  test('should archive an active task', () => {
-    const initialState = {
-      tasks: mockTasks.filter((t) => !t.archived),
-      archivedTasks: mockTasks.filter((t) => t.archived),
-      isLoading: false,
-      error: null,
-    };
-
-    const state = tasksReducer(initialState, toggleArchiveTask(1));
-
-    expect(state.tasks).toHaveLength(1);
-    expect(state.archivedTasks).toHaveLength(2);
-    expect(state.archivedTasks[1].id).toBe(1);
-    expect(state.archivedTasks[1].archived).toBe(true);
-  });
-
-  test('should unarchive an archived task', () => {
-    const initialState = {
-      tasks: mockTasks.filter((t) => !t.archived),
-      archivedTasks: mockTasks.filter((t) => t.archived),
-      isLoading: false,
-      error: null,
-    };
-
-    const state = tasksReducer(initialState, toggleArchiveTask(3));
-
-    expect(state.archivedTasks).toHaveLength(0);
-    expect(state.tasks).toHaveLength(3);
-    expect(state.tasks[2].id).toBe(3);
-    expect(state.tasks[2].archived).toBe(false);
-  });
-
-  test('should handle toggling non-existent task', () => {
-    const initialState = {
-      tasks: mockTasks.filter((t) => !t.archived),
-      archivedTasks: mockTasks.filter((t) => t.archived),
-      isLoading: false,
-      error: null,
-    };
-
-    const state = tasksReducer(initialState, toggleArchiveTask(999));
-
-    expect(state.tasks).toEqual(initialState.tasks);
-    expect(state.archivedTasks).toEqual(initialState.archivedTasks);
   });
 });
 
@@ -322,7 +199,6 @@ test.describe('tasksSlice - setLoading', () => {
   test('should set loading to false', () => {
     const initialState = {
       tasks: [],
-      archivedTasks: [],
       isLoading: true,
       error: null,
     };
@@ -339,7 +215,6 @@ test.describe('tasksSlice - setError', () => {
   test('should set error and stop loading', () => {
     const initialState = {
       tasks: [],
-      archivedTasks: [],
       isLoading: true,
       error: null,
     };
@@ -353,7 +228,6 @@ test.describe('tasksSlice - setError', () => {
   test('should clear error when null', () => {
     const initialState = {
       tasks: [],
-      archivedTasks: [],
       isLoading: false,
       error: 'Previous error',
     };

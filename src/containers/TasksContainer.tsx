@@ -14,7 +14,7 @@ import {
     formatTaskDate,
     isTaskOverdue,
 } from '@/utils/taskHelpers';
-import type { TaskFilterTab, TaskSortOption, Task } from '@/types';
+import type { TaskFilterTab, TaskSortOption } from '@/types';
 
 /**
  * Tasks Container

@@ -96,8 +96,8 @@ function AppContent() {
           errorElement={<ErrorPage />}
         />
         <Route path="/error" element={<ErrorPage />} />
-        <Route path="/" element={<Navigate to="/auth" replace />} />
-        <Route path="*" element={<Navigate to="/auth" replace />} />
+        <Route path="/" element={<AuthPage />} />
+        <Route path="*" element={<AuthPage />} />
       </Routes>
     </>
   );

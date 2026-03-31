@@ -95,9 +95,8 @@ function AppContent() {
           }
           errorElement={<ErrorPage />}
         />
-        <Route path="/error" element={<ErrorPage />} />
         <Route path="/" element={<AuthPage />} />
-        <Route path="*" element={<AuthPage />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </>
   );

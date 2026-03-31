@@ -23,7 +23,7 @@ const tasksSlice = createSlice({
       state.error = null;
     },
     addTask: (state, action: PayloadAction<Task>) => {
-      state.tasks.push(action.payload);
+        state.tasks.push(action.payload);
     },
     updateTask: (state, action: PayloadAction<Task>) => {
       const index = state.tasks.findIndex((task) => task.id === action.payload.id);

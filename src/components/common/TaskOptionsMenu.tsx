@@ -10,7 +10,7 @@ interface TaskOptionsMenuProps {
 
 /**
  * Task Options Menu Component
- * Reusable dropdown menu for task actions (Edit, Archive, Delete)
+ * Reusable dropdown menu for task actions (Edit, Delete)
  */
 export const TaskOptionsMenu = ({
     taskId,
